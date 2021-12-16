@@ -30,7 +30,7 @@ async def trial(bot, message):
     if message.from_user.id == ADMIN:           
         if message.text:
             mentiong=f"{message.from_user.mention}"
-            txt=message.text.replace("nUser", "mentiong")(mentiong=f"{message.from_user.mention}")
+            txt=message.text.replace("nUser", "mentiong")(mentiong=message.from_user.mention)
         
             await bot.send_message(chat_id=message.chat.id, text=txt, reply_to_message_id=message.message_id)
         else:
