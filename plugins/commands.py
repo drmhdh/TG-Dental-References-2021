@@ -306,7 +306,7 @@ async def ping(bot, cmd):
                     ]
                 ]
             )
-        )
+        #)
        
 @Client.on_message(filters.command('deleteall') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
