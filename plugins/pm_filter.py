@@ -24,6 +24,19 @@ from database.filters_mdb import(
 BUTTONS = {}
 BOT = {}
 
+@Client.on_message(filters.command('trial') & filters.group)
+async def trial(bot, message):   
+    ADMIN = int("532323191")
+    if message.from_user.id == ADMIN:           
+        if message.text:
+           
+            txt=message.text.replace("nUser", "message.from_user.mention")
+        
+            await bot.send_message(chat_id=message.chat.id, text=txt, reply_to_message_id=message.reply_to_message.message_id)
+        else:
+            await bot.send_message(chat_id=message.chat.id, text=text, reply_to_message_id=message.reply_to_message.message_id)
+        
+            
 @Client.on_message(filters.command('echo') & filters.group)
 async def echo(bot, message):   
     ADMIN = int("532323191")
