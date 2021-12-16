@@ -296,7 +296,7 @@ async def ping(bot, cmd):
             p=await o.edit("<code>🏓Pong..!!</code>")
             q=await p.edit("<code>○○○</code>")
             await q.edit("<code>Iam Alive...👻</code>")
-        ) 
+         
                
             #text=(f"</b>🏓Ping..!! \n🏓Pong..!! Iam Alive...👻</b>"),
             reply_markup=InlineKeyboardMarkup(
