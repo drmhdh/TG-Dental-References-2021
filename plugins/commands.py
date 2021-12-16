@@ -10,7 +10,7 @@ from info import START_MSG, CHANNELS, ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION,
 from utils import Media, get_file_details, get_size, humanbytes
 from pyrogram.errors import UserNotParticipant
 from utils import get_size, is_subscribed, temp
-
+from asyncio import sleep
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 import re
@@ -296,6 +296,9 @@ async def ping(bot, cmd):
             p=await o.edit("<code>🏓Pong..!!</code>")
             q=await p.edit("<code>○○○</code>")
             await q.edit("<code>Iam Alive...👻</code>")
+            await sleep(4)
+            await m.delete()
+            
          
                
             #text=(f"</b>🏓Ping..!! \n🏓Pong..!! Iam Alive...👻</b>"),
