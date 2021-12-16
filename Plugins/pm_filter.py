@@ -102,8 +102,7 @@ async def give_filter(client, message):
                         )
                 except Exception as e:
                     logger.exception(e)
-                break 
-        
+                break         
     else:
         await auto_filter(client, message)
         
@@ -131,11 +130,9 @@ async def filter(client, message):
                     [
                         [
                             InlineKeyboardButton("𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url=invite_link.invite_link)
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{file_id}")
-                        ]
-                       
+                        ]                     
                     ]
                 ),
                 parse_mode="markdown"
@@ -367,7 +364,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 )
                 return
 
-
         elif query.data.startswith("back"):
             ident, index, keyword = query.data.split("_")
             try:
@@ -412,17 +408,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
             buttons = [
                 [
                     InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
-                ]
-                ,
-                [    
+                ],[
                     InlineKeyboardButton('➕ Join 🦷 Discussion Group ➕', url='https://t.me/dent_tech_for_u')
-                ]
-                ,
-                [
+                ]'[
                     InlineKeyboardButton('🔮 Status', callback_data='stats')    
-                ]
-                ,
-                [                
+                ],[              
                     InlineKeyboardButton('🏠 Home', callback_data='hamid'),
                     InlineKeyboardButton('🔐 Close', callback_data='close_data')
                 ]
@@ -511,16 +501,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     f_caption = f"{files.file_name}"
                 buttons = [
                     [
-                        InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
-        
-                    ]
-                    ,
-                    [
+                        InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')        
+                    ],[
                         InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
-                    ]
-                
-                    ,
-                    [
+                    ],[
                         InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                     ]
                 ]
@@ -537,8 +521,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             if AUTH_CHANNEL and not await is_subscribed(client, query):
                 await query.answer("I Like Your Smartness, But Don't Be Oversmart. Be a Channel Member..😒",show_alert=True)
                 return
-            
-               
+                           
             ident, file_id = query.data.split("#")
             filedetails = await get_file_details(file_id)
             for files in filedetails:
@@ -557,13 +540,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     
                     [
                         InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
-                    ]
-                    ,
-                    [
+                    ],[
                         InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
-                    ]
-                    ,
-                    [
+                    ],[
                         InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                     ]
                 ]
@@ -757,7 +736,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 reply_markup=InlineKeyboardMarkup(buttons)
             )     
 
-
     elif "alertmessage" in query.data:
         grp_id = query.message.chat.id
         i = query.data.split(":")[1]
@@ -767,9 +745,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             alerts = ast.literal_eval(alerts)
             alert = alerts[int(i)]
             alert = alert.replace("\\n", "\n").replace("\\t", "\t")
-            await query.answer(alert,show_alert=True)
-
-   
+            await query.answer(alert,show_alert=True)   
    
     if query.data.startswith("file"):
         ident, file_id = query.data.split("#")
@@ -793,16 +769,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 
                 buttons = [
                     [
-                        InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
-        
-                    ]
-                    ,
-                    [
+                        InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')        
+                    ],[
                         InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
-                    ]
-                
-                    ,
-                    [
+                    ],[                      
                         InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                     ]
                     ]
@@ -835,9 +805,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
             except Exception as e:
                 await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
-      
-
-      
+            
 async def auto_filter(client, message, spoll=False): #async def auto_filter(client, msg, spoll=False):
     clicked = message.from_user.id
     try:
@@ -870,8 +838,7 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                     return
                 if not btn:
                     return
-        
-    
+           
                 if len(btn) > 10: 
                     btns = list(split_list(btn, 10)) 
                     keyword = f"{message.chat.id}-{message.message_id}"
@@ -924,11 +891,8 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                     cap = f"Here is what i found for your query {search}"
         
                 if spoll:
-                    await msg.message.delete()
-   
-     
+                    await msg.message.delete()       
 
     else:
         await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)     
-       
-   
+        
