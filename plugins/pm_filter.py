@@ -408,7 +408,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                 ],[
                     InlineKeyboardButton('➕ Join 🦷 Discussion Group ➕', url='https://t.me/dent_tech_for_u')
-                ]'[
+                ],[
                     InlineKeyboardButton('🔮 Status', callback_data='stats')    
                 ],[              
                     InlineKeyboardButton('🏠 Home', callback_data='hamid'),
