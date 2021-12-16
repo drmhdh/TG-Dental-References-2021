@@ -18,38 +18,29 @@ logger = logging.getLogger(__name__)
 
 @Client.on_message(filters.command("start"))
 async def start(bot, cmd):
-    
-    
+       
     if cmd.chat.type in ['group', 'supergroup']:
         await cmd.reply_photo(
             photo=random.choice(PICS),
             caption=script.START_MSG.format(cmd.from_user.mention if cmd.from_user else message.chat.title, temp.U_NAME, temp.B_NAME), 
             parse_mode='html',  
-            
-            
-            
-            
+       
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton("🔎 Search", switch_inline_query_current_chat='')
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url="https://t.me/dental_case_study")
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("🚀 Control Panel 🏰", callback_data="about")
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("➕Join 🦷Discussion Group➕", url="https://t.me/dent_tech_for_u")
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("🎁 Donate & Support 🎁", url="https://t.me/dental_backup/180")
                         ]
                     ]
                 )
             )
-        
         
         await asyncio.sleep(2) # 😢 https://github.com/EvamariaTG/EvaMaria/blob/master/plugins/p_ttishow.py#L17 😬 wait a bit, before checking.
         if not await db.get_chat(cmd.chat.id):
@@ -60,10 +51,7 @@ async def start(bot, cmd):
     if not await db.is_user_exist(cmd.from_user.id):
         await db.add_user(cmd.from_user.id, cmd.from_user.first_name)
         await bot.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(cmd.from_user.id, cmd.from_user.mention))
-    
-    
-    
-    
+
     usr_cmdall1 = cmd.text
     if usr_cmdall1.startswith("/start subinps"):
         if AUTH_CHANNEL:
@@ -88,16 +76,12 @@ async def start(bot, cmd):
                         [
                             [
                                 InlineKeyboardButton("𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url=invite_link.invite_link)
-                            ],
-                            [
+                            ],[
                                 InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{file_id}")
                             ]
                         ]
                     ),
                     parse_mode="markdown",
-                    
-                    
-                    
                 )
                 return
             except Exception:
@@ -126,19 +110,11 @@ async def start(bot, cmd):
                 buttons = [
                     [
                         InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
-                    ],
-                    
-                    [
+                    ],[
                         InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
-                    ]
-                
-                    ,
-                    [    
+                    ],[
                         InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                     ]
-                     
-                    
-                    
                     ]
                 await bot.send_cached_media(
                     chat_id=cmd.from_user.id,
@@ -150,85 +126,54 @@ async def start(bot, cmd):
             await cmd.reply_text(f"Something went wrong!\n\n**Error:** `{err}`")
     elif len(cmd.command) > 1 and cmd.command[1] == 'subscribe':
         invite_link = await bot.create_chat_invite_link(int(AUTH_CHANNEL))
-        
-        
-        await bot.send_message(
-        
+        await bot.send_message(        
             chat_id=cmd.from_user.id,
-            text="**🔊 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗠𝗮𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🤭** \n \n Are You Looking for References ?! \n Then First Join Our 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎 Channel...😁 Then Try Again... Press /start 😁 and You will Get Your Requests Here...! \n \n 🪐Powered by: \n 🔬 @dent_tech_for_u 📚 ",
-     
+            text="**🔊 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗠𝗮𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🤭** \n \n Are You Looking for References ?! \n Then First Join Our 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎 Channel...😁 Then Try Again... Press /start 😁 and You will Get Your Requests Here...! \n \n 🪐Powered by: \n 🔬 @dent_tech_for_u 📚 ",     
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton("𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url=invite_link.invite_link)
-                    ],   
-                    [
+                    ],[   
                         InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{cmd.command[1]}")
-                    ]
-                    
-                    
+                    ]                                    
                 ]
             )
         )
     
-        if cmd.command[1] != "subscribe":
-            
-            
-            
-            
+        if cmd.command[1] != "subscribe":                    
             await bot.send_message(
                 chat_id=cmd.from_user.id,
-                text="**🔊 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗠𝗮𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🤭** \n \n Are You Looking for References ?! \n Then First Join Our 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎 Channel...😁 Then Try Again... Press /start 😁 and You will Get Your Requests Here...! \n \n 🪐Powered by: \n 🔬 @dent_tech_for_u 📚",
-                
-            
-                
+                text="**🔊 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗠𝗮𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🤭** \n \n Are You Looking for References ?! \n Then First Join Our 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎 Channel...😁 Then Try Again... Press /start 😁 and You will Get Your Requests Here...! \n \n 🪐Powered by: \n 🔬 @dent_tech_for_u 📚",                                          
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{cmd.command[1]}")
                         ]  
                     ]
-                )
-            
-            
-            
+                ) 
             )
-    
-    
-    
-    
-    
     
     else:
         await cmd.reply_photo(
             photo=random.choice(PICS),
             caption=script.START_MSG.format(cmd.from_user.mention if cmd.from_user else message.chat.title, temp.U_NAME, temp.B_NAME), 
             parse_mode='html',  
-            
-            
-            
-            
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton("🔎 Search", switch_inline_query_current_chat='')
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url="https://t.me/dental_case_study")
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("🚀 Control Panel 🏰", callback_data="about")
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("➕Join 🦷Discussion Group➕", url="https://t.me/dent_tech_for_u")
-                        ],
-                        [
+                        ],[
                             InlineKeyboardButton("🎁 Donate & Support 🎁", url="https://t.me/dental_backup/180")
                         ]
                     ]
                 )
             )
-
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
@@ -266,9 +211,7 @@ async def log_file(bot, message):
         await message.reply_document('TelegramBot.log')
     except Exception as e:
         await message.reply(str(e))
-
-        
-        
+                
 @Client.on_message(filters.command('total') & filters.user(ADMINS))
 async def total(bot, message):
     """Show total files in database"""
@@ -280,7 +223,6 @@ async def total(bot, message):
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
 
-
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
     """Send log file"""
@@ -288,7 +230,6 @@ async def log_file(bot, message):
         await message.reply_document('TelegramBot.log')
     except Exception as e:
         await message.reply(str(e))
-
 
 @Client.on_message(filters.command('delete') & filters.user(ADMINS))
 async def delete(bot, message):
@@ -359,8 +300,7 @@ async def ping(bot, cmd):
                 ]
             )
         )
-
-        
+       
 @Client.on_message(filters.command('deleteall') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
     await message.reply_text(
