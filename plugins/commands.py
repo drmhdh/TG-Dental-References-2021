@@ -289,8 +289,8 @@ async def search(bot, cmd):
 async def ping(bot, cmd):
     usr_cmdall1 = cmd.text
     if usr_cmdall1.startswith("/ping"):
-        await cmd.reply_text(
-            m=await message.reply_text("<code>○</code>")
+        #await cmd.reply_text(
+            m=await cmd.reply_text("<code>○</code>")
             n=await m.edit("<code>🏓Ping..!!</code>")
             o=await n.edit("<code>○○</code>")
             p=await o.edit("<code>🏓Pong..!!</code>")
