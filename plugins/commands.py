@@ -290,8 +290,15 @@ async def ping(bot, cmd):
     usr_cmdall1 = cmd.text
     if usr_cmdall1.startswith("/ping"):
         await cmd.reply_text(
-            
-            text=(f"</b>🏓Ping..!! \n🏓Pong..!! Iam Alive...👻</b>"),
+            m=await message.reply_text("<code>○</code>")
+            n=await m.edit("<code>🏓Ping..!!</code>")
+            o=await n.edit("<code>○○</code>")
+            p=await o.edit("<code>🏓Pong..!!</code>")
+            q=await p.edit("<code>○○○</code>")
+            await q.edit("<code>Iam Alive...👻</code>")
+        ) 
+               
+            #text=(f"</b>🏓Ping..!! \n🏓Pong..!! Iam Alive...👻</b>"),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
