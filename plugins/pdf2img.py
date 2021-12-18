@@ -8,13 +8,14 @@ from pyrogram import Client, filters
 from pyrogram.types import User, Message, Document 
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 from telethon.sync import TelegramClient, events
-
+from pathlib import Path
 from telethon.errors.rpcerrorlist import PhotoSaveFileInvalidError
 logger = logging.getLogger(__name__)
 
 if not os.path.isdir("pdf"):
     os.mkdir("pdf")
  
+
 
 def compile_pattern(data, hndlr):
     if HNDLR == " ":  # No handler feature
