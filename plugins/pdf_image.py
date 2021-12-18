@@ -19,6 +19,8 @@ from os import error, system, name
 import logging
 import pyrogram
 from pyrogram import Client, filters
+from pyrogram.types import User, Message, Document 
+
 Client = Client(
     "TG-Dental-References-2021",
     bot_token = os.environ["BOT_TOKEN"],
