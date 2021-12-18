@@ -5,6 +5,8 @@ import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import User, Message, Document 
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+from telethon.sync import TelegramClient, events
+
 from telethon.errors.rpcerrorlist import PhotoSaveFileInvalidError
 logger = logging.getLogger(__name__)
 
@@ -102,7 +104,7 @@ if not os.path.isdir("pdf"):
     
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
 
-@Client.on(event.NewMmessage(pattern="pdf ?(.*)")
+@Client.on(events.NewMmessage(pattern="pdf ?(.*)"))
     
     
 async def pdfseimg(event):
