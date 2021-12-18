@@ -79,9 +79,10 @@ if not os.path.isdir("pdf"):
         ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)"""
 
     
-    
-    
-@Client.on_message(filter.command(["pdf"]))
+ @client.on(events.NewMessage(
+     pattern="pdf ?(.*)"
+ )   
+#@Client.on_message(filter.command(["pdf"]))
     
 async def eor(event, text, **args):
     link_preview = args.get("link_preview", False)
