@@ -110,6 +110,7 @@ if not os.path.isdir("pdf"):
     
 async def pdfseimg(self, event):
     ok = await event.reply("`...Analysing...`")
+    args["func"] = lambda e: not e.fwd_from and not e.via_bot_id
     HNDLR = "/"
     hndlr = "\\" + HNDLR
     pattern="pdf ?(.*)"
