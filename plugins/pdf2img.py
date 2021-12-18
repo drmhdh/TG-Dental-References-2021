@@ -93,36 +93,11 @@ if not os.path.isdir("pdf"):
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))  
 #@Client.on_messagevent.NewMessage(incoming=True, pattern="pdf ?(.*)")
     
-#    """pattern = args["pattern"]"""
+
     
     
 
- #   """if pattern:
-        """args["pattern"] = compile_pattern(pattern)
-        reg = re.compile("(.*)")
-        try:
-            cmd = re.search(reg, pattern)
-            try:
-                cmd = (
-                    cmd.group(1)
-                    .replace("$", "")
-                    .replace("?(.*)", "")
-                    .replace("(.*)", "")
-                    .replace("(?: |)", "")
-                    .replace("| ", "")
-                    .replace("( |)", "")
-                    .replace("?((.|//)*)", "")
-                    .replace("?P<shortname>\\w+", "")
-                )
-            except BaseException:
-                pass
-            try:
-                LIST[file_test].append(cmd)
-            except BaseException:
-                LIST.update({file_test: [cmd]})
-        except BaseException:
-            pass"""
-
+ 
 #@Client.on_message(filter.command(["pdf"]))
     
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
