@@ -59,7 +59,8 @@ if not os.path.isdir("pdf"):
     filters.command(["pdf ?(.*)"]),
     
 )
-pattern="pdf ?(.*)"
+
+pattern="pdf ?(.*)",
 async def pdfseimg(event):
     
 
