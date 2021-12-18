@@ -92,12 +92,12 @@ if not os.path.isdir("pdf"):
     
 @Client.on_messagevent.NewMessage(incoming=True, pattern="pdf ?(.*)")
     
-    
+pattern = args["pattern"]
     
     
 
     if pattern:
-        args["pattern"] = compile_pattern(pattern, hndlr)
+        args["pattern"] = compile_pattern(pattern)
         reg = re.compile("(.*)")
         try:
             cmd = re.search(reg, pattern)
