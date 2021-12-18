@@ -1,3 +1,4 @@
+import re
 import os
 from os import error, system, name
 import logging
