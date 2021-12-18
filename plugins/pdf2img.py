@@ -84,7 +84,7 @@ if not os.path.isdir("pdf"):
  )   
 #@Client.on_message(filter.command(["pdf"]))
     
-async def eor(event, text, **args):
+"""async def eor(event, text, **args):
     link_preview = args.get("link_preview", False)
     parse_mode = args.get("parse_mode", "md")
     time = args.get("time", None)
@@ -98,15 +98,16 @@ async def eor(event, text, **args):
             reply_to=reply_to,
         )
     else:
-        ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)
+        ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)"""
 
     
     
 async def pdfseimg(event):
-    ok = await event.reply("' ...  '")
+    ok = await event.reply("`...Analysing...`")
     msg = event.pattern_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
-        await eor(event, "`Reply The pdf u Want to Download..`")
+        await event.reply("`Reply The pdf u Want to Download..`")
+                          
         return
     xx = await eor(event, get_string("com_1"))
     file = ok.media.document
