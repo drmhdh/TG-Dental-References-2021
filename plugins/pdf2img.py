@@ -97,8 +97,8 @@ if not os.path.isdir("pdf"):
     
     
 
-    """if pattern:
-        args["pattern"] = compile_pattern(pattern)
+ #   """if pattern:
+        """args["pattern"] = compile_pattern(pattern)
         reg = re.compile("(.*)")
         try:
             cmd = re.search(reg, pattern)
