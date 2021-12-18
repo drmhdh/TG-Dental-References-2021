@@ -121,13 +121,13 @@ if not os.path.isdir("pdf"):
             except BaseException:
                 LIST.update({file_test: [cmd]})
         except BaseException:
-            pass"""
+            pass
 
 #@Client.on_message(filter.command(["pdf"]))
     
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
 
-@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
+#@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
     
     
 async def pdfseimg(event):
