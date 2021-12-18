@@ -54,7 +54,7 @@ if not os.path.isdir("pdf"):
 #(
 
 #@Client.on_message(filters.command(["pdf"]))
-async def pdf(bot, message):
+async def pdf(event):
      #try:
         # if message.reply_to_message:
 #async def pdfseimg(event):
