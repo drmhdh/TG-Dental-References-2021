@@ -46,12 +46,12 @@ from . import *
 if not os.path.isdir("pdf"):
     os.mkdir("pdf")
 
-
+@Client_cmd(
 
 pattern="pdf ?(.*)",
+)
 
-
-@Client.on_message(filters.command(["pdf"]))
+#@Client.on_message(filters.command(["pdf"]))
 async def pdf(bot, message):
      #try:
         # if message.reply_to_message:
