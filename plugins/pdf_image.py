@@ -23,7 +23,7 @@ from pyrogram.types import User, Message, Document
 logger = logging.getLogger(__name__)
 import re
 
-"""Client = Client(
+Ultroid = Client(
     "TG-Dental-References-2021",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
@@ -49,11 +49,14 @@ if not os.path.isdir("pdf"):
     os.mkdir("pdf")
 
 
-@Client.on_message(filters.command(["start"]))
+
     
 
 
 
+@ultroid_cmd(
+    pattern="pdf ?(.*)",
+)
 async def pdfseimg(event):
     
 
