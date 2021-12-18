@@ -108,7 +108,7 @@ if not os.path.isdir("pdf"):
 @Client.on_message(filters.command(["pdf"]))
     
     
-async def pdfseimg(self, event):
+async def pdfseimg(self, event, **args):
     ok = await event.reply("`...Analysing...`")
     args["func"] = lambda e: not e.fwd_from and not e.via_bot_id
     HNDLR = "/"
