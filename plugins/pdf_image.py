@@ -39,9 +39,51 @@ logger = logging.getLogger(__name__)
             
 
 
+def admin_cmd(pattern=None, command=None, **args):
+    args["func"] = lambda e: not e.via_bot_id and not e.fwd_from
+    args["chats"] = black_list_chats
+    args["blacklist_chats"] = True
+    stack = inspect.stack()
+    previous_stack_frame = stack[1]
+    file_test = Path(previous_stack_frame.filename)
+    file_test = file_test.stem.replace(".py", "")
+    if pattern is not None:
+        args["pattern"] = re.compile(hndlr + pattern)
+        reg = re.compile("(.*)")
+        try:
+            cmd = re.search(reg, pattern)
+            try:
+                cmd = (
+                    cmd.group(1)
+                    .replace("$", "")
+                    .replace("?(.*)", "")
+                    .replace("(.*)", "")
+                    .replace("(?: |)", "")
+                    .replace("| ", "")
+                    .replace("( |)", "")
+                    .replace("?((.|//)*)", "")
+                    .replace("?P<shortname>\\w+", "")
+                )
+            except BaseException:
+                pass
+            try:
+                LIST[file_test].append(cmd)
+            except BaseException:
+                LIST.update({file_test: [cmd]})
+        except BaseException:
+            pass
+    args["outgoing"] = True
+    if "incoming" in args and not args["incoming"]:
+        args["outgoing"] = True
+    if "allow_edited_updates" in args and args["allow_edited_updates"]:
+        del args["allow_edited_updates"]
+    return events.NewMessage(**args)
 
 
-
+friday_on_cmd = admin_cmd
+j_cmd = admin_cmd
+command = ultroid_cmd
+register = ultroid_cmd
 
 
 #from . import *
@@ -55,9 +97,9 @@ if not os.path.isdir("pdf"):
 
 
 
-@Client.on_message(filters(
+@ultroid_cmd
     pattern="pdf ?(.*)",
-))
+)
 async def pdfseimg(self, event):
     
   
