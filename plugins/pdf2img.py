@@ -104,7 +104,7 @@ async def eor(event, text, **args):
     
 async def pdfseimg(event):
     ok = await event.reply("' ...  '")
-    msg = event.group(1)
+    msg = event.pattern_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await eor(event, "`Reply The pdf u Want to Download..`")
         return
