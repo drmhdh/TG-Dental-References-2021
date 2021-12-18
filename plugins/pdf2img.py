@@ -140,7 +140,7 @@ async def pdfseimg(self, event, **args):
         except BaseException:
             pass
     
-    msg = event.pattern.group(1)
+    msg = event.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await event.reply("`Reply The pdf u Want to Download..`")
                           
