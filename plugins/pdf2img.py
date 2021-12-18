@@ -93,7 +93,7 @@ if not os.path.isdir("pdf"):
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))  
 #@Client.on_messagevent.NewMessage(incoming=True, pattern="pdf ?(.*)")
     
-    """pattern = args["pattern"]"""
+#    """pattern = args["pattern"]"""
     
     
 
