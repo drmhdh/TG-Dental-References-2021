@@ -46,8 +46,8 @@ from . import *
 if not os.path.isdir("pdf"):
     os.mkdir("pdf")
 
-@Client_cmd(
 
+@Client.on_message(filters.command(["pdf"]))
 pattern="pdf ?(.*)",
 )
 
