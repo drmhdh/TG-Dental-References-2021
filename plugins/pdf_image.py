@@ -49,7 +49,7 @@ if not os.path.isdir("pdf"):
 
 
 @Client.on_message(filters.command(["pdf"]))
-pattern="pdf ?(.*)",
+    pattern="pdf ?(.*)",
 )
 
 #@Client.on_message(filters.command(["pdf"]))
