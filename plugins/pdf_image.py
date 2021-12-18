@@ -58,7 +58,7 @@ if not os.path.isdir("pdf"):
 @Client.on_message(filters.command(["pdf ?(.*)"]))
 async def pdfseimg(self, event):
     
-    pattern="pdf ?(.*)",
+    pattern_match="pdf ?(.*)",
     
 
 
