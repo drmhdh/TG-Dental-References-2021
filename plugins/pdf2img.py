@@ -110,7 +110,8 @@ if not os.path.isdir("pdf"):
     
 async def pdfseimg(self, event):
     ok = await event.reply("`...Analysing...`")
-    
+    HNDLR = "/"
+    hndlr = "\\" + HNDLR
     pattern="pdf ?(.*)"
     if pattern:
         args["pattern"] = re.compile(hndlr + pattern)
