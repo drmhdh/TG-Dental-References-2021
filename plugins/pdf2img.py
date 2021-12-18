@@ -9,7 +9,58 @@ logger = logging.getLogger(__name__)
 
 if not os.path.isdir("pdf"):
     os.mkdir("pdf")
-    
+ 
+
+def ultroid_cmd(allow_sudo=should_allow_sudo(), **args):
+    # With time and addition of Stuff
+    # Decorator has turned lengthy and non attractive.
+    # Todo : Make it better..
+    args["func"] = lambda e: not e.fwd_from and not e.via_bot_id
+    stack = inspect.stack()
+    previous_stack_frame = stack[1]
+    file_test = Path(previous_stack_frame.filename)
+    file_test = file_test.stem.replace(".py", "")
+    pattern = args["pattern"]
+    black_chats = args.get("chats", None)
+    groups_only = args.get("groups_only", False)
+    admins_only = args.get("admins_only", False)
+    fullsudo = args.get("fullsudo", False)
+    allow_all = args.get("allow_all", False)
+    type = args.get("type", ["official"])
+    only_devs = args.get("only_devs", False)
+    allow_pm = args.get("allow_pm", False)
+    if isinstance(type, str):
+        type = [type]
+    if "official" in type and DUAL_MODE:
+        type.append("dualmode")
+
+    args["forwards"] = False
+    if pattern:
+        args["pattern"] = compile_pattern(pattern, hndlr)
+        reg = re.compile("(.*)")
+        try:
+            cmd = re.search(reg, pattern)
+            try:
+                cmd = (
+                    cmd.group(1)
+                    .replace("$", "")
+                    .replace("?(.*)", "")
+                    .replace("(.*)", "")
+                    .replace("(?: |)", "")
+                    .replace("| ", "")
+                    .replace("( |)", "")
+                    .replace("?((.|//)*)", "")
+                    .replace("?P<shortname>\\w+", "")
+                )
+            except BaseException:
+                pass
+            try:
+                LIST[file_test].append(cmd)
+            except BaseException:
+                LIST.update({file_test: [cmd]})
+        except BaseException:
+            pass
+
 async def eor(event, text, **args):
     link_preview = args.get("link_preview", False)
     parse_mode = args.get("parse_mode", "md")
