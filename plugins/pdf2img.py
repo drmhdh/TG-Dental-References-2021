@@ -92,7 +92,7 @@ if not os.path.isdir("pdf"):
     
 @Client.on_message(event.NewMessage(
     
-    pattern="pdf ?(.*)"
+pattern="pdf ?(.*)"
     if pattern is not None:
     if pattern.startswith("\#"):
             # special fix for snip.py
