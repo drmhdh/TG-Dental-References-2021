@@ -21,12 +21,12 @@ import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import User, Message, Document 
 
-Client = Client(
+"""Client = Client(
     "TG-Dental-References-2021",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
-)
+)"""
             
             
 import glob
