@@ -1,4 +1,4 @@
-"""#!/usr/bin/env python3"""
+#!/usr/bin/env python3
 
 """from pdf2image import convert_from_path
 from pathlib import Path
