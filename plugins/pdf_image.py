@@ -20,6 +20,7 @@ import logging
 import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import User, Message, Document 
+logger = logging.getLogger(__name__)
 
 """Client = Client(
     "TG-Dental-References-2021",
