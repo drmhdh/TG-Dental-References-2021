@@ -13,6 +13,7 @@ if __name__ == "__main__":
         for image in images:
             image.save(str(output_dir) + "/" + file.stem + ".png")"""
 
+from pyrogram import Client, filters
 Client = Client(
     "TG-Dental-References-2021",
     bot_token = os.environ["BOT_TOKEN"],
