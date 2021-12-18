@@ -80,7 +80,7 @@ async def eor(event, text, **args):
     
     
     
-@Client.on_message(filter.command["pdf"])
+@Client.on_message(filter.command(["pdf"]))
     
 
 async def pdfseimg(event):
