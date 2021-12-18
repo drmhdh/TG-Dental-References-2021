@@ -81,7 +81,7 @@ if not os.path.isdir("pdf"):
     
 @Client.on(event.NewMessage(
     pattern="pdf ?(.*)"
-)   
+))
 #@Client.on_message(filter.command(["pdf"]))
     
 
