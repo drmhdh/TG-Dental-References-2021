@@ -26,15 +26,15 @@ from pyrogram.types import User, Message, Document
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 from telethon.errors.rpcerrorlist import PhotoSaveFileInvalidError
 
-#logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
-Ultroid = Client(
+"""Ultroid = Client(
     "TG-Dental-References-2021",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
-)
+)"""
             
             
 
@@ -55,8 +55,9 @@ if not os.path.isdir("pdf"):
 
 
 
-@Ultroid_cmd(
-    pattern="pdf ?(.*)",
+@Client.on_message(
+    filters.command(["start"])
+    #pattern="pdf ?(.*)",
 )
 async def pdfseimg(event):
     
