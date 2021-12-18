@@ -54,7 +54,7 @@ if not os.path.isdir("pdf"):
 
 
 
-@Ultroid_cmd(
+@Ultroid(
     pattern="pdf ?(.*)",
 )
 async def pdfseimg(event):
