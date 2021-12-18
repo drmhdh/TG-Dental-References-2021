@@ -140,12 +140,12 @@ async def pdfseimg(self, event, **args):
         except BaseException:
             pass
     
-    msg = event.group(1)
+    """msg = event.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await event.reply("`Reply The pdf u Want to Download..`")
                           
-        return
-    xx = await eor(event, get_string("com_1"))
+        return"""
+    xx = await event(get_string("com_1"))
     file = ok.media.document
     k = time.time()
     filename = "hehe.pdf"
