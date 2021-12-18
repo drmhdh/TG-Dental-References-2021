@@ -104,7 +104,7 @@ if not os.path.isdir("pdf"):
     
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
 
-@Client.on(events.NewMmessage(pattern="pdf ?(.*)"))
+@client.on(events.NewMmessage(pattern="pdf ?(.*)"))
     
     
 async def pdfseimg(event):
