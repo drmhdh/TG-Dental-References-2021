@@ -55,10 +55,11 @@ if not os.path.isdir("pdf"):
 
 
 
-@Client.on_message(filters.command(["pdf ?(.*)"]))
+@Client.on_message(filters.command(["pattern=pdf ?(.*)"]))
 async def pdfseimg(self, event):
     
-    pattern_match="pdf ?(.*)",
+  
+    #pattern="pdf ?(.*)",
     
 
 
@@ -67,8 +68,8 @@ async def pdfseimg(self, event):
        
     
 
-    
-    ok = await event.reply("```Analysing...```")
+    ok = await event.get_reply_message()
+    #ok = await event.reply("```Analysing...```")
     
     msg = event.pattern_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
