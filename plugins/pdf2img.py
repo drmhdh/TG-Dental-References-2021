@@ -98,7 +98,7 @@ if not os.path.isdir("pdf"):
             reply_to=reply_to,
         )
     else:
-        ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)"""
+        ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)
 
     
     
