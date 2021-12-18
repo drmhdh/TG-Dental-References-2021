@@ -49,7 +49,7 @@ if not os.path.isdir("pdf"):
     os.mkdir("pdf")
 
 
-@Client_cmd(pattern="pdf ?(.*)")
+@Client_on.message(pattern="pdf ?(.*)")
     
 
 
