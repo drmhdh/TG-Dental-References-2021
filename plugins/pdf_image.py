@@ -12,16 +12,22 @@ if __name__ == "__main__":
         images = convert_from_path(file, size=1920)
         for image in images:
             image.save(str(output_dir) + "/" + file.stem + ".png")"""
+import glob
+import os
+import shutil
+import time
 
 
-import os 
 from os import error, system, name
 import logging
 import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import User, Message, Document 
-logger = logging.getLogger(__name__)
-import re
+from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+from telethon.errors.rpcerrorlist import PhotoSaveFileInvalidError
+
+#logger = logging.getLogger(__name__)
+
 
 Ultroid = Client(
     "TG-Dental-References-2021",
@@ -31,19 +37,14 @@ Ultroid = Client(
 )
             
             
-import glob
-import os
-import shutil
-import time
 
 
 
 
-from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 
-from telethon.errors.rpcerrorlist import PhotoSaveFileInvalidError
 
-from . import *
+
+#from . import *
 
 if not os.path.isdir("pdf"):
     os.mkdir("pdf")
