@@ -14,7 +14,7 @@ if __name__ == "__main__":
             image.save(str(output_dir) + "/" + file.stem + ".png")"""
 
 Client = Client(
-    "PyDF-BOT",
+    "TG-Dental-References-2021",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
