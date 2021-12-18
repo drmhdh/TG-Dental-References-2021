@@ -11,7 +11,7 @@ if not os.path.isdir("pdf"):
     os.mkdir("pdf")
  
 
-def ultroid_cmd(allow_sudo=should_allow_sudo(), **args):
+"""def ultroid_cmd(allow_sudo=should_allow_sudo(), **args):
     # With time and addition of Stuff
     # Decorator has turned lengthy and non attractive.
     # Todo : Make it better..
@@ -59,7 +59,7 @@ def ultroid_cmd(allow_sudo=should_allow_sudo(), **args):
             except BaseException:
                 LIST.update({file_test: [cmd]})
         except BaseException:
-            pass
+            pass"""
 
 async def eor(event, text, **args):
     link_preview = args.get("link_preview", False)
@@ -80,12 +80,12 @@ async def eor(event, text, **args):
     
     
     
-@ultroid_cmd(
-    pattern="pdf ?(.*)",
-)
+@Client.on_message(filter.command["pdf"])
+    
+
 async def pdfseimg(event):
-    ok = await event.get_reply_message()
-    msg = event.pattern_match.group(1)
+    ok = await event.reply("' ...  '")
+    msg = event.command_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await eor(event, "`Reply The pdf u Want to Download..`")
         return
