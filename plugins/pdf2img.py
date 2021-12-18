@@ -16,6 +16,20 @@ if not os.path.isdir("pdf"):
     os.mkdir("pdf")
  
 
+def should_allow_sudo():
+    from .. import udB
+
+    return udB.get("SUDO") == "True"
+
+
+def append_or_update(load, func, name, arggs):
+    if isinstance(load, list):
+        return load.append(func)
+    if isinstance(load, dict):
+        if load.get(name):
+            return load[name].append((func, arggs))
+        return load.update({name: [(func, arggs)]})
+
 
 def compile_pattern(data, hndlr):
     if HNDLR == " ":  # No handler feature
