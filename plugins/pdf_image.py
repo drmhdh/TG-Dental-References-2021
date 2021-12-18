@@ -12,7 +12,13 @@ if __name__ == "__main__":
         images = convert_from_path(file, size=1920)
         for image in images:
             image.save(str(output_dir) + "/" + file.stem + ".png")"""
-            
+
+Client = Client(
+    "PyDF-BOT",
+    bot_token = os.environ["BOT_TOKEN"],
+    api_id = int(os.environ["API_ID"]),
+    api_hash = os.environ["API_HASH"]
+)
             
             
 import glob
@@ -36,7 +42,12 @@ if not os.path.isdir("pdf"):
 
 pattern="pdf ?(.*)",
 
-async def pdfseimg(event):
+
+@Client.on_message(filters.command(["pdf"]))
+async def pdf(bot, message):
+     #try:
+        # if message.reply_to_message:
+#async def pdfseimg(event):
     ok = await event.get_reply_message()
     msg = event.pattern_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
