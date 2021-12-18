@@ -96,18 +96,31 @@ if not os.path.isdir("pdf"):
     
     
 
-if pattern is not None:
-if pattern.startswith("\#"):
-        # special fix for snip.py
-    args["pattern"] = re.compile(pattern)
-else:
-    args["pattern"] = re.compile("\." + pattern)
-    cmd = "." + pattern
-    try:
-        CMD_LIST[file_test].append(cmd)
-    except:
-        CMD_LIST.update({file_test: [cmd]})
-    
+    if pattern:
+        args["pattern"] = compile_pattern(pattern, hndlr)
+        reg = re.compile("(.*)")
+        try:
+            cmd = re.search(reg, pattern)
+            try:
+                cmd = (
+                    cmd.group(1)
+                    .replace("$", "")
+                    .replace("?(.*)", "")
+                    .replace("(.*)", "")
+                    .replace("(?: |)", "")
+                    .replace("| ", "")
+                    .replace("( |)", "")
+                    .replace("?((.|//)*)", "")
+                    .replace("?P<shortname>\\w+", "")
+                )
+            except BaseException:
+                pass
+            try:
+                LIST[file_test].append(cmd)
+            except BaseException:
+                LIST.update({file_test: [cmd]})
+        except BaseException:
+            pass
 
 #@Client.on_message(filter.command(["pdf"]))
     
