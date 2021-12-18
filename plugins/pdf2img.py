@@ -62,6 +62,27 @@ if not os.path.isdir("pdf"):
         except BaseException:
             pass"""
 
+"""async def eor(event, text, **args):
+    link_preview = args.get("link_preview", False)
+    parse_mode = args.get("parse_mode", "md")
+    time = args.get("time", None)
+    if not event.out:
+        reply_to = event.reply_to_msg_id or event
+        ok = await event.client.send_message(
+            event.chat_id,
+            text,
+            link_preview=link_preview,
+            parse_mode=parse_mode,
+            reply_to=reply_to,
+        )
+    else:
+        ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)"""
+
+    
+    
+    
+@Client.on_message(filter.command(["pdf"]))
+    
 async def eor(event, text, **args):
     link_preview = args.get("link_preview", False)
     parse_mode = args.get("parse_mode", "md")
@@ -80,13 +101,9 @@ async def eor(event, text, **args):
 
     
     
-    
-@Client.on_message(filter.command(["pdf"]))
-    
-
 async def pdfseimg(event):
     ok = await event.reply("' ...  '")
-    msg = event.command_match.group(1)
+    msg = event.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await eor(event, "`Reply The pdf u Want to Download..`")
         return
