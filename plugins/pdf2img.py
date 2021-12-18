@@ -90,29 +90,30 @@ if not os.path.isdir("pdf"):
         except:
             CMD_LIST.update({file_test: [cmd]})"""
     
-@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
+@Client.on_messagevent.NewMessage(incoming=True, pattern="pdf ?(.*)"))
     
     
     
     
 
-    if pattern is not None:
-    if pattern.startswith("\#"):
-            # special fix for snip.py
-        args["pattern"] = re.compile(pattern)
-    else:
-        args["pattern"] = re.compile("\." + pattern)
-        cmd = "." + pattern
-        try:
-            CMD_LIST[file_test].append(cmd)
-        except:
-            CMD_LIST.update({file_test: [cmd]})
+if pattern is not None:
+if pattern.startswith("\#"):
+        # special fix for snip.py
+    args["pattern"] = re.compile(pattern)
+else:
+    args["pattern"] = re.compile("\." + pattern)
+    cmd = "." + pattern
+    try:
+        CMD_LIST[file_test].append(cmd)
+    except:
+        CMD_LIST.update({file_test: [cmd]})
     
 
 #@Client.on_message(filter.command(["pdf"]))
     
 
 
+@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
     
     
 async def pdfseimg(event):
