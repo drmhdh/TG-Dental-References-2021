@@ -90,7 +90,7 @@ if not os.path.isdir("pdf"):
         except:
             CMD_LIST.update({file_test: [cmd]})"""
  
-@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))  
+#@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))  
 #@Client.on_messagevent.NewMessage(incoming=True, pattern="pdf ?(.*)")
     
     """pattern = args["pattern"]"""
@@ -127,7 +127,7 @@ if not os.path.isdir("pdf"):
     
 #@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
 
-#@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
+@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
     
     
 async def pdfseimg(event):
