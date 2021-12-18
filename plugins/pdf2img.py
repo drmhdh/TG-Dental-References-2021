@@ -90,10 +90,12 @@ if not os.path.isdir("pdf"):
         except:
             CMD_LIST.update({file_test: [cmd]})"""
     
-@Client.on_message(event.NewMessage(
+@Client.on_message(event.NewMessage(incoming=True, pattern="pdf ?(.*)"))
     
-pattern="pdf ?(.*)"
-))    
+    
+    
+    
+
     if pattern is not None:
     if pattern.startswith("\#"):
             # special fix for snip.py
