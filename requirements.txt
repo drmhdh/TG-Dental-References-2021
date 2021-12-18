@@ -7,4 +7,5 @@ umongo==3.0.0
 pyromod
 requests
 parse-torrent-name
-
+pdf2image==1.14.0
+Pillow==7.2.0
