@@ -78,17 +78,17 @@ if not os.path.isdir("pdf"):
     else:
         ok = await event.edit(text, link_preview=link_preview, parse_mode=parse_mode)"""
 # get the pattern from the decorator
-    if pattern is not None:
-        if pattern.startswith("\#"):
+if pattern is not None:
+    if pattern.startswith("\#"):
             # special fix for snip.py
-            args["pattern"] = re.compile(pattern)
-        else:
-            args["pattern"] = re.compile("\." + pattern)
-            cmd = "." + pattern
-            try:
-                CMD_LIST[file_test].append(cmd)
-            except:
-                CMD_LIST.update({file_test: [cmd]})
+        args["pattern"] = re.compile(pattern)
+    else:
+        args["pattern"] = re.compile("\." + pattern)
+        cmd = "." + pattern
+        try:
+            CMD_LIST[file_test].append(cmd)
+        except:
+            CMD_LIST.update({file_test: [cmd]})
     
 @Client.on_message(event.NewMessage(
     pattern="pdf ?(.*)"
