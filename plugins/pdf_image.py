@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from pdf2image import convert_from_path
+"""from pdf2image import convert_from_path
 from pathlib import Path
 
 output_dir = Path("output")
@@ -11,8 +11,88 @@ if __name__ == "__main__":
     for file in Path("input").glob(pattern="*.pdf"):
         images = convert_from_path(file, size=1920)
         for image in images:
-            image.save(str(output_dir) + "/" + file.stem + ".png")
+            image.save(str(output_dir) + "/" + file.stem + ".png")"""
             
             
             
-            
+import glob
+import os
+import shutil
+import time
+
+
+
+
+from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+
+from telethon.errors.rpcerrorlist import PhotoSaveFileInvalidError
+
+from . import *
+
+if not os.path.isdir("pdf"):
+    os.mkdir("pdf")
+
+
+
+pattern="pdf ?(.*)",
+
+async def pdfseimg(event):
+    ok = await event.get_reply_message()
+    msg = event.pattern_match.group(1)
+    if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
+        await eor(event, "`Reply The pdf u Want to Download..`")
+        return
+    xx = await eor(event, get_string("com_1"))
+    file = ok.media.document
+    k = time.time()
+    filename = "hehe.pdf"
+    result = await downloader(
+        "pdf/" + filename,
+        file,
+        xx,
+        k,
+        "Downloading " + filename + "...",
+    )
+    await xx.delete()
+    pdfp = "pdf/hehe.pdf"
+    pdfp.replace(".pdf", "")
+    pdf = PdfFileReader(pdfp)
+    if not msg:
+        ok = []
+        for num in range(pdf.numPages):
+            pw = PdfFileWriter()
+            pw.addPage(pdf.getPage(num))
+            fil = os.path.join("pdf/ult{}.png".format(num + 1))
+            ok.append(fil)
+            with open(fil, "wb") as f:
+                pw.write(f)
+        os.remove(pdfp)
+        for z in ok:
+            await event.client.send_file(event.chat_id, z)
+        shutil.rmtree("pdf")
+        os.mkdir("pdf")
+        await xx.delete()
+    elif "-" in msg:
+        ok = int(msg.split("-")[-1]) - 1
+        for o in range(ok):
+            pw = PdfFileWriter()
+            pw.addPage(pdf.getPage(o))
+            with open(os.path.join("ult.png"), "wb") as f:
+                pw.write(f)
+            await event.reply(
+                file="ult.png",
+            )
+            os.remove("ult.png")
+        os.remove(pdfp)
+    else:
+        o = int(msg) - 1
+        pw = PdfFileWriter()
+        pw.addPage(pdf.getPage(o))
+        with open(os.path.join("ult.png"), "wb") as f:
+            pw.write(f)
+        os.remove(pdfp)
+        try:
+            await event.reply(file="ult.png")
+        except PhotoSaveFileInvalidError:
+            await event.reply(file="ult.png", force_document=True)
+        os.remove("ult.png")            
