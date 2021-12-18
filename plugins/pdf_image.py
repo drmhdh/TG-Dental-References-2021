@@ -21,6 +21,7 @@ import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import User, Message, Document 
 logger = logging.getLogger(__name__)
+import re
 
 """Client = Client(
     "TG-Dental-References-2021",
@@ -48,7 +49,7 @@ if not os.path.isdir("pdf"):
     os.mkdir("pdf")
 
 
-@Client.on_message(filters.cmd(["pdf"]))
+@Client.on_message(filters.command(["pdf"]))
    # pattern="pdf ?(.*)",
 #(
 
