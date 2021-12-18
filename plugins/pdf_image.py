@@ -13,6 +13,11 @@ if __name__ == "__main__":
         for image in images:
             image.save(str(output_dir) + "/" + file.stem + ".png")"""
 
+
+import os 
+from os import error, system, name
+import logging
+import pyrogram
 from pyrogram import Client, filters
 Client = Client(
     "TG-Dental-References-2021",
