@@ -145,14 +145,14 @@ async def pdfseimg(self, event, **args):
         await event.reply("`Reply The pdf u Want to Download..`")
                           
         return"""
-    xx = await event(get_string("com_1"))
+    #xx = await event(get_string("com_1"))
     file = ok.media.document
     k = time.time()
     filename = "hehe.pdf"
     result = await downloader(
         "pdf/" + filename,
         file,
-        xx,
+        #xx,
         k,
         "Downloading " + filename + "...",
     )
