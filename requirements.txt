@@ -5,6 +5,7 @@ motor==2.4.0
 marshmallow==3.12.2
 umongo==3.0.0
 pyromod
+telethon
 requests
 parse-torrent-name
 pdf2image==1.14.0
