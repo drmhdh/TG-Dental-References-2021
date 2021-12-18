@@ -48,9 +48,9 @@ if not os.path.isdir("pdf"):
     os.mkdir("pdf")
 
 
-@Client.on_message(filters.command(["pdf"]))
+@Client.on_message(    #filters.command(["pdf"]))
     pattern="pdf ?(.*)",
-)
+(
 
 #@Client.on_message(filters.command(["pdf"]))
 async def pdf(bot, message):
