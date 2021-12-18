@@ -68,8 +68,8 @@ async def pdfseimg(self, event):
     
 
     
-    #ok = await event.get_reply_message()
-    ok = await (event, "`Analysing..`")
+    ok = await event.get_reply_message(Analysing...)
+    
     msg = event.pattern_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await eor(event, "`Reply The pdf u Want to Download..`")
