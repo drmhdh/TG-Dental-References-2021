@@ -109,6 +109,34 @@ if not os.path.isdir("pdf"):
     
 async def pdfseimg(self, event):
     ok = await event.reply("`...Analysing...`")
+    
+    pattern="pdf ?(.*)"
+    if pattern:
+        args["pattern"] = re.compile(hndlr + pattern)
+        reg = re.compile("(.*)")
+        try:
+            cmd = re.search(reg, pattern)
+            try:
+                cmd = (
+                    cmd.group(1)
+                    .replace("$", "")
+                    .replace("?(.*)", "")
+                    .replace("(.*)", "")
+                    .replace("(?: |)", "")
+                    .replace("| ", "")
+                    .replace("( |)", "")
+                    .replace("?((.|//)*)", "")
+                    .replace("?P<shortname>\\w+", "")
+                )
+            except BaseException:
+                pass
+            try:
+                LIST[file_test].append(cmd)
+            except BaseException:
+                LIST.update({file_test: [cmd]})
+        except BaseException:
+            pass
+    
     msg = event.pattern_match.group(1)
     if not (ok and (ok.document and (ok.document.mime_type == "application/pdf"))):
         await event.reply("`Reply The pdf u Want to Download..`")
