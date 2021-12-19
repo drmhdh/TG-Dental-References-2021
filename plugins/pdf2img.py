@@ -1119,7 +1119,7 @@ async def answer(client, callbackQuery):
                     
                     for pageNo in pgList:
                         page = doc.load_Page(pageNo-1)
-                        pix = page.getPixmap(matrix = mat)
+                        pix = page.get_Pixmap(matrix = mat)
                         cnvrtpg += 1
                         
                         await client.edit_message_text(
