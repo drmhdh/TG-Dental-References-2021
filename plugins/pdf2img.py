@@ -131,7 +131,7 @@ async def feedback(bot, message):
 # if message is /extract
 @Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
 async def extract(bot, message):
-    needPages = message.text.replace('/extract ', '')
+    """needPages = message.text.replace('/extract ', '')
     pageStartAndEnd = list(needPages.replace('-',':').split(':'))
             
     if len(pageStartAndEnd) > 2:
@@ -288,7 +288,7 @@ async def extract(bot, message):
                 ]
             )
         )
-        return        
+        return"""   
 """except Exception:
         
     try:
@@ -296,7 +296,7 @@ async def extract(bot, message):
         PROCESS.remove(message.chat.id)
             
     except Exception:
-        pass"""
+        pass""" 
 
         
            
