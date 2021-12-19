@@ -205,98 +205,98 @@ async def extract(bot, message):
             "`Syntax Error: pageNumberMustBeAnIntiger 🧠`"
             )
             return
-        if PAGENOINFO[message.chat.id][0] == False:
+    if PAGENOINFO[message.chat.id][0] == False:
                 
-            if pageStartAndEnd[0]: # == "/extract":
-                await bot.send_message(
-                    message.chat.id,
-                    text = f"Extract images from `{PAGENOINFO[message.chat.id][1]}` to `{PAGENOINFO[message.chat.id][2]}` As:",
-                    disable_web_page_preview = True,
-                    reply_markup = InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    "Images 🖼️️",
-                                    callback_data = "multipleImgAsImages"
-                                ),
-                                InlineKeyboardButton(
-                                    "Document 📁 ",
-                                    callback_data = "multipleImgAsDocument"
-                                )
-                            ],
-                            [
-                                InlineKeyboardButton(
-                                    "PDF 🎭",
-                                    callback_data = "multipleImgAsPdfError"
-                                )
-                            ]
-                        ]
-                    )
-                )
-                
-            else: 
-                await bot.send_message(
-                    message.chat.id,
-                    text = f"Extract images from `{PAGENOINFO[message.chat.id][1]}` to `{PAGENOINFO[message.chat.id][2]}` As:",
-                    disable_web_page_preview = True,
-                    reply_markup = InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    "Images 🖼️️",
-                                    callback_data = "multipleImgAsImages"
-                                ),
-                                InlineKeyboardButton(
-                                    "Document 📁 ",
-                                    callback_data = "multipleImgAsDocument"
-                                )
-                            ],
-                            [
-                                InlineKeyboardButton(
-                                    "PDF 🎭",
-                                    callback_data = "multipleImgAsPdf"
-                                )
-                            ]
-                        ]
-                    )
-                )
-        if PAGENOINFO[message.chat.id][0] == True:
-                
+        if pageStartAndEnd[0]: # == "/extract":
             await bot.send_message(
                 message.chat.id,
-                text = f"Extract page number: `{PAGENOINFO[message.chat.id][3]}` As:",
+                text = f"Extract images from `{PAGENOINFO[message.chat.id][1]}` to `{PAGENOINFO[message.chat.id][2]}` As:",
                 disable_web_page_preview = True,
                 reply_markup = InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                 
                                 "Images 🖼️️",
-                                callback_data = "asImages"
+                                callback_data = "multipleImgAsImages"
                             ),
                             InlineKeyboardButton(
                                 "Document 📁 ",
-                                callback_data = "asDocument"
+                                callback_data = "multipleImgAsDocument"
                             )
                         ],
                         [
                             InlineKeyboardButton(
                                 "PDF 🎭",
-                                callback_data = "asPdf"
+                                callback_data = "multipleImgAsPdfError"
                             )
                         ]
                     ]
                 )
             )
                 
-    except Exception:
+        else: 
+            await bot.send_message(
+                message.chat.id,
+                text = f"Extract images from `{PAGENOINFO[message.chat.id][1]}` to `{PAGENOINFO[message.chat.id][2]}` As:",
+                disable_web_page_preview = True,
+                reply_markup = InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "Images 🖼️️",
+                                callback_data = "multipleImgAsImages"
+                            ),
+                            InlineKeyboardButton(
+                                "Document 📁 ",
+                                callback_data = "multipleImgAsDocument"
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                "PDF 🎭",
+                                callback_data = "multipleImgAsPdf"
+                            )
+                        ]
+                    ]
+                )
+            )
+    if PAGENOINFO[message.chat.id][0] == True:
+                
+        await bot.send_message(
+            message.chat.id,
+            text = f"Extract page number: `{PAGENOINFO[message.chat.id][3]}` As:",
+            disable_web_page_preview = True,
+            reply_markup = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                                 
+                            "Images 🖼️️",
+                            callback_data = "asImages"
+                        ),
+                        InlineKeyboardButton(
+                            "Document 📁 ",
+                            callback_data = "asDocument"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            "PDF 🎭",
+                            callback_data = "asPdf"
+                        )
+                    ]
+                ]
+            )
+        )
+                
+except Exception:
         
-        try:
-            del PAGENOINFO[message.chat.id]
-            PROCESS.remove(message.chat.id)
+    try:
+        del PAGENOINFO[message.chat.id]
+        PROCESS.remove(message.chat.id)
             
-        except Exception:
-            pass
+    except Exception:
+        pass
 
         
            
