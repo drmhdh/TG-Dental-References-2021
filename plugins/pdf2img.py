@@ -145,13 +145,13 @@ async def extract(bot, message):
             
           
         
-        elif len(pageStartAndEnd) == 2:
-            try:
+    elif len(pageStartAndEnd) == 2:
+        try:
                     
-                if (1 <= int(pageStartAndEnd[0]) <= PDF2IMGPGNO[message.chat.id]):
+            if (1 <= int(pageStartAndEnd[0]) <= PDF2IMGPGNO[message.chat.id]):
                         
-                    if (int(pageStartAndEnd[0]) < int(pageStartAndEnd[1]) <= PDF2IMGPGNO[message.chat.id]):
-                        PAGENOINFO[message.chat.id] = [False, int(pageStartAndEnd[0]), int(pageStartAndEnd[1]), None]    #elmnts in list (is singlePage, start, end, if single pg number)
+                if (int(pageStartAndEnd[0]) < int(pageStartAndEnd[1]) <= PDF2IMGPGNO[message.chat.id]):
+                    PAGENOINFO[message.chat.id] = [False, int(pageStartAndEnd[0]), int(pageStartAndEnd[1]), None]    #elmnts in list (is singlePage, start, end, if single pg number)
                                
     try:
         if message.chat.id in PROCESS:
