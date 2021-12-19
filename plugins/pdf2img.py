@@ -915,7 +915,7 @@ async def answer(client, callbackQuery):
                         pix = page.getPixmap(matrix = mat)
                         cnvrtpg += 1
                         
-                        await clientt.edit_message_text(
+                        await client.edit_message_text(
                             chat_id = callbackQuery.message.chat.id,
                             message_id = callbackQuery.message.message_id,
                             text = f"`Converted: {cnvrtpg}/{int((PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1]))} pages.. 🤞`"
