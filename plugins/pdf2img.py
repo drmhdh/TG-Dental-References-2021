@@ -254,13 +254,43 @@ async def extract(bot, message):
                 
                         pdfMsgId = await message.reply_to_message.reply_text(
                             Msgs.pdfReplyMsg.format(noOfPages),
-                            reply_markup = ForceReply(),
-                            parse_mode = "md"
+                            """reply_markup = ForceReply(),
+                            parse_mode = "md""""
                         )
-                
-                        doc.close()
-                        shutil.rmtree(f'{message.reply_to_message.message_id}')
-            
+                   
+                        """doc.close()
+                        shutil.rmtree(f'{message.reply_to_message.message_id}')"""
+                        
+                        if PAGENOINFO[message.chat.id][0] == False:
+                            if pageStartAndEnd[0]:
+                                await bot.send_message(
+                                message.chat.id,
+                                text = f"Extract images from `{PAGENOINFO[message.chat.id][1]}` to `{PAGENOINFO[message.chat.id][2]}` As:",
+                                disable_web_page_preview = True,
+                                reply_markup = InlineKeyboardMarkup(
+                                    [
+                                        [
+                                            InlineKeyboardButton(
+                                                "Images 🖼️️",
+                                                callback_data = "multipleImgAsImages"
+                                             ),
+                                            InlineKeyboardButton(
+                                                "Document 📁 ",
+                                                callback_data = "multipleImgAsDocument"
+                                            )
+                                        ],
+                                        [
+                                            InlineKeyboardButton(
+                                                "PDF 🎭",
+                                            callback_data = "multipleImgAsPdfError"
+                                        )
+                                ]
+                            ]
+                        )
+                    )
+                            
+                        
+                        
                     except Exception as e:
                 
                         try:
