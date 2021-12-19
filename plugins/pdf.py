@@ -914,12 +914,12 @@ async def textCommand(bot, message):
             PROCESS.remove(message.chat.id)
             
         except Exception:
-            pass"""
+            pass
 
 
 # If message is /encrypt
 @bot.on_message(filters.command(["encrypt"]))
-"""async def encrypt(bot, message):
+async def encrypt(bot, message):
     try:
         
         if message.chat.id in PROCESS:
@@ -1064,12 +1064,12 @@ async def textCommand(bot, message):
             )
             
         except Exception:
-            pass"""
+            pass
 
 
 # If message is /generate
 @bot.on_message(filters.command(["generate"]))
-"""async def generate(bot, message):
+async def generate(bot, message):
     
     try:
         newName = str(message.text.replace("/generate", ""))
