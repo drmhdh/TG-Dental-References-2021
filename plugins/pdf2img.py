@@ -67,8 +67,94 @@ if Config.CONVERT_API is not None:
 if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE"))
     MAX_FILE_SIZE_IN_kiB = MAX_FILE_SIZE * 10000
-    
 
+    
+# REPLY TO /start COMMAND
+@bot.on_message(filters.command(["startpdf"]))
+async def start(bot, message):
+    
+    try:
+        await bot.send_chat_action(
+            message.chat.id, "typing"
+        )
+        
+        if Config.UPDATE_CHANNEL:
+        
+            try:
+                await bot.get_chat_member(
+                    str(Config.UPDATE_CHANNEL), message.chat.id
+                )
+            
+            except Exception:
+                invite_link = await bot.create_chat_invite_link(
+                    int(Config.UPDATE_CHANNEL)
+                )
+                
+                await bot.send_message(
+                    message.chat.id,
+                    Msgs.forceSubMsg.format(
+                        message.from_user.first_name, message.chat.id
+                    ),
+                    reply_markup = InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    "🌟 JOIN CHANNEL 🌟",
+                                    url = invite_link.invite_link
+                                )
+                            ],
+                            [
+                                InlineKeyboardButton(
+                                    "Refresh ♻️",
+                                    callback_data = "refresh"
+                                )
+                            ]
+                        ]
+                    )
+                )
+                
+                await bot.delete_messages(
+                    chat_id = message.chat.id,
+                    message_ids = message.message_id
+                )
+                return
+        
+        await bot.send_message(
+            message.chat.id,
+            Msgs.welcomeMsg.format(
+                message.from_user.first_name, message.chat.id
+            ),
+            disable_web_page_preview = True,
+            reply_markup = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Source Code ❤️",
+                            callback_data = "strtDevEdt"
+                        ),
+                        InlineKeyboardButton(
+                            "Explore Bot 🎊",
+                            callback_data = "imgsToPdfEdit"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            "Close",
+                            callback_data = "close"
+                        )
+                    ]
+                ]
+            )
+        )
+        await bot.delete_messages(
+            chat_id = message.chat.id,
+            message_ids = message.message_id
+        )
+        
+    except Exception:
+        pass
+    
+    
 # FORCE SUBSCRIPTION
 async def forceSub(chatId):
     
