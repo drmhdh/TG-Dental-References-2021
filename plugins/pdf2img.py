@@ -803,9 +803,13 @@ async def extract(bot, message):
                 except Exception:
                     pass
             
-        except Exception:
-            pass                    
-                    
+        """except Exception:
+            pass"""                    
+            
+            
+            
+            
+            
                     
                     
                     
