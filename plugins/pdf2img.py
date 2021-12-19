@@ -1119,7 +1119,7 @@ async def answer(client, callbackQuery):
                     )
                     
                 if edit == "asDocument":
-                    await bot.send_chat_action(
+                    await client.send_chat_action(
                         callbackQuery.message.chat.id, "upload_document"
                     )
                     sendfile = open(file,'rb')
