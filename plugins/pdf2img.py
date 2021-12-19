@@ -253,14 +253,14 @@ async def extract(bot, message):
                         )
                 
                         pdfMsgId = await message.reply_to_message.reply_text(
-                            Msgs.pdfReplyMsg.format(noOfPages),
+                            Msgs.pdfReplyMsg.format(noOfPages)
                             #reply_markup = ForceReply(),
                             #parse_mode = "md" 
                         )
                    
                         #doc.close()
                         #shutil.rmtree(f'{message.reply_to_message.message_id}')
-                        return
+                        
                        
                     
                     
