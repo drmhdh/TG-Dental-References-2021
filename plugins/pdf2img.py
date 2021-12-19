@@ -115,7 +115,7 @@ async def cancelP2I(bot, message):
    
 @Client.on_message(filters.document & filters.user(ADMINS))
 async def documents(bot, message):
-    """if message.reply_to_message:"""    
+    if message.reply_to_message:
         try:
             await bot.send_chat_action(
                 message.chat.id, "typing"
@@ -450,7 +450,8 @@ async def documents(bot, message):
         except Exception:
             pass
         
-                     
+    else:
+        pass
                
 # if message is /extract
 @Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
