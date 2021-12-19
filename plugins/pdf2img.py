@@ -133,13 +133,15 @@ async def feedback(bot, message):
 async def extract(bot, message):
     pageStartAndEnd = list(needPages.replace('-',':').split(':'))
             
-        if len(pageStartAndEnd) > 2:
+    if len(pageStartAndEnd) > 2:
                 
-            await bot.send_message(
-                message.chat.id,
-                "`I just asked you starting & ending 😅`"
-            )
-            return
+        await bot.send_message(
+              
+            
+            message.chat.id,
+            "`I just asked you starting & ending 😅`"
+        )
+        return
             
           
         
