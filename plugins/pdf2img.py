@@ -1059,7 +1059,7 @@ async def answer(client, callbackQuery):
                 await client.send_chat_action(
                     callbackQuery.message.chat.id, "typing"
                 )
-                await bot.send_message(
+                await client.send_message(
                     callbackQuery.message.chat.id, Msgs.feedbackMsg,
                     disable_web_page_preview=True
                 )
