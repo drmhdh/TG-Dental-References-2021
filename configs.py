@@ -37,15 +37,15 @@ Some of the main features are:
 ◍ `Convert PDF to images`
 ◍ `Convert files to pdf`                                                                         
 
-Update Channel: @ilovepdf_bot 🤩
+Support Chat: @dental_books_pdf 🤩
 
-[Source Code 🏆](https://github.com/nabilanavab/ilovepdf)
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Discussion 🏆](https://t.me/dent_tech_for_u)
+[Case Study 📋](https://t.me/dental_case_study)
 """
     
     
     feedbackMsg = """
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a Feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
     
     
@@ -59,7 +59,7 @@ hit on "retry ♻️" after joining.. 😅
 """
     
     
-    foolRefresh = """വിളച്ചിലെടുക്കല്ലേ കേട്ടോ 😐"""
+    foolRefresh = """വിളച്ചിലെടുക്കല്ലേ കേട്ടോ (Dont Play Around) 😐"""
     
     
     fullPdfSplit = """If you want to split a pdf,
@@ -88,38 +88,28 @@ key 🔐: `{}`"""
 
 ERROR: `{}`
 
-For bot updates join @ilovepdf_bot 💎
+For Updates jJoin @dent_tech_for_books 💎
 """
     
     
     pdfReplyMsg = """`Total pages: {}pgs`
 
-__Unlike all other bots, this bot start sending images without converting the entire PDF to pages__ 😉
-
-reply:
-/extract - __to get entire pages__
-/extract `pgNo` - __to get a specific page__
-/extract `start:end` - __to get all the images b/w__
-
-
-/encrypt `password` - to set password
-/text - to extract text from pdf
-
-Join Update Channel @ilovepdf_bot, More features soon 🔥
+__Iam Analysing....your Document__ 😉
+Join Support Chat @dent_tech_for_books ,More features soon 🔥
 """
     
     
     aboutDev = """About Dev:
 
-OwNeD By: @nabilanavab 😜
-Update Channel: @ilovepdf_bot 😇                                                                
+OwNeD By: @dent_tech_for_u 😜
+Update : @dent_tech_for_books 😇                                                                
 
 Lang Used: Python🐍
-[Source Code](https://github.com/nabilanavab/ilovepdf)
+[Case Study](https://t.me/dental_case_study)
 
-Join @ilovepdf_bot, if you ❤ this
+Join @dent_tech_for_books , if you ❤ this
 
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
     
     
@@ -139,9 +129,9 @@ Join @ilovepdf_bot, if you ❤ this
     - `/generate fileName` - to change pdf name to fileName🤞
     - `/generate name` - to get pdf with your telegram name
 
-For bot updates join @ilovepdf_bot 💎
+For bot updates join @dent_tech_for_books 💎
 
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
     
     
@@ -159,7 +149,7 @@ For bot updates join @ilovepdf_bot 💎
 
 For bot updates join @ilovepdf_bot 💎
 
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
     
     
@@ -175,7 +165,7 @@ API LIMITS..😕
 
 For bot updates join @ilovepdf_bot 💎                                                           
 
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
     
     
@@ -189,7 +179,7 @@ IF THERE IS ANY KIND OF REPORTING, BUGS, REQUESTS, AND SUGGESTIONS PLEASE CONTAC
 
 For bot updates join @ilovepdf_bot 💎                                                           
 
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
     
     
@@ -202,7 +192,7 @@ Some of the main features are:
 
 For bot updates join @ilovepdf_bot 💎                                                           
 
-[Write a feedback 📋](https://t.me/nabilanavabchannel/17?comment=10)
+[Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
 
 # please don't try to steel this code,
