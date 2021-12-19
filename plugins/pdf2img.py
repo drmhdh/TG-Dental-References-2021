@@ -1279,7 +1279,7 @@ async def answer(client, callbackQuery):
                     text = f"`Fetching page Number:{PAGENOINFO[callbackQuery.message.chat.id][3]} 🤧`"
                 )
                 
-                page = doc.loadPage(int(PAGENOINFO[callbackQuery.message.chat.id][3])-1)
+                page = doc.load_Page(int(PAGENOINFO[callbackQuery.message.chat.id][3])-1)
                 pix = page.getPixmap(matrix = mat)
                 await client.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
