@@ -131,7 +131,24 @@ async def feedback(bot, message):
 # if message is /extract
 @Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
 async def extract(bot, message):
-    
+             pageStartAndEnd = list(needPages.replace('-',':').split(':'))
+            
+            if len(pageStartAndEnd) > 2:
+                
+                await bot.send_message(
+                    message.chat.id,
+                    "`I just asked you starting & ending 😅`"
+                )
+                return
+            
+            elif len(pageStartAndEnd) == 2:
+                try:
+                    
+                    if (1 <= int(pageStartAndEnd[0]) <= PDF2IMGPGNO[message.chat.id]):
+                        
+                        if (int(pageStartAndEnd[0]) < int(pageStartAndEnd[1]) <= PDF2IMGPGNO[message.chat.id]):
+                            PAGENOINFO[message.chat.id] = [False, int(pageStartAndEnd[0]), int(pageStartAndEnd[1]), None]    #elmnts in list (is singlePage, start, end, if single pg number)
+                               
     try:
         if message.chat.id in PROCESS:
             
