@@ -28,17 +28,6 @@ logger = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO)
 #logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-
-# PYROGRAM INSTANCE
-"""bot = Client(
-    "pyroPdf",
-    parse_mode = "markdown",
-    api_id = Config.API_ID,
-    api_hash = Config.API_HASH,
-    bot_token = Config.API_TOKEN
-)"""
-
-
 # GLOBAL VARIABLES
 PDF = {}            # save images for generating pdf
 media = {}          # sending group images(pdf 2 img)
@@ -79,7 +68,7 @@ if Config.MAX_FILE_SIZE:
  
 
 # /deletes : Deletes current Images to pdf Queue
-@Client.on_message(filters.command(["delete"]))
+@Client.on_message(filters.command(["deletepdf"]))
 async def cancelI2P(bot, message):
     
     try:
@@ -102,7 +91,7 @@ async def cancelI2P(bot, message):
     
     
 # cancel current pdf to image Queue
-@Client.on_message(filters.command(["cancel"]))
+@Client.on_message(filters.command(["cancelpdf"]))
 async def cancelP2I(bot, message):
     
     try:
@@ -140,7 +129,8 @@ async def feedback(bot, message):
 
 
 # if message is a document/file
-@Client.on_message(filters.private & filters.document)
+@Client.on_message(filters.command(["extract"]))
+#@Client.on_message(filters.private & filters.document)
 async def documents(bot, message):
     
     try:
@@ -478,7 +468,7 @@ async def documents(bot, message):
 
 
 # if message is /extract
-@Client.on_message(filters.command(["extract"]))
+#@Client.on_message(filters.command(["extract"]))
 async def extract(bot, message):
     
     try:
