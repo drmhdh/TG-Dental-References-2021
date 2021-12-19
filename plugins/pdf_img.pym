@@ -135,8 +135,7 @@ async def feedback(bot, message):
         pass
         
         
-# if message is /extract
-@bot.on_message(filters.command(["extract"]))
+
 
 
 # if message is a document/file
@@ -477,7 +476,8 @@ async def documents(bot, message):
         pass
 
 
-
+# if message is /extract
+@bot.on_message(filters.command(["extract"]))
 async def extract(bot, message):
     
     try:
