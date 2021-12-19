@@ -68,6 +68,48 @@ if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE_IN_kiB = MAX_FILE_SIZE * 10000
     
 
+# /deletes : Deletes current Images to pdf Queue
+@bot.on_message(filters.command(["deletepdf"]))
+async def cancelI2P(bot, message):
+    
+    try:
+        await bot.send_chat_action(
+            message.chat.id, "typing"
+        )
+        del PDF[message.chat.id]
+        await bot.send_message(
+            message.chat.id, "`Queue deleted Successfully..`🤧",
+            reply_to_message_id = message.message_id
+        )
+        shutil.rmtree(f"{message.chat.id}")
+        
+    except Exception:
+        await bot.send_message(
+            message.chat.id, "`No Queue founded..`😲",
+            reply_to_message_id = message.message_id
+        )
+
+
+# cancel current pdf to image Queue
+@bot.on_message(filters.command(["cancelpdf"]))
+async def cancelP2I(bot, message):
+    
+    try:
+        PROCESS.remove(message.chat.id)
+        await bot.send_chat_action(
+            message.chat.id, "typing"
+        )
+        await bot.send_message(
+            message.chat.id, '`Canceled current work..`🤧'
+        )
+    
+    except Exception:
+        await bot.send_message(
+            message.chat.id, '`Nothing to cancel..`🏃'
+        )
+
+    
+    
 @Client.on_message(filters.document & filters.user(ADMINS))
 async def documents(bot, message):
     
