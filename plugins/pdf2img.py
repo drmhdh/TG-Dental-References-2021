@@ -254,8 +254,8 @@ async def extract(bot, message):
                 
                         pdfMsgId = await message.reply_to_message.reply_text(
                             Msgs.pdfReplyMsg.format(noOfPages),
-                            """reply_markup = ForceReply(),
-                            parse_mode = "md""""
+                            #reply_markup = ForceReply(),
+                            #parse_mode = "md" 
                         )
                    
                         """doc.close()
