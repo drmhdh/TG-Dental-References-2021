@@ -109,7 +109,7 @@ async def cancelP2I(bot, message):
         )   
         
 # if message is a /feedback
-@Client.on_message(filters.command(["feedback"]))
+"""@Client.on_message(filters.command(["feedback"]))
 async def feedback(bot, message):
     
     try:
@@ -122,7 +122,7 @@ async def feedback(bot, message):
         )
         
     except Exception:
-        pass
+        pass"""
         
         
 
@@ -138,11 +138,11 @@ async def documents(bot, message):
             message.chat.id, "typing"
         )
         
-        if Config.UPDATE_CHANNEL:
+        """if Config.UPDATE_CHANNEL:
             check = await forceSub(message.chat.id)
             
             if check == "notSubscribed":
-                return
+                return"""
         
         isPdfOrImg = message.document.file_name
         fileSize = message.document.file_size
