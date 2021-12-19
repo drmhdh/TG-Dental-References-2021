@@ -288,8 +288,8 @@ async def extract(bot, message):
                 ]
             )
         )
-        return"""   
-"""except Exception:
+        return
+except Exception:
         
     try:
         del PAGENOINFO[message.chat.id]
