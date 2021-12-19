@@ -562,7 +562,7 @@ async def extract(bot, message):
                             "`Processing.. 🚶`"
                         )
                 
-                        await message.download(
+                        await message.reply_to_message.download(
                             f"{message.reply_to_message.message_id}/pdftoimage.pdf"
                         )
                 
@@ -573,7 +573,7 @@ async def extract(bot, message):
                         PDF2IMGPGNO[message.chat.id] = noOfPages
                 
                         await bot.delete_messages(
-                            chat_id = message.chat.id,
+                            chat_id = message.reply_to_message.chat.id,
                             message_ids = pdfMsgId.message_id
                         )
                 
@@ -581,7 +581,7 @@ async def extract(bot, message):
                             message.chat.id, "typing"
                         )
                 
-                        pdfMsgId = await message.reply_text(
+                        pdfMsgId = await message.reply_to_message.reply_text(
                             Msgs.pdfReplyMsg.format(noOfPages),
                             reply_markup = ForceReply(),
                             parse_mode = "md"
@@ -593,7 +593,7 @@ async def extract(bot, message):
                     except Exception as e:
                 
                         try:
-                            PROCESS.remove(message.chat.id)
+                            PROCESS.remove(message.reply_to_message.chat.id)
                             doc.close()
                             shutil.rmtree(f'{message.reply_to_message.message_id}')
                     
