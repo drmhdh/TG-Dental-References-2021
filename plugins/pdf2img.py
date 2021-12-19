@@ -129,8 +129,8 @@ async def feedback(bot, message):
 
                       
 # if message is /extract
-@Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
-async def extract(bot, message):
+#@Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
+#async def extract(bot, message):
     """needPages = message.text.replace('/extract ', '')
     pageStartAndEnd = list(needPages.replace('-',':').split(':'))
             
@@ -305,7 +305,8 @@ except Exception:
         
         
         
-        
+@Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
+async def extract(bot, message):        
     try:
         if message.chat.id in PROCESS:
             
