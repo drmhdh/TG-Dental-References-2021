@@ -1074,7 +1074,7 @@ async def answer(client, callbackQuery):
                 
                 page = doc.loadPage(int(PAGENOINFO[callbackQuery.message.chat.id][3])-1)
                 pix = page.getPixmap(matrix = mat)
-                await bot.edit_message_text(
+                await client.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = f"`Successfully Converted your page..✌️`"
