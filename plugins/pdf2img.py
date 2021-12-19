@@ -69,6 +69,50 @@ if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE_IN_kiB = MAX_FILE_SIZE * 10000
     
 
+# FORCE SUBSCRIPTION
+async def forceSub(chatId):
+    
+    try:
+        await bot.get_chat_member(
+            str(Config.UPDATE_CHANNEL), chatId
+        )
+        return "subscribed"
+        
+    except Exception:
+        
+        try:
+            invite_link = await bot.create_chat_invite_link(
+                int(Config.UPDATE_CHANNEL)
+            )
+            
+            await bot.send_message(
+                chatId,
+                Msgs.forceSubMsg.format(
+                    chatId.from_user.first_name, chatId
+                ),
+                reply_markup = InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "🌟 JOIN CHANNEL 🌟",
+                                url = invite_link.invite_link
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                "Refresh ♻️",
+                                callback_data = "refresh"
+                            )
+                        ]
+                    ]
+                )
+            )
+            return "notSubscribed"
+        
+        except Exception:
+            pass
+    
+    
 # /deletes : Deletes current Images to pdf Queue
 @Client.on_message(filters.command(["deletepdf"]))
 async def cancelI2P(bot, message):
