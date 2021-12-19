@@ -288,7 +288,7 @@ async def extract(bot, message):
                 ]
             )
         )
-                
+        return        
 """except Exception:
         
     try:
