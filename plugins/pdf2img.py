@@ -258,9 +258,9 @@ async def extract(bot, message):
                             #parse_mode = "md" 
                         )
                    
-                        """doc.close()
-                        shutil.rmtree(f'{message.reply_to_message.message_id}')"""
-                        
+                        #doc.close()
+                        #shutil.rmtree(f'{message.reply_to_message.message_id}')
+                        return
                         if PAGENOINFO[message.chat.id][0] == False:
                             if pageStartAndEnd[0]:
                                 await bot.send_message(
