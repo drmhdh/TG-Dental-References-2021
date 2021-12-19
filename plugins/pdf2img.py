@@ -577,7 +577,7 @@ async def extract(bot, message):
             
             elif len(pageStartAndEnd) == 1:
                 
-                if pageStartAndEnd[0] == "/extract":
+                if pageStartAndEnd[0]: #== "/extract":
                     
                     if (PDF2IMGPGNO[message.chat.id]) == 1:
                         PAGENOINFO[message.chat.id] = [True, None, None, 1]
@@ -606,7 +606,7 @@ async def extract(bot, message):
             
             if PAGENOINFO[message.chat.id][0] == False:
                 
-                if pageStartAndEnd[0] == "/extract":
+                if pageStartAndEnd[0]: # == "/extract":
                     await bot.send_message(
                         message.chat.id,
                         text = f"Extract images from `{PAGENOINFO[message.chat.id][1]}` to `{PAGENOINFO[message.chat.id][2]}` As:",
