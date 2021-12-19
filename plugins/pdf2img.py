@@ -1146,7 +1146,7 @@ async def answer(client, callbackQuery):
                         with open(
                             f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg','wb'
                         ):
-                            pix.writePNG(f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg')
+                            pix.save(f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg')
                         
                     await client.edit_message_text(
                         chat_id = callbackQuery.message.chat.id,
