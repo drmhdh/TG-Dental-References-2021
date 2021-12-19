@@ -475,8 +475,8 @@ async def extract(bot, message):
             """await bot.send_message(
                 message.chat.id,
                 "`send me a pdf first..🤥`"
-            )
-            return"""
+            )"""
+            return
         
             if Config.UPDATE_CHANNEL:
                 check = await forceSub(message.chat.id)
