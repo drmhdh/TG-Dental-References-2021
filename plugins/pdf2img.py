@@ -67,7 +67,7 @@ if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE_IN_kiB = MAX_FILE_SIZE * 10000
     
 
-@Client.on_message((filters.private, filters.group) & filters.document & filters.user(ADMINS))
+@Client.on_message(filters.private, filters.group & filters.document & filters.user(ADMINS))
 async def documents(bot, message):
     
     try:
