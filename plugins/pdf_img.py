@@ -129,7 +129,7 @@ async def feedback(bot, message):
 
 
 # if message is a document/file
-@Client.on_message(filters.command(["extract"]))
+@Client.on_message(filters.command(["extract"]), filters.group, filters.private, filters.document)
 #@Client.on_message(filters.private & filters.document)
 async def documents(bot, message):
     
