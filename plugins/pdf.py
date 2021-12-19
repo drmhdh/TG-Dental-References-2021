@@ -79,7 +79,7 @@ if Config.MAX_FILE_SIZE:
 
 
 # FORCE SUBSCRIPTION
-async def forceSub(chatId):
+"""async def forceSub(chatId):
     
     try:
         await bot.get_chat_member(
@@ -119,11 +119,11 @@ async def forceSub(chatId):
             return "notSubscribed"
         
         except Exception:
-            pass
+            pass"""
 
 
 # REPLY TO /start COMMAND
-@bot.on_message(filters.command(["start"]))
+"""@bot.on_message(filters.command(["start"]))
 async def start(bot, message):
     
     try:
@@ -205,11 +205,11 @@ async def start(bot, message):
         )
         
     except Exception:
-        pass
+        pass"""
 
 
 # if message is a /id
-@bot.on_message(filters.command(["id"]))
+"""@bot.on_message(filters.command(["id"]))
 async def userId(bot, message):
     
     try:
@@ -221,11 +221,11 @@ async def userId(bot, message):
         )
         
     except Exception:
-        pass
+        pass"""
 
 
 # if message is a /feedback
-@bot.on_message(filters.command(["feedback"]))
+"""@bot.on_message(filters.command(["feedback"]))
 async def feedback(bot, message):
     
     try:
@@ -238,7 +238,7 @@ async def feedback(bot, message):
         )
         
     except Exception:
-        pass
+        pass"""
 
 
 # /deletes : Deletes current Images to pdf Queue
@@ -283,7 +283,7 @@ async def cancelP2I(bot, message):
 
 
 # if message is an image
-@bot.on_message(filters.private & filters.photo)
+"""@bot.on_message(filters.private & filters.photo)
 async def images(bot, message):
     
     try:
@@ -320,12 +320,12 @@ async def images(bot, message):
         )
         
     except Exception:
-        pass
+        pass"""
 
 
 # if message is a document/file
 @bot.on_message(filters.private & filters.document)
-async def documents(bot, message):
+"""async def documents(bot, message):
     
     try:
         await bot.send_chat_action(
@@ -658,7 +658,7 @@ async def documents(bot, message):
                 pass
             
     except Exception:
-        pass
+        pass"""
 
 
 # if message is /extract
@@ -852,7 +852,7 @@ async def extract(bot, message):
 
 
 # If message is /text
-@bot.on_message(filters.command(["text"]))
+"""@bot.on_message(filters.command(["text"]))
 async def textCommand(bot, message):
     
     try:
@@ -914,12 +914,12 @@ async def textCommand(bot, message):
             PROCESS.remove(message.chat.id)
             
         except Exception:
-            pass
+            pass"""
 
 
 # If message is /encrypt
 @bot.on_message(filters.command(["encrypt"]))
-async def encrypt(bot, message):
+"""async def encrypt(bot, message):
     try:
         
         if message.chat.id in PROCESS:
@@ -1064,12 +1064,12 @@ async def encrypt(bot, message):
             )
             
         except Exception:
-            pass
+            pass"""
 
 
 # If message is /generate
 @bot.on_message(filters.command(["generate"]))
-async def generate(bot, message):
+"""async def generate(bot, message):
     
     try:
         newName = str(message.text.replace("/generate", ""))
@@ -1147,7 +1147,7 @@ async def generate(bot, message):
     except Exception as e:
         os.remove(fileName)
         shutil.rmtree(f"{message.chat.id}")
-        print(e)
+        print(e)"""
 
 
 # delete spam messages
