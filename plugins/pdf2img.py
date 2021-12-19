@@ -21,7 +21,8 @@ from pyrogram import Client, filters
 from pyrogram.types import ForceReply
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from pyrogram.types import InputMediaPhoto, InputMediaDocument
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+
 from info import ADMINS
 logger = logging.getLogger(__name__)
 
@@ -1468,4 +1469,5 @@ async def answer(client, callbackQuery):
                 )
                 
             except Exception:
-                pass       
+                pass
+        
