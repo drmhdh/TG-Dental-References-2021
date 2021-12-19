@@ -158,6 +158,12 @@ async def documents(bot, message):
             message.chat.id, "typing"
         )    
         
+        if Config.UPDATE_CHANNEL:
+            check = await forceSub(message.chat.id)
+            
+            if check == "notSubscribed":
+                return
+        
         isPdfOrImg = message.document.file_name
         fileSize = message.document.file_size
         fileNm, fileExt = os.path.splitext(isPdfOrImg)
