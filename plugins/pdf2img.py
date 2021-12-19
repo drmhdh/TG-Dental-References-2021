@@ -478,8 +478,8 @@ async def extract(bot, message):
                     message.chat.id, "typing"
                 )
             
-                isPdfOrImg = message.document.file_name
-                fileSize = message.document.file_size
+                isPdfOrImg = message.reply_to_message.document.file_name
+                fileSize = message.reply_to_message.document.file_size
                 fileNm, fileExt = os.path.splitext(isPdfOrImg)
         
                 if Config.MAX_FILE_SIZE and fileSize >= int(MAX_FILE_SIZE_IN_kiB):
