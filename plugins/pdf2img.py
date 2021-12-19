@@ -671,7 +671,7 @@ async def extract(bot, message):
                 
                     shutil.rmtree(f"{message.message_id}")
                 
-                   sleep(5)
+                    sleep(5)
                     await bot.send_chat_action(
                         message.chat.id, "typing"
                     )
