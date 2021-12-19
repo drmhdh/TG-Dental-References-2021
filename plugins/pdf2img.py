@@ -152,7 +152,9 @@ async def extract(bot, message):
                         
                 if (int(pageStartAndEnd[0]) < int(pageStartAndEnd[1]) <= PDF2IMGPGNO[message.chat.id]):
                     PAGENOINFO[message.chat.id] = [False, int(pageStartAndEnd[0]), int(pageStartAndEnd[1]), None]    #elmnts in list (is singlePage, start, end, if single pg number)
-                               
+          
+        except:
+            pass
     try:
         if message.chat.id in PROCESS:
             
