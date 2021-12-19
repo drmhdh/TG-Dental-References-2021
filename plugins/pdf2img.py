@@ -70,7 +70,7 @@ if Config.MAX_FILE_SIZE:
 
     
 # REPLY TO /start COMMAND
-@bot.on_message(filters.command(["startpdf"]))
+@Client.on_message(filters.command(["startpdf"]))
 async def start(bot, message):
     
     try:
