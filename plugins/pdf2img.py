@@ -67,7 +67,7 @@ if Config.MAX_FILE_SIZE:
     MAX_FILE_SIZE_IN_kiB = MAX_FILE_SIZE * 10000
     
 
-@Client.on_message((filters.private, filters.group) & filters.document)
+@Client.on_message((filters.private, filters.group) & filters.document & filters.user(ADMINS))
 async def documents(bot, message):
     
     try:
@@ -401,7 +401,7 @@ async def documents(bot, message):
             
     
 # if message is /extract
-@Client.on_message(filters.command(["extract"]) & (filters.document & (filters.private, filters.group))
+@Client.on_message(filters.command(["extract"]) & (filters.document & (filters.private, filters.group) & filters.user(ADMINS))
 async def extract(bot, message):
     
     try:
