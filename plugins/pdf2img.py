@@ -1146,6 +1146,6 @@ async def answer(client, callbackQuery):
             except Exception:
                 pass
         
-bot.run()
+
         
           
