@@ -801,7 +801,8 @@ async def extract(bot, message):
           
         
         
-            
+            except:
+                pass
             
                     
                     
