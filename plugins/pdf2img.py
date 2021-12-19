@@ -889,7 +889,7 @@ async def answer(client, callbackQuery):
             if edit == "multipleImgAsImages" or edit == "multipleImgAsDocument":
                 
                 if int(int(PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1])) >= 11:
-                    await bot.pin_chat_message(
+                    await client.pin_chat_message(
                         chat_id = callbackQuery.message.chat.id,
                         message_id = callbackQuery.message.message_id,
                         disable_notification = True,
