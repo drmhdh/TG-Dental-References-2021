@@ -110,6 +110,45 @@ async def cancelP2I(bot, message):
         )
 
     
+# if message is an image
+@Client.on_message(filters.photo & filters.user(ADMINS))
+async def images(bot, message):
+    
+    try:
+        await bot.send_chat_action(
+            message.chat.id, "typing"
+        )
+        
+        if Config.UPDATE_CHANNEL:
+            check = await forceSub(message.chat.id)
+            
+            if check == "notSubscribed":
+                return
+        
+        imageReply = await bot.send_message(
+            message.chat.id,
+            "`Downloading your Image..⏳`",
+            reply_to_message_id = message.message_id
+        )
+        
+        if not isinstance(PDF.get(message.chat.id), list):
+            PDF[message.chat.id] = []
+        
+        await message.download(
+            f"{message.chat.id}/{message.chat.id}.jpg"
+        )
+        
+        img = Image.open(
+            f"{message.chat.id}/{message.chat.id}.jpg"
+        ).convert("RGB")
+        
+        PDF[message.chat.id].append(img)
+        await imageReply.edit(
+            Msgs.imageAdded.format(len(PDF[message.chat.id]))
+        )
+        
+    except Exception:
+        pass
     
 @Client.on_message(filters.document & filters.user(ADMINS))
 async def documents(bot, message):
