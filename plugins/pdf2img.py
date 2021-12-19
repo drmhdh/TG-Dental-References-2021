@@ -1118,7 +1118,7 @@ async def answer(client, callbackQuery):
                     os.mkdir(f'{callbackQuery.message.message_id}/pgs')
                     
                     for pageNo in pgList:
-                        page = doc.load_Page(pageNo-1)
+                        page = doc.loadPage(pageNo-1)
                         pix = page.get_Pixmap(matrix = mat)
                         cnvrtpg += 1
                         
