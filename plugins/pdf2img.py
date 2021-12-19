@@ -112,8 +112,8 @@ async def cancelP2I(bot, message):
 
     
 
-    
-"""@Client.on_message(filters.document & filters.user(ADMINS))
+@Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))    
+#@Client.on_message(filters.document & filters.user(ADMINS))
 async def documents(bot, message):
     
     try:
@@ -448,12 +448,12 @@ async def documents(bot, message):
                 pass
             
     except Exception:
-        pass"""
+        pass
             
             
     
 # if message is /extract
-@Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
+#@Client.on_message(filters.command(["extract"]) & filters.user(ADMINS))
 async def extract(bot, message):
     
     try:
