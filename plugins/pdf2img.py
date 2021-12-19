@@ -102,7 +102,7 @@ async def documents(bot, message):
             except Exception:
                 pass
         
-        """elif fileExt.lower() in suprtedFile:
+        elif fileExt.lower() in suprtedFile:
             
             
             try:
@@ -143,7 +143,7 @@ async def documents(bot, message):
                 await bot.delete_messages(
                     chat_id = message.chat.id,
                     message_ids = message.message_id
-                )"""
+                )
         
         elif fileExt.lower() == ".pdf":
             
