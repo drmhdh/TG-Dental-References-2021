@@ -8,12 +8,9 @@ pyromod
 telethon
 requests
 parse-torrent-name
-
 pillow
 PyPDF2
 PyMuPdf
 pyrogram
 tgcrypto
 convertapi
-
-
