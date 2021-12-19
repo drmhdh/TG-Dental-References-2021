@@ -203,8 +203,8 @@ async def extract(bot, message):
         await bot.send_message(
             message.chat.id,
             "`Syntax Error: pageNumberMustBeAnIntiger 🧠`"
-            )
-            return
+        )
+        return
     if PAGENOINFO[message.chat.id][0] == False:
                 
         if pageStartAndEnd[0]: # == "/extract":
