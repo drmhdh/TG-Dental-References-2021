@@ -282,12 +282,12 @@ async def extract(bot, message):
                                         [
                                             InlineKeyboardButton(
                                                 "PDF 🎭",
-                                            callback_data = "multipleImgAsPdfError"
+                                                callback_data = "multipleImgAsPdfError"
                                         )
+                                    ]
                                 ]
-                            ]
+                            )
                         )
-                    )
                             
                         
                         
