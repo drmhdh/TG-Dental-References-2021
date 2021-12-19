@@ -592,7 +592,7 @@ async def extract(bot, message):
 
         
         
-@bot.on_callback_query()
+@Client.on_callback_query()
 async def answer(client, callbackQuery):
     
     edit = callbackQuery.data
