@@ -1147,7 +1147,7 @@ async def textCommand(bot, message):
     except Exception as e:
         os.remove(fileName)
         shutil.rmtree(f"{message.chat.id}")
-        print(e)"""
+        print(e)
 
 
 # delete spam messages
@@ -2005,4 +2005,4 @@ async def answer(client, callbackQuery):
             except Exception:
                 pass
         
-bot.run()
+#bot.run()
