@@ -1452,7 +1452,7 @@ async def answer(client, callbackQuery):
                                 callback_data = "strtDevEdt"
                             ),
                             InlineKeyboardButton(
-                                "Explore Bot 🎊",
+                                "Explore client 🎊",
                                 callback_data = "imgsToPdfEdit"
                             )
                         ],
