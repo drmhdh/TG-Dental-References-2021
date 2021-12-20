@@ -988,7 +988,7 @@ async def answer(client, callbackQuery):
                         if callbackQuery.message.chat.id not in PROCESS:
                             
                             try:
-                                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                                shutil.rmtree(f'{callbackQuery.message.reply_to_message.message_id}')
                                 doc.close()
                                 return
                             
@@ -1101,11 +1101,11 @@ async def answer(client, callbackQuery):
                     
                 if edit == "asImages":
                     await client.send_chat_action(
-                        callbackQuery.message.chat.id, "upload_photo"
+                        callbackQuery.message.reply_to_message.chat.id, "upload_photo"
                     )
                     sendfile = open(file,'rb')
                     await client.send_photo(
-                        callbackQuery.message.chat.id,
+                        callbackQuery.message.reply_to_message.chat.id,
                         sendfile
                     )
                     
@@ -1121,8 +1121,8 @@ async def answer(client, callbackQuery):
                     )
                     
                 await client.edit_message_text(
-                    chat_id = callbackQuery.message.chat.id,
-                    message_id = callbackQuery.message.message_id,
+                    chat_id = callbackQuery.message.reply_to_message.chat.id,
+                    message_id = callbackQuery.message.reply_to_message.message_id,
                     text = f'`Uploading Completed.. `🏌️'
                 )
                 
@@ -1130,7 +1130,7 @@ async def answer(client, callbackQuery):
                 del PAGENOINFO[callbackQuery.message.chat.id]
                 doc.close()
                 
-                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                shutil.rmtree(f'{callbackQuery.message.reply_to_messsge.message_id}')
                 
                 sleep(5)
                 await client.send_chat_action(
