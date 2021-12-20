@@ -639,7 +639,7 @@ async def answer(client, callbackQuery):
     
     edit = callbackQuery.data
     
-    if edit == "strtDevEdt":
+    """if edit == "strtDevEdt":
         
         try:
             await callbackQuery.edit_message_text(
@@ -668,9 +668,9 @@ async def answer(client, callbackQuery):
             return
         
         except Exception:
-            pass
+            pass"""
         
-    elif edit == "imgsToPdfEdit":
+    """elif edit == "imgsToPdfEdit":
         
         try:
             await callbackQuery.edit_message_text(
@@ -699,9 +699,9 @@ async def answer(client, callbackQuery):
             return
         
         except Exception:
-            pass
+            pass"""
         
-    elif edit == "pdfToImgsEdit":
+    """elif edit == "pdfToImgsEdit":
         
         try:
             await callbackQuery.edit_message_text(
@@ -734,9 +734,9 @@ async def answer(client, callbackQuery):
             return
         
         except Exception:
-            pass
+            pass"""
         
-    elif edit == "filsToPdfEdit":
+    """elif edit == "filsToPdfEdit":
         
         try:
             await callbackQuery.edit_message_text(
@@ -843,7 +843,7 @@ async def answer(client, callbackQuery):
             return
         
         except Exception:
-            pass
+            pass"""
         
     elif edit in ["multipleImgAsImages", "multipleImgAsDocument", "asImages", "asDocument"]:
         
@@ -1420,7 +1420,7 @@ async def answer(client, callbackQuery):
             except Exception:
                 pass
            
-    elif edit == "refresh":
+    """elif edit == "refresh":
         
         try:
             await client.get_chat_member(
@@ -1469,4 +1469,4 @@ async def answer(client, callbackQuery):
                 )
                 
             except Exception:
-                pass
+                pass"""
