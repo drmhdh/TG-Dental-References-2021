@@ -435,7 +435,8 @@ async def extract(bot, message):
                    
                         doc.close()
                         shutil.rmtree(f'{message.reply_to_message.message_id}')
-                        
+            except:
+                pass
             try:           
                 pageStartAndEnd = list(needPages.replace('-',':').split(':'))
             
