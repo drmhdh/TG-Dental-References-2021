@@ -21,7 +21,7 @@ from pyrogram import Client, filters
 from pyrogram.types import ForceReply
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from pyrogram.types import InputMediaPhoto, InputMediaDocument
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from info import ADMINS
 logger = logging.getLogger(__name__)
@@ -1215,4 +1215,583 @@ async def answer(client, callbackQuery):
             except Exception:
                 pass
            
-   
+
+@Client.on_callback_query()
+async def answer(client, callbackQuery):        
+    edit = callbackQuery.data
+    
+        
+    if edit in ["multipleImgAsImages", "multipleImgAsDocument", "asImages", "asDocument"]:
+        
+        try:
+            if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
+                
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = "Same work done before..🏃"
+                )
+                return
+            
+            PROCESS.append(callbackQuery.message.chat.id)
+            
+            await client.edit_message_text(
+                chat_id = callbackQuery.message.chat.id,
+                message_id = callbackQuery.message.message_id,
+                text = "`Downloading your pdf..⏳`"
+            )
+            
+            await client.download_media(
+                PDF2IMG[callbackQuery.message.chat.id],
+                f'{callbackQuery.message.message_id}/pdf.pdf'
+            )
+            
+            del PDF2IMG[callbackQuery.message.chat.id]
+            del PDF2IMGPGNO[callbackQuery.message.chat.id]
+            
+            doc = fitz.open(f'{callbackQuery.message.message_id}/pdf.pdf')
+            zoom = 1
+            mat = fitz.Matrix(zoom, zoom)
+            
+            if edit == "multipleImgAsImages" or edit == "multipleImgAsDocument":
+                
+                if int(int(PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1])) >= 11:
+                    await client.pin_chat_message(
+                        chat_id = callbackQuery.message.chat.id,
+                        message_id = callbackQuery.message.message_id,
+                        disable_notification = True,
+                        both_sides = True
+                    )
+                
+                percNo = 0
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = f"`Total pages: {int(PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1])}..⏳`"
+                )
+                totalPgList = range(int(PAGENOINFO[callbackQuery.message.chat.id][1]), int(PAGENOINFO[callbackQuery.message.chat.id][2] + 1))
+                
+                cnvrtpg = 0
+                for i in range(0, len(totalPgList), 10):
+                    
+                    pgList = totalPgList[i:i+10]
+                    os.mkdir(f'{callbackQuery.message.message_id}/pgs')
+                    
+                    for pageNo in pgList:
+                        page = doc.loadPage(pageNo-1)
+                        pix = page.getPixmap(matrix = mat)
+                        cnvrtpg += 1
+                        
+                        await client.edit_message_text(
+                            chat_id = callbackQuery.message.chat.id,
+                            message_id = callbackQuery.message.message_id,
+                            text = f"`Converted: {cnvrtpg}/{int((PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1]))} pages.. 🤞`"
+                        )
+                        
+                        if callbackQuery.message.chat.id not in PROCESS:
+                            
+                            try:
+                                await client.edit_message_text(
+                                    chat_id = callbackQuery.message.chat.id,
+                                    message_id = callbackQuery.message.message_id,
+                                    text = f"`Canceled at {cnvrtpg}/{int((PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1]))} pages.. 🙄`"
+                                )
+                                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                                doc.close()
+                                return
+                            
+                            except Exception:
+                                return
+                        
+                        with open(
+                            f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg','wb'
+                        ):
+                            pix.save(f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg')
+                        
+                    await client.edit_message_text(
+                        chat_id = callbackQuery.message.chat.id,
+                        message_id = callbackQuery.message.message_id,
+                        text = f"`Started Uploading: {cnvrtpg}'th pg \n\nThis might take some Time :(.. 🤞`"
+                    )
+                    
+                    directory = f'{callbackQuery.message.message_id}/pgs'
+                    imag = [os.path.join(directory, file) for file in os.listdir(directory)]
+                    imag.sort(key=os.path.getctime)
+                    
+                    percNo = percNo + len(imag)
+                    media[callbackQuery.message.chat.id] = []
+                    mediaDoc[callbackQuery.message.chat.id] = []
+                    LrgFileNo = 1
+                    
+                    for file in imag:
+                        if os.path.getsize(file) >= 1000000:
+                            
+                            picture = Image.open(file)
+                            CmpImg = f'{callbackQuery.message.message_id}/pgs/temp{LrgFileNo}.jpeg'
+                            picture.save(CmpImg, "JPEG", optimize=True, quality = 50) 
+                            
+                            LrgFileNo += 1
+                            
+                            if os.path.getsize(CmpImg) >= 1000000:
+                                continue
+                            
+                            else:
+                                media[
+                                    callbackQuery.message.chat.id
+                                ].append(
+                                    InputMediaPhoto(media = file)
+                                )
+                                mediaDoc[
+                                    callbackQuery.message.chat.id
+                                ].append(
+                                    InputMediaDocument(media = file)
+                                )
+                                continue
+                        
+                        media[
+                            callbackQuery.message.chat.id
+                        ].append(
+                            InputMediaPhoto(media = file)
+                        )
+                        mediaDoc[
+                            callbackQuery.message.chat.id
+                        ].append(
+                            InputMediaDocument(media = file)
+                        )
+                    
+                    if edit == "multipleImgAsImages":
+                        
+                        if callbackQuery.message.chat.id not in PROCESS:
+                            
+                            try:
+                                shutil.rmtree(f'{callbackQuery.message.reply_to_message.message_id}')
+                                doc.close()
+                                return
+                            
+                            except Exception:
+                                return
+                        
+                        await client.send_chat_action(
+                            callbackQuery.message.chat.id, "upload_photo"
+                        )
+                        
+                        try:
+                            await client.send_media_group(
+                                callbackQuery.message.chat.id,
+                                media[callbackQuery.message.chat.id],
+                               
+                            )
+                            
+                        except Exception:
+                            del media[callbackQuery.message.chat.id]
+                            del mediaDoc[callbackQuery.message.chat.id]
+                        
+                    if edit == "multipleImgAsDocument":
+                        
+                        if callbackQuery.message.chat.id not in PROCESS:
+                            try:
+                                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                                doc.close()
+                                return
+                            
+                            except Exception:
+                                return
+                        
+                        await client.send_chat_action(
+                            callbackQuery.message.chat.id, "upload_document"
+                        )
+                        
+                        try:
+                            await client.send_media_group(
+                                callbackQuery.message.chat.id,
+                                mediaDoc[callbackQuery.message.chat.id]
+                            )
+                        except Exception:
+                            del mediaDoc[callbackQuery.message.chat.id]
+                            del media[callbackQuery.message.chat.id]
+                        
+                    shutil.rmtree(f'{callbackQuery.message.message_id}/pgs')
+                
+                PROCESS.remove(callbackQuery.message.chat.id)
+                del PAGENOINFO[callbackQuery.message.chat.id]
+                doc.close()
+                
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = f'`Uploading Completed.. `🥳'
+                )
+                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                
+                sleep(5)
+                await client.send_chat_action(
+                    callbackQuery.message.chat.id, "typing"
+                )
+                await client.send_message(
+                    callbackQuery.message.chat.id, Msgs.feedbackMsg,
+                    disable_web_page_preview=True
+                )
+            
+            if edit == "asImages" or edit == "asDocument":
+                
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = f"`Fetching page Number:{PAGENOINFO[callbackQuery.message.chat.id][3]} 🤧`"
+                )
+                
+                page = doc.loadPage(int(PAGENOINFO[callbackQuery.message.chat.id][3])-1)
+                pix = page.getPixmap(matrix = mat)
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = f"`Successfully Converted your page..✌️`"
+                )
+                
+                os.mkdir(f'{callbackQuery.message.message_id}/pgs')
+                
+                with open(
+                    f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg','wb'
+                ):
+                    pix.save(f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg')
+                
+                file = f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg'
+                    
+                if os.path.getsize(file) >= 1000000:
+                    picture = Image.open(file)
+                    CmpImg = f'{callbackQuery.message.message_id}/pgs/temp{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpeg'
+                    
+                    picture.save(
+                        CmpImg,
+                        "JPEG",
+                        optimize = True,
+                        quality = 50
+                    )
+                    file = CmpImg
+                    
+                    if os.path.getsize(CmpImg) >= 1000000:
+                        await client.send_message(
+                            callbackQuery.message.chat.id,
+                            '`too high resolution.. 🙄`'
+                        )
+                        return
+                    
+                if edit == "asImages":
+                    await client.send_chat_action(
+                        callbackQuery.message.reply_to_message.chat.id, "upload_photo"
+                    )
+                    sendfile = open(file,'rb')
+                    await client.send_photo(
+                        callbackQuery.message.reply_to_message.chat.id,
+                        sendfile
+                    )
+                    
+                if edit == "asDocument":
+                    await client.send_chat_action(
+                        callbackQuery.message.chat.id, "upload_document"
+                    )
+                    sendfile = open(file,'rb')
+                    await client.send_document(
+                        callbackQuery.message.chat.id,
+                        thumb = Config.PDF_THUMBNAIL,
+                        document = sendfile
+                    )
+                    
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.reply_to_message.chat.id,
+                    message_id = callbackQuery.message.reply_to_message.message_id,
+                    text = f'`Uploading Completed.. `🌹'
+                )
+                
+                PROCESS.remove(callbackQuery.message.chat.id)
+                del PAGENOINFO[callbackQuery.message.chat.id]
+                doc.close()
+                
+                shutil.rmtree(f'{callbackQuery.message.reply_to_messsge.message_id}')
+                
+                sleep(5)
+                await client.send_chat_action(
+                    callbackQuery.message.chat.id, "typing"
+                )
+                await client.send_message(
+                    callbackQuery.message.chat.id, Msgs.feedbackMsg,
+                    disable_web_page_preview = True
+                )
+                
+        except Exception as e:
+            
+            try:
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = Msgs.errorEditMsg.format(e)
+                )
+                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                PROCESS.remove(callbackQuery.message.chat.id)
+                doc.close()
+            
+            except Exception:
+                pass
+            
+    elif edit == "multipleImgAsPdfError":
+        
+        try:
+            await client.answer_callback_query(
+                callbackQuery.id,
+                text = Msgs.fullPdfSplit,
+                show_alert = True,
+                cache_time = 0
+            )
+            
+        except Exception:
+            pass
+        
+    if edit in ["multipleImgAsPdf", "asPdf"]:
+        
+        try:
+            if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
+                
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = "Same work done before..🏃"
+                )
+                return
+            
+            PROCESS.append(callbackQuery.message.chat.id)
+            
+            await client.edit_message_text(
+                chat_id = callbackQuery.message.chat.id,
+                message_id = callbackQuery.message.message_id,
+                text = "`Downloading your pdf..⏳`"
+            )
+            
+            await client.download_media(
+                PDF2IMG[callbackQuery.message.chat.id],
+                f'{callbackQuery.message.message_id}/pdf.pdf'
+            )
+            
+            del PDF2IMG[callbackQuery.message.chat.id]
+            del PDF2IMGPGNO[callbackQuery.message.chat.id]
+            
+            try:
+                if edit == "multipleImgAsPdf":
+                    
+                    splitInputPdf = PdfFileReader(f'{callbackQuery.message.message_id}/pdf.pdf')
+                    splitOutput = PdfFileWriter()
+                    
+                    for i in range(int(PAGENOINFO[callbackQuery.message.chat.id][1])-1, int(PAGENOINFO[callbackQuery.message.chat.id][2])):
+                        splitOutput.addPage(
+                            splitInputPdf.getPage(i)
+                        )
+                        
+                    file_path = f"{callbackQuery.message.message_id}/split.pdf"
+                    with open(file_path, "wb") as output_stream:
+                        splitOutput.write(output_stream)
+                        
+                    await client.send_document(
+                        chat_id = callbackQuery.message.chat.id,
+                        thumb = Config.PDF_THUMBNAIL,
+                        document = f"{callbackQuery.message.message_id}/split.pdf"
+                    )
+                
+                if edit == "asPdf":
+                    
+                    splitInputPdf = PdfFileReader(f'{callbackQuery.message.message_id}/pdf.pdf')
+                    splitOutput = PdfFileWriter()
+                    
+                    splitOutput.addPage(
+                        splitInputPdf.getPage(
+                            int(PAGENOINFO[callbackQuery.message.chat.id][3])-1
+                        )
+                    )
+                    
+                    with open(f"{callbackQuery.message.message_id}/split.pdf", "wb") as output_stream:
+                        splitOutput.write(output_stream)
+                        
+                    await client.send_document(
+                        chat_id = callbackQuery.message.chat.id,
+                        thumb = Config.PDF_THUMBNAIL,
+                        document = f"{callbackQuery.message.message_id}/split.pdf"
+                    )
+                
+                shutil.rmtree(f"{callbackQuery.message.message_id}")
+                PROCESS.remove(callbackQuery.message.chat.id)
+                del PAGENOINFO[callbackQuery.message.chat.id]
+                
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = "`Uploading Completed..🤞`"
+                )
+            
+            except Exception as e:
+                
+                try:
+                    await client.edit_message_text(
+                        chat_id = callbackQuery.message.chat.id,
+                        message_id = callbackQuery.message.message_id,
+                        text = Msgs.errorEditMsg.format(e)
+                    )
+                    shutil.rmtree(f"{callbackQuery.message.message_id}")
+                    PROCESS.remove(callbackQuery.message.chat.id)
+                    del PAGENOINFO[callbackQuery.message.chat.id]
+                
+                except Exception:
+                    pass
+        
+        except Exception as e:
+            
+            try:
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = Msgs.errorEditMsg.format(e)
+                )
+                shutil.rmtree(f"{callbackQuery.message.message_id}")
+                PROCESS.remove(callbackQuery.message.chat.id)
+                del PAGENOINFO[callbackQuery.message.chat.id]
+                
+            except Exception:
+                pass
+        
+    if edit in ["txtFile", "txtMsg", "txtHtml", "txtJson"]:
+        
+        try:
+            if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
+                
+                await client.edit_message_text(
+                    chat_id = callbackQuery.message.chat.id,
+                    message_id = callbackQuery.message.message_id,
+                    text = "Same work done before..🏃"
+                )
+                return
+                
+            PROCESS.append(callbackQuery.message.chat.id)
+            
+            await client.edit_message_text(
+                chat_id = callbackQuery.message.chat.id,
+                message_id = callbackQuery.message.message_id,
+                text = "`Downloading your pdf..⏳`"
+            )
+            
+            await client.download_media(
+                PDF2IMG[callbackQuery.message.chat.id],
+                f'{callbackQuery.message.message_id}/pdf.pdf'
+            )
+            
+            del PDF2IMG[callbackQuery.message.chat.id]
+            del PDF2IMGPGNO[callbackQuery.message.chat.id]
+            
+            doc = fitz.open(f'{callbackQuery.message.message_id}/pdf.pdf') # open document
+            
+            if edit == "txtFile":
+                
+                out = open(f'{callbackQuery.message.message_id}/pdf.txt', "wb") # open text output
+                for page in doc:                               # iterate the document pages
+                    text = page.get_text().encode("utf8")      # get plain text (is in UTF-8)
+                    out.write(text)                            # write text of page()
+                    out.write(bytes((12,)))                    # write page delimiter (form feed 0x0C)
+                out.close()
+                
+                await client.send_chat_action(
+                    callbackQuery.message.chat.id, "upload_document"
+                )
+                
+                sendfile = open(f"{callbackQuery.message.message_id}/pdf.txt",'rb')
+                await client.send_document(
+                    chat_id = callbackQuery.message.chat.id,
+                    thumb = Config.PDF_THUMBNAIL,
+                    document = sendfile
+                )
+                
+                sendfile.close()
+            
+            if edit == "txtMsg":
+                
+                for page in doc:                                     # iterate the document pages
+                    pdfText = page.get_text().encode("utf8")            # get plain text (is in UTF-8)
+                    if 1 <= len(pdfText) <= 1048:
+                        
+                        if callbackQuery.message.chat.id not in PROCESS:
+                            
+                            try:
+                                await client.send_chat_action(
+                                    callbackQuery.message.chat.id, "typing"
+                                )
+                                await client.send_message(
+                                    callbackQuery.message.chat.id, pdfText
+                                )
+                                
+                            except Exception:
+                                return
+            
+            if edit == "txtHtml":
+                
+                out = open(f'{callbackQuery.message.message_id}/pdf.html', "wb") # open text output
+                
+                for page in doc:                                     # iterate the document pages
+                    text = page.get_text("html").encode("utf8")      # get plain text as html(is in UTF-8)
+                    out.write(text)                                  # write text of page()
+                    out.write(bytes((12,)))                          # write page delimiter (form feed 0x0C)
+                out.close()
+                
+                await client.send_chat_action(
+                    callbackQuery.message.chat.id, "upload_document"
+                )
+                
+                sendfile = open(f"{callbackQuery.message.message_id}/pdf.html",'rb')
+                
+                await client.send_document(
+                    chat_id = callbackQuery.message.chat.id,
+                    thumb = Config.PDF_THUMBNAIL,
+                    document = sendfile
+                )
+                
+                sendfile.close()
+            
+            if edit == "txtJson":
+                
+                out = open(f'{callbackQuery.message.message_id}/pdf.json', "wb") # open text output
+                
+                for page in doc:                                    # iterate the document pages
+                    text = page.get_text("json").encode("utf8")     # get plain text as html(is in UTF-8)
+                    out.write(text)                                 # write text of page()
+                    out.write(bytes((12,)))                         # write page delimiter (form feed 0x0C)
+                out.close()
+                
+                await client.send_chat_action(
+                    callbackQuery.message.chat.id, "upload_document"
+                )
+                
+                sendfile = open(f"{callbackQuery.message.message_id}/pdf.json", 'rb')
+                await client.send_document(
+                    chat_id = callbackQuery.message.chat.id,
+                    thumb = Config.PDF_THUMBNAIL,
+                    document = sendfile
+                )
+                
+                sendfile.close()
+            
+            await client.edit_message_text(
+                chat_id = callbackQuery.message.chat.id,
+                message_id = callbackQuery.message.message_id,
+                text = "`Completed my task..😉`"
+            )
+            
+            PROCESS.remove(callbackQuery.message.chat.id)
+            shutil.rmtree(f'{callbackQuery.message.message_id}')
+            
+        except Exception as e:
+            
+            try:
+                await client.send_message(
+                    callbackQuery.message.chat.id,
+                    Msgs.errorEditMsg.format(e)
+                )
+                shutil.rmtree(f'{callbackQuery.message.message_id}')
+                PROCESS.remove(callbackQuery.message.chat.id)
+                doc.close()
+            
+            except Exception:
+                pass     
