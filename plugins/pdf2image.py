@@ -1042,7 +1042,7 @@ async def answer(client, callbackQuery):
                 await client.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
-                    text = f'`Uploading Completed.. `🏌️'
+                    text = f'`Uploading Completed.. `🥳'
                 )
                 shutil.rmtree(f'{callbackQuery.message.message_id}')
                 
