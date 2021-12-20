@@ -1013,7 +1013,7 @@ async def answer(client, callbackQuery):
                         
                         if callbackQuery.message.chat.id not in PROCESS:
                             try:
-                                shutil.rmtree(f'{callbackQuery.message.reply_to_message.message_id}')
+                                shutil.rmtree(f'{callbackQuery.message.message_id}')
                                 doc.close()
                                 return
                             
@@ -1033,7 +1033,7 @@ async def answer(client, callbackQuery):
                             del mediaDoc[callbackQuery.message.chat.id]
                             del media[callbackQuery.message.chat.id]
                         
-                    shutil.rmtree(f'{callbackQuery.message.reply_to_message.message_id}/pgs')
+                    shutil.rmtree(f'{callbackQuery.message.message_id}/pgs')
                 
                 PROCESS.remove(callbackQuery.message.reply_to_message.chat.id)
                 del PAGENOINFO[callbackQuery.message.reply_to_message.chat.id]
@@ -1044,7 +1044,7 @@ async def answer(client, callbackQuery):
                     message_id = callbackQuery.message.message_id,
                     text = f'`Uploading Completed.. `🥳'
                 )
-                shutil.rmtree(f'{callbackQuery.message.reply_to_message.message_id}')
+                shutil.rmtree(f'{callbackQuery.message.message_id}')
                 
                 sleep(5)
                 await client.send_chat_action(
