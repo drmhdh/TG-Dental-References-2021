@@ -88,7 +88,7 @@ key 🔐: `{}`"""
 
 ERROR: `{}`
 
-For Updates jJoin @dent_tech_for_books 💎
+For Updates Join @dent_tech_for_books 💎
 """
     
     
@@ -147,7 +147,7 @@ For bot updates join @dent_tech_for_books 💎
 
 1st bot on telegram wich send images without converting entire pdf to images
 
-For bot updates join @ilovepdf_bot 💎
+For bot updates join @dent_tech_for_books 💎
 
 [Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
@@ -163,7 +163,7 @@ For bot updates join @ilovepdf_bot 💎
 ◍ added 30+ new file formats that can be converted to pdf..
 API LIMITS..😕
 
-For bot updates join @ilovepdf_bot 💎                                                           
+For bot updates join @dent_tech_for_books 💎                                                           
 
 [Write a feedback 📋](https://t.me/grand_dental_library/377?comment=75298)
 """
