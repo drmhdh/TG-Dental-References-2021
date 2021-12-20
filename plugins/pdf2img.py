@@ -437,8 +437,8 @@ async def extract(bot, message):
                         shutil.rmtree(f'{message.reply_to_message.message_id}')
                         
                         return
-                    return   
-                pageStartAndEnd = list(needPages.replace('-',':').split(':'))
+                      
+                if pageStartAndEnd = list(needPages.replace('-',':').split(':')):
             
                 if len(pageStartAndEnd) > 2:
                 
