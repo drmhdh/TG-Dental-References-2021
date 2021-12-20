@@ -123,6 +123,8 @@ async def give_filter(client, message):
 async def filter(client, message):
     if message.text.startswith("/"):
         return
+    If f"checksub#{file_id}" is None:
+        pass
     if AUTH_CHANNEL:
         invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
         try:
@@ -153,8 +155,7 @@ async def filter(client, message):
                 ),
                 parse_mode="markdown"
             )
-            If f"checksub#{file_id}" is None:
-                pass
+               
             return
         except Exception:
             await client.send_message(
