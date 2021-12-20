@@ -641,7 +641,7 @@ async def extract(bot, message):
 
         
         
-@Client.on_callback_query()
+@bot.on_callback_query()
 async def answer(client, callbackQuery):
     
     edit = callbackQuery.data
@@ -843,7 +843,7 @@ async def answer(client, callbackQuery):
     elif edit == "close":
         
         try:
-            await client.delete_messages(
+            await bot.delete_messages(
                 chat_id = callbackQuery.message.chat.id,
                 message_ids = callbackQuery.message.message_id
             )
@@ -857,7 +857,7 @@ async def answer(client, callbackQuery):
         try:
             if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
                 
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = "Same work done before..🏃"
@@ -866,13 +866,13 @@ async def answer(client, callbackQuery):
             
             PROCESS.append(callbackQuery.message.chat.id)
             
-            await client.edit_message_text(
+            await bot.edit_message_text(
                 chat_id = callbackQuery.message.chat.id,
                 message_id = callbackQuery.message.message_id,
                 text = "`Downloading your pdf..⏳`"
             )
             
-            await client.download_media(
+            await bot.download_media(
                 PDF2IMG[callbackQuery.message.chat.id],
                 f'{callbackQuery.message.message_id}/pdf.pdf'
             )
@@ -887,7 +887,7 @@ async def answer(client, callbackQuery):
             if edit == "multipleImgAsImages" or edit == "multipleImgAsDocument":
                 
                 if int(int(PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1])) >= 11:
-                    await client.pin_chat_message(
+                    await bot.pin_chat_message(
                         chat_id = callbackQuery.message.chat.id,
                         message_id = callbackQuery.message.message_id,
                         disable_notification = True,
@@ -895,7 +895,7 @@ async def answer(client, callbackQuery):
                     )
                 
                 percNo = 0
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = f"`Total pages: {int(PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1])}..⏳`"
@@ -913,7 +913,7 @@ async def answer(client, callbackQuery):
                         pix = page.getPixmap(matrix = mat)
                         cnvrtpg += 1
                         
-                        await client.edit_message_text(
+                        await bot.edit_message_text(
                             chat_id = callbackQuery.message.chat.id,
                             message_id = callbackQuery.message.message_id,
                             text = f"`Converted: {cnvrtpg}/{int((PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1]))} pages.. 🤞`"
@@ -922,7 +922,7 @@ async def answer(client, callbackQuery):
                         if callbackQuery.message.chat.id not in PROCESS:
                             
                             try:
-                                await client.edit_message_text(
+                                await bot.edit_message_text(
                                     chat_id = callbackQuery.message.chat.id,
                                     message_id = callbackQuery.message.message_id,
                                     text = f"`Canceled at {cnvrtpg}/{int((PAGENOINFO[callbackQuery.message.chat.id][2])+1 - int(PAGENOINFO[callbackQuery.message.chat.id][1]))} pages.. 🙄`"
@@ -937,9 +937,9 @@ async def answer(client, callbackQuery):
                         with open(
                             f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg','wb'
                         ):
-                            pix.save(f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg')
+                            pix.writePNG(f'{callbackQuery.message.message_id}/pgs/{pageNo}.jpg')
                         
-                    await client.edit_message_text(
+                    await bot.edit_message_text(
                         chat_id = callbackQuery.message.chat.id,
                         message_id = callbackQuery.message.message_id,
                         text = f"`Started Uploading: {cnvrtpg}'th pg \n\nThis might take some Time :(.. 🤞`"
@@ -1002,12 +1002,12 @@ async def answer(client, callbackQuery):
                             except Exception:
                                 return
                         
-                        await client.send_chat_action(
+                        await bot.send_chat_action(
                             callbackQuery.message.chat.id, "upload_photo"
                         )
                         
                         try:
-                            await client.send_media_group(
+                            await bot.send_media_group(
                                 callbackQuery.message.chat.id,
                                 media[callbackQuery.message.chat.id]
                             )
@@ -1027,12 +1027,12 @@ async def answer(client, callbackQuery):
                             except Exception:
                                 return
                         
-                        await client.send_chat_action(
+                        await bot.send_chat_action(
                             callbackQuery.message.chat.id, "upload_document"
                         )
                         
                         try:
-                            await client.send_media_group(
+                            await bot.send_media_group(
                                 callbackQuery.message.chat.id,
                                 mediaDoc[callbackQuery.message.chat.id]
                             )
@@ -1046,7 +1046,7 @@ async def answer(client, callbackQuery):
                 del PAGENOINFO[callbackQuery.message.chat.id]
                 doc.close()
                 
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = f'`Uploading Completed.. `🏌️'
@@ -1054,17 +1054,17 @@ async def answer(client, callbackQuery):
                 shutil.rmtree(f'{callbackQuery.message.message_id}')
                 
                 sleep(5)
-                await client.send_chat_action(
+                await bot.send_chat_action(
                     callbackQuery.message.chat.id, "typing"
                 )
-                await client.send_message(
+                await bot.send_message(
                     callbackQuery.message.chat.id, Msgs.feedbackMsg,
                     disable_web_page_preview=True
                 )
             
             if edit == "asImages" or edit == "asDocument":
                 
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = f"`Fetching page Number:{PAGENOINFO[callbackQuery.message.chat.id][3]} 🤧`"
@@ -1072,7 +1072,7 @@ async def answer(client, callbackQuery):
                 
                 page = doc.loadPage(int(PAGENOINFO[callbackQuery.message.chat.id][3])-1)
                 pix = page.getPixmap(matrix = mat)
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = f"`Successfully Converted your page..✌️`"
@@ -1083,7 +1083,7 @@ async def answer(client, callbackQuery):
                 with open(
                     f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg','wb'
                 ):
-                    pix.save(f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg')
+                    pix.writePNG(f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg')
                 
                 file = f'{callbackQuery.message.message_id}/pgs/{PAGENOINFO[callbackQuery.message.chat.id][3]}.jpg'
                     
@@ -1100,34 +1100,34 @@ async def answer(client, callbackQuery):
                     file = CmpImg
                     
                     if os.path.getsize(CmpImg) >= 1000000:
-                        await client.send_message(
+                        await bot.send_message(
                             callbackQuery.message.chat.id,
                             '`too high resolution.. 🙄`'
                         )
                         return
                     
                 if edit == "asImages":
-                    await client.send_chat_action(
+                    await bot.send_chat_action(
                         callbackQuery.message.chat.id, "upload_photo"
                     )
                     sendfile = open(file,'rb')
-                    await client.send_photo(
+                    await bot.send_photo(
                         callbackQuery.message.chat.id,
                         sendfile
                     )
                     
                 if edit == "asDocument":
-                    await client.send_chat_action(
+                    await bot.send_chat_action(
                         callbackQuery.message.chat.id, "upload_document"
                     )
                     sendfile = open(file,'rb')
-                    await client.send_document(
+                    await bot.send_document(
                         callbackQuery.message.chat.id,
                         thumb = Config.PDF_THUMBNAIL,
                         document = sendfile
                     )
                     
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = f'`Uploading Completed.. `🏌️'
@@ -1140,10 +1140,10 @@ async def answer(client, callbackQuery):
                 shutil.rmtree(f'{callbackQuery.message.message_id}')
                 
                 sleep(5)
-                await client.send_chat_action(
+                await bot.send_chat_action(
                     callbackQuery.message.chat.id, "typing"
                 )
-                await client.send_message(
+                await bot.send_message(
                     callbackQuery.message.chat.id, Msgs.feedbackMsg,
                     disable_web_page_preview = True
                 )
@@ -1151,7 +1151,7 @@ async def answer(client, callbackQuery):
         except Exception as e:
             
             try:
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = Msgs.errorEditMsg.format(e)
@@ -1166,7 +1166,7 @@ async def answer(client, callbackQuery):
     elif edit == "multipleImgAsPdfError":
         
         try:
-            await client.answer_callback_query(
+            await bot.answer_callback_query(
                 callbackQuery.id,
                 text = Msgs.fullPdfSplit,
                 show_alert = True,
@@ -1181,7 +1181,7 @@ async def answer(client, callbackQuery):
         try:
             if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
                 
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = "Same work done before..🏃"
@@ -1190,13 +1190,13 @@ async def answer(client, callbackQuery):
             
             PROCESS.append(callbackQuery.message.chat.id)
             
-            await client.edit_message_text(
+            await bot.edit_message_text(
                 chat_id = callbackQuery.message.chat.id,
                 message_id = callbackQuery.message.message_id,
                 text = "`Downloading your pdf..⏳`"
             )
             
-            await client.download_media(
+            await bot.download_media(
                 PDF2IMG[callbackQuery.message.chat.id],
                 f'{callbackQuery.message.message_id}/pdf.pdf'
             )
@@ -1219,7 +1219,7 @@ async def answer(client, callbackQuery):
                     with open(file_path, "wb") as output_stream:
                         splitOutput.write(output_stream)
                         
-                    await client.send_document(
+                    await bot.send_document(
                         chat_id = callbackQuery.message.chat.id,
                         thumb = Config.PDF_THUMBNAIL,
                         document = f"{callbackQuery.message.message_id}/split.pdf"
@@ -1239,7 +1239,7 @@ async def answer(client, callbackQuery):
                     with open(f"{callbackQuery.message.message_id}/split.pdf", "wb") as output_stream:
                         splitOutput.write(output_stream)
                         
-                    await client.send_document(
+                    await bot.send_document(
                         chat_id = callbackQuery.message.chat.id,
                         thumb = Config.PDF_THUMBNAIL,
                         document = f"{callbackQuery.message.message_id}/split.pdf"
@@ -1249,7 +1249,7 @@ async def answer(client, callbackQuery):
                 PROCESS.remove(callbackQuery.message.chat.id)
                 del PAGENOINFO[callbackQuery.message.chat.id]
                 
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = "`Uploading Completed..🤞`"
@@ -1258,7 +1258,7 @@ async def answer(client, callbackQuery):
             except Exception as e:
                 
                 try:
-                    await client.edit_message_text(
+                    await bot.edit_message_text(
                         chat_id = callbackQuery.message.chat.id,
                         message_id = callbackQuery.message.message_id,
                         text = Msgs.errorEditMsg.format(e)
@@ -1273,7 +1273,7 @@ async def answer(client, callbackQuery):
         except Exception as e:
             
             try:
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = Msgs.errorEditMsg.format(e)
@@ -1290,7 +1290,7 @@ async def answer(client, callbackQuery):
         try:
             if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
                 
-                await client.edit_message_text(
+                await bot.edit_message_text(
                     chat_id = callbackQuery.message.chat.id,
                     message_id = callbackQuery.message.message_id,
                     text = "Same work done before..🏃"
@@ -1299,13 +1299,13 @@ async def answer(client, callbackQuery):
                 
             PROCESS.append(callbackQuery.message.chat.id)
             
-            await client.edit_message_text(
+            await bot.edit_message_text(
                 chat_id = callbackQuery.message.chat.id,
                 message_id = callbackQuery.message.message_id,
                 text = "`Downloading your pdf..⏳`"
             )
             
-            await client.download_media(
+            await bot.download_media(
                 PDF2IMG[callbackQuery.message.chat.id],
                 f'{callbackQuery.message.message_id}/pdf.pdf'
             )
@@ -1324,12 +1324,12 @@ async def answer(client, callbackQuery):
                     out.write(bytes((12,)))                    # write page delimiter (form feed 0x0C)
                 out.close()
                 
-                await client.send_chat_action(
+                await bot.send_chat_action(
                     callbackQuery.message.chat.id, "upload_document"
                 )
                 
                 sendfile = open(f"{callbackQuery.message.message_id}/pdf.txt",'rb')
-                await client.send_document(
+                await bot.send_document(
                     chat_id = callbackQuery.message.chat.id,
                     thumb = Config.PDF_THUMBNAIL,
                     document = sendfile
@@ -1346,10 +1346,10 @@ async def answer(client, callbackQuery):
                         if callbackQuery.message.chat.id not in PROCESS:
                             
                             try:
-                                await client.send_chat_action(
+                                await bot.send_chat_action(
                                     callbackQuery.message.chat.id, "typing"
                                 )
-                                await client.send_message(
+                                await bot.send_message(
                                     callbackQuery.message.chat.id, pdfText
                                 )
                                 
@@ -1366,13 +1366,13 @@ async def answer(client, callbackQuery):
                     out.write(bytes((12,)))                          # write page delimiter (form feed 0x0C)
                 out.close()
                 
-                await client.send_chat_action(
+                await bot.send_chat_action(
                     callbackQuery.message.chat.id, "upload_document"
                 )
                 
                 sendfile = open(f"{callbackQuery.message.message_id}/pdf.html",'rb')
                 
-                await client.send_document(
+                await bot.send_document(
                     chat_id = callbackQuery.message.chat.id,
                     thumb = Config.PDF_THUMBNAIL,
                     document = sendfile
@@ -1390,12 +1390,12 @@ async def answer(client, callbackQuery):
                     out.write(bytes((12,)))                         # write page delimiter (form feed 0x0C)
                 out.close()
                 
-                await client.send_chat_action(
+                await bot.send_chat_action(
                     callbackQuery.message.chat.id, "upload_document"
                 )
                 
                 sendfile = open(f"{callbackQuery.message.message_id}/pdf.json", 'rb')
-                await client.send_document(
+                await bot.send_document(
                     chat_id = callbackQuery.message.chat.id,
                     thumb = Config.PDF_THUMBNAIL,
                     document = sendfile
@@ -1403,7 +1403,7 @@ async def answer(client, callbackQuery):
                 
                 sendfile.close()
             
-            await client.edit_message_text(
+            await bot.edit_message_text(
                 chat_id = callbackQuery.message.chat.id,
                 message_id = callbackQuery.message.message_id,
                 text = "`Completed my task..😉`"
@@ -1415,7 +1415,7 @@ async def answer(client, callbackQuery):
         except Exception as e:
             
             try:
-                await client.send_message(
+                await bot.send_message(
                     callbackQuery.message.chat.id,
                     Msgs.errorEditMsg.format(e)
                 )
@@ -1429,12 +1429,12 @@ async def answer(client, callbackQuery):
     elif edit == "refresh":
         
         try:
-            await client.get_chat_member(
+            await bot.get_chat_member(
                 str(Config.UPDATE_CHANNEL),
                 callbackQuery.message.chat.id
             )
             
-            await client.edit_message_text(
+            await bot.edit_message_text(
                 chat_id = callbackQuery.message.chat.id,
                 message_id = callbackQuery.message.message_id,
                 text = Msgs.welcomeMsg.format(
@@ -1450,7 +1450,7 @@ async def answer(client, callbackQuery):
                                 callback_data = "strtDevEdt"
                             ),
                             InlineKeyboardButton(
-                                "Explore client 🎊",
+                                "Explore Bot 🎊",
                                 callback_data = "imgsToPdfEdit"
                             )
                         ],
@@ -1467,7 +1467,7 @@ async def answer(client, callbackQuery):
         except Exception:
             
             try:
-                await client.answer_callback_query(
+                await bot.answer_callback_query(
                     callbackQuery.id,
                     text = Msgs.foolRefresh,
                     show_alert = True,
@@ -1475,6 +1475,4 @@ async def answer(client, callbackQuery):
                 )
                 
             except Exception:
-                pass                    
-                    
-        
+                pass
