@@ -1123,7 +1123,7 @@ async def answer(client, callbackQuery):
                 await client.edit_message_text(
                     chat_id = callbackQuery.message.reply_to_message.chat.id,
                     message_id = callbackQuery.message.reply_to_message.message_id,
-                    text = f'`Uploading Completed.. `🏌️'
+                    text = f'`Uploading Completed.. `🌹'
                 )
                 
                 PROCESS.remove(callbackQuery.message.chat.id)
