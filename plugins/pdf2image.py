@@ -474,7 +474,7 @@ async def extract(bot, message):
                 #pass
             
  
-                elif message.chat.id not in PDF2IMG:
+                
         #else:
                 pageStartAndEnd = list(needPages.replace('-',':').split(':'))
             
