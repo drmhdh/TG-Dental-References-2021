@@ -1216,7 +1216,7 @@ async def answer(client, callbackQuery):
                 pass
            
 
-@Client.on_callback_query()
+#@Client.on_callback_query()
 async def answer(client, callbackQuery):        
     edit = callbackQuery.data
     
