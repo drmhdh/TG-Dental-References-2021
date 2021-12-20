@@ -540,6 +540,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
                            
             ident, file_id = query.data.split("#")
             filedetails = await get_file_details(file_id)
+            If f"checksub#{file_id}" = None:
+                pass
             for files in filedetails:
                 title = files.file_name
                 size=get_size(files.file_size)
