@@ -436,9 +436,9 @@ async def extract(bot, message):
                         doc.close()
                         shutil.rmtree(f'{message.reply_to_message.message_id}')
                         
-                        return
-                      
-                if pageStartAndEnd = list(needPages.replace('-',':').split(':')):
+                    return
+                needPages = message.text.replace('/extract ', '')      
+                pageStartAndEnd = list(needPages.replace('-',':').split(':'))
             
                 if len(pageStartAndEnd) > 2:
                 
