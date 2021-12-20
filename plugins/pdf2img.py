@@ -777,14 +777,14 @@ async def extract(bot, message):
                         )
                     )
                 
-        """except Exception:
+           #except Exception:
         
-            try:
-                del PAGENOINFO[message.chat.id]
-                PROCESS.remove(message.chat.id)
+                #try:
+                    #del PAGENOINFO[message.chat.id]
+                    #PROCESS.remove(message.chat.id)
             
-            except Exception:
-                pass"""
+                #except Exception:
+                    #pass
             
             
             
