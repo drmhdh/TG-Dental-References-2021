@@ -1001,7 +1001,7 @@ async def answer(client, callbackQuery):
                         
                         try:
                             await client.send_media_group(
-                                callbackQuery.message.reply_to_message.chat.id,
+                                callbackQuery.message.chat.id,
                                 media[callbackQuery.message.chat.id]
                             )
                             
@@ -1035,8 +1035,8 @@ async def answer(client, callbackQuery):
                         
                     shutil.rmtree(f'{callbackQuery.message.message_id}/pgs')
                 
-                PROCESS.remove(callbackQuery.message.reply_to_message.chat.id)
-                del PAGENOINFO[callbackQuery.message.reply_to_message.chat.id]
+                PROCESS.remove(callbackQuery.message.chat.id)
+                del PAGENOINFO[callbackQuery.message.chat.id]
                 doc.close()
                 
                 await client.edit_message_text(
