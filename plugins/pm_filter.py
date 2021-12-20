@@ -122,8 +122,7 @@ async def give_filter(client, message):
 @Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming)
 async def filter(client, message):
     if message.text.startswith("/"):
-        return
-        
+        return        
     if AUTH_CHANNEL:
         invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
         try:
@@ -136,10 +135,7 @@ async def filter(client, message):
                     disable_web_page_preview=True
                 )
                 return
-        except UserNotParticipant:
-            
-            
-            
+        except UserNotParticipant:  
             await client.send_message(
                 chat_id=message.from_user.id,
                 text="**🔊 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗠𝗮𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🤭** \n \n Are You Looking for References ?! \n Then First Join Our 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎 Channel...😁 Then Try Again... Press /start 😁 and You will Get Your Requests Here...! \n \n 🪐Powered by: \n 🔬 @dent_tech_for_u 📚",
@@ -539,8 +535,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 return
                            
             ident, file_id = query.data.split("#")
-            filedetails = await get_file_details(file_id)
-            
+            filedetails = await get_file_details(file_id)            
             for files in filedetails:
                 title = files.file_name
                 size=get_size(files.file_size)
