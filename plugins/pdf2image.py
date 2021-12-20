@@ -639,213 +639,8 @@ async def answer(client, callbackQuery):
     
     edit = callbackQuery.data
     
-    """if edit == "strtDevEdt":
         
-        try:
-            await callbackQuery.edit_message_text(
-                Msgs.aboutDev, disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "Source Codes",
-                                url = "https://github.com/nabilanavab/ilovepdf"
-                            ),
-                            InlineKeyboardButton(
-                                "🔙 Home 🏡",
-                                callback_data = "back"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close 🚶",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            return
-        
-        except Exception:
-            pass"""
-        
-    """elif edit == "imgsToPdfEdit":
-        
-        try:
-            await callbackQuery.edit_message_text(
-                Msgs.I2PMsg, disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "🔙 Home 🏡",
-                                callback_data = "back"
-                            ),
-                            InlineKeyboardButton(
-                                "PDF to images ➡️",
-                                callback_data = "pdfToImgsEdit"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close 🚶",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            return
-        
-        except Exception:
-            pass"""
-        
-    """elif edit == "pdfToImgsEdit":
-        
-        try:
-            await callbackQuery.edit_message_text(
-                Msgs.P2IMsg, disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "🔙 Imgs To Pdf",
-                                callback_data = "imgsToPdfEdit"
-                            ),
-                            InlineKeyboardButton(
-                                "Home 🏡",
-                                callback_data = "back"
-                            ),
-                            InlineKeyboardButton(
-                                "file to Pdf ➡️",
-                                callback_data = "filsToPdfEdit"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close 🚶",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            return
-        
-        except Exception:
-            pass"""
-        
-    """elif edit == "filsToPdfEdit":
-        
-        try:
-            await callbackQuery.edit_message_text(
-                Msgs.F2PMsg, disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "🔙 PDF to imgs",
-                                callback_data = "pdfToImgsEdit"
-                            ),
-                            InlineKeyboardButton(
-                                "Home 🏡",
-                                callback_data = "back"
-                            ),
-                            InlineKeyboardButton(
-                                "WARNING ⚠️",
-                                callback_data = "warningEdit"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close 🚶",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            return
-        
-        except Exception:
-            pass
-        
-    elif edit == "warningEdit":
-        
-        try:
-            await callbackQuery.edit_message_text(
-                Msgs.warningMessage, disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "WARNING ⚠️",
-                                callback_data = "warningEdit"
-                            ),
-                            InlineKeyboardButton(
-                                "Home 🏡",
-                                callback_data = "back"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close 🚶",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            return
-        
-        except Exception:
-            pass
-        
-    elif edit == "back":
-        
-        try:
-            await callbackQuery.edit_message_text(
-                Msgs.back2Start, disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "Source Code ♥️",
-                                callback_data = "strtDevEdt"
-                            ),
-                            InlineKeyboardButton(
-                                "Explore More 🎊",
-                                callback_data = "imgsToPdfEdit"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close 🚶",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            return
-        
-        except Exception:
-            pass
-    
-    elif edit == "close":
-        
-        try:
-            await client.delete_messages(
-                chat_id = callbackQuery.message.chat.id,
-                message_ids = callbackQuery.message.message_id
-            )
-            return
-        
-        except Exception:
-            pass"""
-        
-    elif edit in ["multipleImgAsImages", "multipleImgAsDocument", "asImages", "asDocument"]:
+    if edit in ["multipleImgAsImages", "multipleImgAsDocument", "asImages", "asDocument"]:
         
         try:
             if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
@@ -1170,7 +965,7 @@ async def answer(client, callbackQuery):
         except Exception:
             pass
         
-    elif edit in ["multipleImgAsPdf", "asPdf"]:
+    if edit in ["multipleImgAsPdf", "asPdf"]:
         
         try:
             if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
@@ -1279,7 +1074,7 @@ async def answer(client, callbackQuery):
             except Exception:
                 pass
         
-    elif edit in ["txtFile", "txtMsg", "txtHtml", "txtJson"]:
+    if edit in ["txtFile", "txtMsg", "txtHtml", "txtJson"]:
         
         try:
             if (callbackQuery.message.chat.id in PROCESS) or (callbackQuery.message.chat.id not in PDF2IMG):
@@ -1420,53 +1215,4 @@ async def answer(client, callbackQuery):
             except Exception:
                 pass
            
-    """elif edit == "refresh":
-        
-        try:
-            await client.get_chat_member(
-                str(Config.UPDATE_CHANNEL),
-                callbackQuery.message.chat.id
-            )
-            
-            await client.edit_message_text(
-                chat_id = callbackQuery.message.chat.id,
-                message_id = callbackQuery.message.message_id,
-                text = Msgs.welcomeMsg.format(
-                    callbackQuery.from_user.first_name,
-                    callbackQuery.message.chat.id
-                ),
-                disable_web_page_preview = True,
-                reply_markup = InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "Source Code ❤️",
-                                callback_data = "strtDevEdt"
-                            ),
-                            InlineKeyboardButton(
-                                "Explore client 🎊",
-                                callback_data = "imgsToPdfEdit"
-                            )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                "Close",
-                                callback_data = "close"
-                            )
-                        ]
-                    ]
-                )
-            )
-            
-        except Exception:
-            
-            try:
-                await client.answer_callback_query(
-                    callbackQuery.id,
-                    text = Msgs.foolRefresh,
-                    show_alert = True,
-                    cache_time = 0
-                )
-                
-            except Exception:
-                pass"""
+   
