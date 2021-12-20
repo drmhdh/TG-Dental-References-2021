@@ -145,3 +145,8 @@ dmypy.json
 cython_debug/
 config.py
 
+#ilovepdf
+**/__pycache__
+*.session
+*.pyc
+.idea
