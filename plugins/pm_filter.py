@@ -137,8 +137,7 @@ async def filter(client, message):
                 return
         except UserNotParticipant:
             
-            If f"checksub#{file_id}" is None:
-                pass
+            
             
             await client.send_message(
                 chat_id=message.from_user.id,
@@ -154,6 +153,8 @@ async def filter(client, message):
                 ),
                 parse_mode="markdown"
             )
+            If f"checksub#{file_id}" is None:
+                pass
             return
         except Exception:
             await client.send_message(
