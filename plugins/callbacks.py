@@ -40,9 +40,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ident, index, keyword = query.data.split("_")
             try:
                 data = BUTTONS[keyword]
-            except:
-                pass#KeyError:
-                #await query.answer("You are using this for one of my old message, please send the request again.",show_alert=True)
+            except KeyError:             
+                await query.answer("You are using this for one of my old message, please send the request again.",show_alert=True)
                 return
 
             if int(index) == int(data["total"]) - 2:
