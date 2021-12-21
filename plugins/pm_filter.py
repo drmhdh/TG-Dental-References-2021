@@ -905,7 +905,7 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                     cap = f"Here is what i found for your query {search}"
         
                 if spoll:
-                    await msg.message.delete()"""       
+                    await msg.message.delete()   
 
     else:
         await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)
