@@ -411,8 +411,8 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                 if spoll:
                     await msg.message.delete()       
 
-    else:
-        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)      
+    """else:
+        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)"""      
       
       
 @Client.on_callback_query()
