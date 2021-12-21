@@ -324,8 +324,8 @@ def split_list(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]          
 
-@Client.on_callback_query()
-async def cb_handler(client: Client, query: CallbackQuery):
+#@Client.on_callback_query()
+"""async def cb_handler(client: Client, query: CallbackQuery):
    
     clicked = query.from_user.id
     try:
@@ -908,5 +908,5 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                     await msg.message.delete()       
 
     else:
-        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)     
+        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)"""     
         
