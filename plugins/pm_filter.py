@@ -324,6 +324,99 @@ def split_list(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]          
 
+
+      
+async def auto_filter(client, message, spoll=False): #async def auto_filter(client, msg, spoll=False):
+    clicked = message.from_user.id
+    try:
+        typed = message.message.reply_to_message.from_user.id
+    except:
+        typed = message.from_user.id
+        pass
+    if (clicked == typed) or (clicked in AUTH_USERS) or (clicked in ADMINS):
+        if not spoll:
+            #message = msg
+            if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
+                return
+            if 2 < len(message.text) < 100:
+                btn = []
+                search = message.text
+                nyva=BOT.get("username")
+                if not nyva:
+                    botusername=await client.get_me()
+                    nyva=botusername.username
+                    BOT["username"]=nyva
+                files = await get_filter_results(query=search)
+                if files:
+                    for file in files:
+                        file_id = file.file_id
+                        filename = f"[{get_size(file.file_size)}] {file.file_name}"
+                        btn.append(
+                           [InlineKeyboardButton(text=f"{filename}", url=f"https://telegram.dog/{nyva}?start=subinps_-_-_-_{file_id}")]
+                            )
+                else:
+                    return
+                if not btn:
+                    return
+           
+                if len(btn) > 10: 
+                    btns = list(split_list(btn, 10)) 
+                    keyword = f"{message.chat.id}-{message.message_id}"
+                    BUTTONS[keyword] = {
+                        "total" : len(btns),
+                        "buttons" : btns
+                    }
+                else:
+                    buttons = btn
+                    buttons.append(
+                        [InlineKeyboardButton(text="📃 Pages 1/1",callback_data="pages")]
+                    )
+                    if BUTTON:
+                        buttons.append([InlineKeyboardButton(text="Close ❌",callback_data="close")])
+                    poster=None
+                    if API_KEY:
+                        poster=await get_poster(search)
+                    if poster:
+                        await message.reply_text(f"<b>{message.from_user.mention}, ☕️ 𝗛𝗲𝗿𝗲 𝗶𝘀 𝗪𝗵𝗮𝘁 𝗜 𝗙𝗼𝘂𝗻𝗱 𝗳𝗼𝗿 𝗬𝗼𝘂𝗿 𝗤𝘂𝗲𝗿𝘆 ❝{search}❞ ‌‌‌‌‎ ­  ­  ­  ­  ­  </b> \n\n🅒 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆 🅒  \n🔎🦷✨ @dental_case_study \n🔐 𝗝𝗢𝗜𝗡 ⤴️ 𝘁𝗼 𝗨𝗻𝗹𝗼𝗰𝗸 🚀", reply_markup=InlineKeyboardMarkup(buttons))
+
+                    else:
+                        await message.reply_text(f"<b>{message.from_user.mention}, ☕️ 𝗛𝗲𝗿𝗲 𝗶𝘀 𝗪𝗵𝗮𝘁 𝗜 𝗙𝗼𝘂𝗻𝗱 𝗳𝗼𝗿 𝗬𝗼𝘂𝗿 𝗤𝘂𝗲𝗿𝘆 ❝{search}❞ ‌‌‌‌‎ ­  ­  ­  ­  ­  </b> \n\n🅒 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆 🅒  \n🔎🦷✨ @dental_case_study \n🔐 𝗝𝗢𝗜𝗡 ⤴️ 𝘁𝗼 𝗨𝗻𝗹𝗼𝗰𝗸 🚀", reply_markup=InlineKeyboardMarkup(buttons))
+                    return
+
+                data = BUTTONS[keyword]
+                buttons = data['buttons'][0].copy()
+
+                buttons.append(
+                    [InlineKeyboardButton(text="NEXT ⏩",callback_data=f"next_0_{keyword}")]
+                )    
+                buttons.append(
+                    [InlineKeyboardButton(text=f"📃 Pages 1/{data['total']}",callback_data="pages")]
+                )
+                if BUTTON:
+                    buttons.append([InlineKeyboardButton(text="Close ❌",callback_data="close")])
+                poster=None
+                if API_KEY:
+                    poster=await get_poster(search)
+                if poster:
+                    await message.reply_text(f"<b>{message.from_user.mention}, ☕️ 𝗛𝗲𝗿𝗲 𝗶𝘀 𝗪𝗵𝗮𝘁 𝗜 𝗙𝗼𝘂𝗻𝗱 𝗳𝗼𝗿 𝗬𝗼𝘂𝗿 𝗤𝘂𝗲𝗿𝘆 ❝{search}❞ ‌‌‌‌‎ ­  ­  ­  ­  ­  </b> \n\n🅒 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆 🅒  \n🔎🦷✨ @dental_case_study \n🔐 𝗝𝗢𝗜𝗡 ⤴️ 𝘁𝗼 𝗨𝗻𝗹𝗼𝗰𝗸 🚀", reply_markup=InlineKeyboardMarkup(buttons))
+                else:
+                    await message.reply_text(f"<b>{message.from_user.mention}, ☕️ 𝗛𝗲𝗿𝗲 𝗶𝘀 𝗪𝗵𝗮𝘁 𝗜 𝗙𝗼𝘂𝗻𝗱 𝗳𝗼𝗿 𝗬𝗼𝘂𝗿 𝗤𝘂𝗲𝗿𝘆 ❝{search}❞ ‌‌‌‌‎ ­  ­  ­  ­  ­  </b> \n\n🅒 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆 🅒  \n🔎🦷✨ @dental_case_study \n🔐 𝗝𝗢𝗜𝗡 ⤴️ 𝘁𝗼 𝗨𝗻𝗹𝗼𝗰𝗸 🚀", reply_markup=InlineKeyboardMarkup(buttons))
+
+                imdb = await get_poster(search, file=(files[0]).file_name) if IMDB else None
+                if imdb:
+                    cap = IMDB_TEMPLATE.format(
+                        query = search,
+                    )
+                else:
+                    cap = f"Here is what i found for your query {search}"
+        
+                if spoll:
+                    await msg.message.delete()       
+
+    else:
+        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)      
+      
+      
 #@Client.on_callback_query()
 """async def cb_handler(client: Client, query: CallbackQuery):
    
