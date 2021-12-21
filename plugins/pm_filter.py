@@ -999,5 +999,5 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     await msg.message.delete()"""       
 
     else:
-        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)"""     
+        await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)
         
