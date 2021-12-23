@@ -36,6 +36,8 @@ async def start(bot, cmd):
                         ],[
                             InlineKeyboardButton("➕Join 🦷Discussion Group➕", url="https://t.me/dent_tech_for_u")
                         ],[
+                            InlineKeyboardButton("📺 𝔻𝕖𝕞𝕠𝕟𝕤𝕥𝕣𝕒𝕥𝕚𝕠𝕟 𝕍𝕚𝕕𝕖𝕠 🧭", url="https://t.me/grand_dental_library/378?comment=75870")
+                        ],[       
                             InlineKeyboardButton("🎁 Donate & Support 🎁", url="https://t.me/dental_backup/180")
                         ]
                     ]
