@@ -70,8 +70,9 @@ async def give_filter(client,message):
     k = await manual_filters(client, message)
     if k == False:
         await auto_filter(client, message)   
-    if k == True:
-        await Client.send_message(
+    else:
+        
+        await client.send_message(
             chat_id=message.from_user.id,
             text=f"{message.from_user.mention}, I Found These Too...🤷.",
             parse_mode="markdown",
