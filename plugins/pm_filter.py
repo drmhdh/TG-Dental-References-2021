@@ -64,11 +64,17 @@ async def gsend(client, message):
     else:
          await message.reply_text("<b>That's not for you bruh 😅</b>")
 
-
+#First Manual Then Autofilter
 @Client.on_message(filters.group & filters.text & ~filters.edited & filters.incoming)
 async def give_filter(client,message):
     k = await manual_filters(client, message)
-    if k == False:
+    if k == True:
+        await Client.send_message(
+            chat_id=message.from_user.id,
+            text=",I Found These Too...🤷.",
+            parse_mode="markdown",
+            disable_web_page_preview=True
+        )
         await auto_filter(client, message)   
     
         
