@@ -64,47 +64,13 @@ async def gsend(client, message):
     else:
          await message.reply_text("<b>That's not for you bruh 😅</b>")
 
-@Client.on_message(filters.group & filters.text & ~filters.edited & filters.incoming)  
-async def give_filter(client, message):
+
+@Client.on_message(filters.group & filters.text & ~filters.edited & filters.incoming)
+async def give_filter(client,message):
+    k = await manual_filters(client, message)
+    if k == False:
+        await auto_filter(client, message)   
     
-    group_id = message.chat.id
-    name = message.text
-    keywords = await get_filters(group_id)
-    for keyword in reversed(sorted(keywords, key=len)):
-        pattern = r"( |^|[^\w])" + re.escape(keyword) + r"( |$|[^\w])"
-        if re.search(pattern, name, flags=re.IGNORECASE):
-            reply_text, btn, alert, fileid = await find_filter(group_id, keyword)
-            if reply_text:
-                reply_text = reply_text.replace("\\n", "\n").replace("\\t", "\t")
-            if btn is not None:
-                try:
-                    if fileid == "None":
-                        if btn == "[]":
-                            await message.reply_text(reply_text, disable_web_page_preview=True)
-                        else:
-                            button = eval(btn)
-                            await message.reply_text(
-                                reply_text,
-                                disable_web_page_preview=True,
-                                reply_markup=InlineKeyboardMarkup(button)
-                            )
-                    elif btn == "[]":
-                        await message.reply_cached_media(
-                            fileid,
-                            caption=reply_text or ""
-                        )
-                    else:
-                        button = eval(btn) 
-                        await message.reply_cached_media(
-                            fileid,
-                            caption=reply_text or "",
-                            reply_markup=InlineKeyboardMarkup(button)
-                        )
-                except Exception as e:
-                    logger.exception(e)
-                break         
-    else:
-        await auto_filter(client, message)
         
 @Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming)
 async def filter(client, message):
@@ -223,14 +189,17 @@ async def advantage_spoll_choker(bot, query):
         return await query.answer("You are clicking on an old button which is expired.", show_alert=True)
     movie = movies[(int(movie_))]
     await query.answer('Checking for Movie in database...')
-    files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
-    if files:
-        k = (movie, files, offset, total_results)
-        await auto_filter(bot, query, k)
-    else:
-        k = await query.message.edit('This Movie Not Found In DataBase')
-        await asyncio.sleep(10)
-        await k.delete()            
+   
+    k = await manual_filters(bot, query.message, text=movie)
+    if k==False:
+        files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
+        if files:
+            k = (movie, files, offset, total_results)
+            await auto_filter(bot, query, k)
+        else:
+            k = await query.message.edit('This Movie Not Found In DataBase')
+            await asyncio.sleep(10)
+            await k.delete()
 
 @Client.on_message(filters.text & filters.group & filters.incoming & filters.chat(AUTH_GROUPS) if AUTH_GROUPS else filters.text & filters.group & filters.incoming)
 async def group(client, message):
