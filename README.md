@@ -1,5 +1,17 @@
 # Modified Version Of [Media Search bot](https://github.com/Mahesh0253/Media-Search-bot)
-
+## FEATURES
+⬜ Auto Filter
+⬜ Manual Filter
+⬜ IMDB
+⬜ Admin Commands
+⬜ Broadcast
+⬜ Index
+⬜ IMDB search
+⬜ Inline Search
+⬜ Random pics
+⬜ ids and User info
+⬜ Stats, Users, Chats, Ban, Unban, Leave, Disable, Channel
+⬜ Spelling Check Feature
 ## Added Features
 * Imdb posters for autofilter.
 * Custom captions for your files.
@@ -89,11 +101,11 @@ Once a poster is fetched from OMDB , poster is saved to DB to reduce duplicate r
 • /channel - to get list of total connected channels
 • /broadcast - to broadcast a message to all Eva Maria users
 
-channel - Get basic infomation about channels
-total - Show total of saved files
-delete - Delete file from database
-index - Index all files from channel.
-logger - Get log file
+● channel - Get basic infomation about channels
+● total - Show total of saved files
+● delete - Delete file from database
+● index - Index all files from channel.
+● logger - Get log file
 ```
 
 ## Tips
