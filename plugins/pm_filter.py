@@ -72,12 +72,7 @@ async def give_filter(client,message):
         await auto_filter(client, message)   
     else:
         
-        await client.send_message(
-            chat_id=message.from_user.id,
-            text=f"{message.from_user.mention}, I Found These Too...🤷.",
-            parse_mode="markdown",
-            disable_web_page_preview=True
-        )
+        
         await auto_filter(client, message)   
     
         
