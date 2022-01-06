@@ -184,9 +184,9 @@ async def start(bot, cmd):
                 )
             )
             return
-        file_id = message.command[1]
+        file_id = cmd.command[1]
         if file_id.split("-", 1)[0] == "BATCH":
-            sts = await message.reply("Please wait")
+            sts = await cmd.reply("Please wait")
             file_id = file_id.split("-", 1)[1]
             msgs = BATCH_FILES.get(file_id)
             if not msgs:
@@ -212,21 +212,21 @@ async def start(bot, cmd):
                 if f_caption is None:
                     f_caption = f"{title}"
                 await client.send_cached_media(
-                    chat_id=message.from_user.id,
+                    chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     )
             await sts.delete()
             return
         elif file_id.split("-", 1)[0] == "DSTORE":
-            sts = await message.reply("Please wait")
+            sts = await cmd.reply("Please wait")
             b_string = file_id.split("-", 1)[1]
             decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
             f_msg_id, l_msg_id, f_chat_id = decoded.split("_", 2)
             msgs_list = list(range(int(f_msg_id), int(l_msg_id)+1))
             for msg in msgs_list:
                 try:
-                    await client.copy_message(chat_id=message.chat.id, from_chat_id=int(f_chat_id), message_id=msg)
+                    await client.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg)
                 except Exception as e:
                     logger.exception(e)
                     pass  
@@ -253,7 +253,7 @@ async def start(bot, cmd):
                 return
             except:
                 pass
-            return await message.reply('No such file exist.')
+            return await cmd.reply('No such file exist.')
         files = files_[0]
         title = files.file_name
         size=get_size(files.file_size)
@@ -267,7 +267,7 @@ async def start(bot, cmd):
         if f_caption is None:
             f_caption = f"{files.file_name}"
         await client.send_cached_media(
-            chat_id=message.from_user.id,
+            chat_id=cmd.from_user.id,
             file_id=file_id,
             caption=f_caption,
             )
