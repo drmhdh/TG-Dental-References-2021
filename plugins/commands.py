@@ -183,7 +183,7 @@ async def start(bot, cmd):
                     ]
                 )
             )
-            return
+            
     file_id = cmd.command[1]
     if file_id.split("-", 1)[0] == "BATCH":
         sts = await cmd.reply("Please wait")
