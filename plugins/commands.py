@@ -1,5 +1,7 @@
 import asyncio
 import os
+import json
+import base64
 import logging
 import random
 from Script import script
