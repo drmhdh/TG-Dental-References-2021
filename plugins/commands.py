@@ -95,7 +95,7 @@ async def start(bot, cmd):
             parse_mode='html'
         )
         return
-    if AUTH_CHANNEL and not await is_subscribed(client:bot, message):
+    if AUTH_CHANNEL and not await is_subscribed(client: bot, message):
         try:
             invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
         except ChatAdminRequired:
