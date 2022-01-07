@@ -215,7 +215,7 @@ async def start(bot, cmd):
             return
         except:
             pass
-        #return await cmd.reply('No such file exist.')
+        """return await cmd.reply('No such file exist.')
     files = files_[0]
     title = files.file_name
     size=get_size(files.file_size)
@@ -232,7 +232,7 @@ async def start(bot, cmd):
         chat_id=cmd.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        )
+        )"""
        
        
        
