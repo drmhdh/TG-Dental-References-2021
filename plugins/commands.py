@@ -110,7 +110,7 @@ async def start(bot, cmd):
         ]
         if cmd.command[1] != "subscribe":
             btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{cmd.command[1]}")])
-        await client.send_message(
+        await bot.send_message(
             chat_id=cmd.from_user.id,
             text="**Please Join My Updates Channel to use this Bot!**",
             reply_markup=InlineKeyboardMarkup(btn),
