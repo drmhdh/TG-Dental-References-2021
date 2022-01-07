@@ -1,15 +1,14 @@
+from Script import script
+from utils import get_size, temp
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
-from info import ADMINS, LOG_CHANNEL, SUPPORT_CHAT
 from database.users_chats_db import db
 from database.ia_filterdb import Media
-from utils import get_size, temp
-from Script import script
 from pyrogram.errors import ChatAdminRequired
+from info import ADMINS, LOG_CHANNEL, SUPPORT_CHAT
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
 
 """-----------------------------------------https://t.me/GetTGLink/4179 --------------------------------------"""
-
 @Client.on_message(filters.new_chat_members & filters.group)
 async def save_group(bot, message):
     r_j_check = [u.id for u in message.new_chat_members]
@@ -29,7 +28,6 @@ async def save_group(bot, message):
                 text='<b>CHAT NOT ALLOWED 🐞\n\nMy admins has restricted me from working here ! If you want to know more about it contact support..</b>',
                 reply_markup=reply_markup,
             )
-
             try:
                 await k.pin()
             except:
@@ -73,7 +71,6 @@ async def leave_a_chat(bot, message):
             text='<b>Hello Friends, \nMy admin has told me to leave from group so i go! If you wanna add me again contact my support group.</b>',
             reply_markup=reply_markup,
         )
-
         await bot.leave_chat(chat)
     except Exception as e:
         await message.reply(f'Error - {e}')
@@ -114,7 +111,6 @@ async def disable_chat(bot, message):
     except Exception as e:
         await message.reply(f"Error - {e}")
 
-
 @Client.on_message(filters.command('enable') & filters.user(ADMINS))
 async def re_enable_chat(bot, message):
     if len(message.command) == 1:
@@ -133,7 +129,6 @@ async def re_enable_chat(bot, message):
     temp.BANNED_CHATS.remove(int(chat_))
     await message.reply("Chat Succesfully re-enabled")
 
-
 @Client.on_message(filters.command('stats') & filters.incoming & filters.user(ADMINS))
 async def get_ststs(bot, message):
     rju = await message.reply('Fetching stats..')
@@ -145,7 +140,6 @@ async def get_ststs(bot, message):
     size = get_size(size)
     free = get_size(free)
     await rju.edit(script.STATUS_TXT.format(files, total_users, totl_chats, size, free))
-
 
 # a function for trespassing into others groups, Inspired by a Vazha
 # Not to be used , But Just to showcase his vazhatharam.
@@ -197,8 +191,6 @@ async def ban_a_user(bot, message):
         await db.ban_user(k.id, reason)
         temp.BANNED_USERS.append(k.id)
         await message.reply(f"Succesfully banned {k.mention}")
-
-
     
 @Client.on_message(filters.command('unban') & filters.user(ADMINS))
 async def unban_a_user(bot, message):
@@ -230,8 +222,6 @@ async def unban_a_user(bot, message):
         await db.remove_ban(k.id)
         temp.BANNED_USERS.remove(k.id)
         await message.reply(f"Succesfully unbanned {k.mention}")
-
-
     
 @Client.on_message(filters.command('users') & filters.user(ADMINS))
 async def list_users(bot, message):
@@ -239,8 +229,7 @@ async def list_users(bot, message):
     raju = await message.reply('Getting List Of Users')
     users = await db.get_all_users()
     out = "Users Saved In DB Are:\n\n"
-    async for user in users:
-        
+    async for user in users:      
         out += f"<a href=tg://user?id={user['id']}>{user['name']}</a>"
         if user['ban_status']['is_banned']:
             out += '( Banned User )'
@@ -257,8 +246,7 @@ async def list_chats(bot, message):
     raju = await message.reply('Getting List Of chats')
     chats = await db.get_all_chats()
     out = "Chats Saved In DB Are:\n\n"
-    async for chat in chats:
-        
+    async for chat in chats:        
         out += f"**Title:** `{chat['title']}`\n**- ID:** `{chat['id']}`"
         if chat['chat_status']['is_disabled']:
             out += '( Disabled Chat )'
