@@ -4,7 +4,7 @@ requests
 motor==2.4.0
 umongo==3.0.0
 tgcrypto==1.2.2
+parse-torrent-name
 marshmallow==3.12.2
 pymongo[srv]==3.11.4
-parse-torrent-name
 git+https://github.com/subinps/pyrogram@inline-m
