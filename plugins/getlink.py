@@ -1,14 +1,13 @@
 import re
-from pyrogram import filters, Client
-from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, UsernameInvalid, UsernameNotModified
-from info import ADMINS, LOG_CHANNEL, FILE_STORE_CHANNEL
-from database.ia_filterdb import unpack_new_file_id
-from utils import temp
-import re
 import os
 import json
 import base64
 import logging
+from utils import temp
+from pyrogram import filters, Client
+from database.ia_filterdb import unpack_new_file_id
+from info import ADMINS, LOG_CHANNEL, FILE_STORE_CHANNEL
+from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, UsernameInvalid, UsernameNotModified
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -22,16 +21,13 @@ async def gen_link_s(bot, message):
     if file_type not in ["video", 'audio', 'document']:
         return await message.reply("Reply to a supported media")
     file_id, ref = unpack_new_file_id((getattr(replied, file_type)).file_id)
-    nyva=BOT.get("username")
-         
+    nyva=BOT.get("username")         
     if not nyva:
         botusername=await bot.get_me()
         nyva=botusername.username
         BOT["username"]=nyva
     await message.reply(f"Here is your Link:\nhttps://telegram.dog/{nyva}?start=subinps_-_-_-_{file_id}")
-    #await message.reply(f"Here is your Link:\nhttps://t.me/{temp.U_NAME}?start={file_id}")
-    
-    
+           
 @Client.on_message(filters.command('batch') & filters.user(ADMINS))
 async def gen_link_batch(bot, message):
     if " " not in message.text:
