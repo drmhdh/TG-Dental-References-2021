@@ -95,9 +95,9 @@ async def start(bot, cmd):
             parse_mode='html'
         )
         return
-    if AUTH_CHANNEL and not await is_subscribed(client: bot, message):
+    if AUTH_CHANNEL and not await is_subscribed(bot, cmd):
         try:
-            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
+            invite_link = await bot.create_chat_invite_link(int(AUTH_CHANNEL))
         except ChatAdminRequired:
             logger.error("Make sure Bot is admin in Forcesub channel")
             return
@@ -108,46 +108,57 @@ async def start(bot, cmd):
                 )
             ]
         ]
-        if message.command[1] != "subscribe":
-            btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{message.command[1]}")])
+        if cmd.command[1] != "subscribe":
+            btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{cmd.command[1]}")])
         await client.send_message(
-            chat_id=message.from_user.id,
+            chat_id=cmd.from_user.id,
             text="**Please Join My Updates Channel to use this Bot!**",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode="markdown"
             )
         return
-    if len(message.command) ==2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
-        buttons = [[
-            InlineKeyboardButton('➕ Add Me To Your Groups ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+    if len(cmd.command) ==2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
+        buttons = [
+            [
+                 
+                InlineKeyboardButton("🔎 Search", switch_inline_query_current_chat='')
             ],[
-            InlineKeyboardButton('🔍 Search', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('🤖 Updates', url='https://t.me/TeamEvamaria')
+                InlineKeyboardButton("🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url="https://t.me/dental_case_study")
             ],[
-            InlineKeyboardButton('ℹ️ Help', callback_data='help'),
-            InlineKeyboardButton('😊 About', callback_data='about')
-        ]]
+                InlineKeyboardButton("🚀 Control Panel 🏰", callback_data="about")
+            ],[
+                InlineKeyboardButton("➕Join 🦷Discussion Group➕", url="https://t.me/dent_tech_for_u")
+            ],[
+                        
+                   
+                InlineKeyboardButton("📺 𝔻𝕖𝕞𝕠𝕟𝕤𝕥𝕣𝕒𝕥𝕚𝕠𝕟 𝕍𝕚𝕕𝕖𝕠 🧭", url="https://t.me/grand_dental_library/378?comment=75870")
+                               
+            ],[
+                InlineKeyboardButton("🎁 Donate & Support 🎁", url="https://t.me/dental_backup/180")
+            ]
+        ]
+
         reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_photo(
+        await cmd.reply_photo(
             photo=random.choice(PICS),
-            caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
+            caption=script.START_MSG.format(cmd.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode='html'
         )
         return
-    file_id = message.command[1]
+    file_id = cmd.command[1]
     if file_id.split("-", 1)[0] == "BATCH":
-        sts = await message.reply("Please wait")
+        sts = await cmd.reply("Please wait")
         file_id = file_id.split("-", 1)[1]
         msgs = BATCH_FILES.get(file_id)
         if not msgs:
-            file = await client.download_media(file_id)
+            file = await bot.download_media(file_id)
             try: 
                 with open(file) as file_data:
                     msgs=json.loads(file_data.read())
             except:
                 await sts.edit("FAILED")
-                return await client.send_message(LOG_CHANNEL, "UNABLE TO OPEN FILE.")
+                return await bot.send_message(LOG_CHANNEL, "UNABLE TO OPEN FILE.")
             os.remove(file)
             BATCH_FILES[file_id] = msgs
         for msg in msgs:
@@ -162,22 +173,22 @@ async def start(bot, cmd):
                     f_caption=f_caption
             if f_caption is None:
                 f_caption = f"{title}"
-            await client.send_cached_media(
-                chat_id=message.from_user.id,
+            await bot.send_cached_media(
+                chat_id=cmd.from_user.id,
                 file_id=msg.get("file_id"),
                 caption=f_caption,
                 )
         await sts.delete()
         return
     elif file_id.split("-", 1)[0] == "DSTORE":
-        sts = await message.reply("Please wait")
+        sts = await cmd.reply("Please wait")
         b_string = file_id.split("-", 1)[1]
         decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
         f_msg_id, l_msg_id, f_chat_id = decoded.split("_", 2)
         msgs_list = list(range(int(f_msg_id), int(l_msg_id)+1))
         for msg in msgs_list:
             try:
-                await client.copy_message(chat_id=message.chat.id, from_chat_id=int(f_chat_id), message_id=msg)
+                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg)
             except Exception as e:
                 logger.exception(e)
                 pass  
@@ -185,8 +196,8 @@ async def start(bot, cmd):
     files_ = await get_file_details(file_id)           
     if not files_:
         try:
-            msg = await client.send_cached_media(
-                chat_id=message.from_user.id,
+            msg = await bott.send_cached_media(
+                chat_id=cmd.from_user.id,
                 file_id=file_id
                 )
             filetype = msg.media
@@ -203,7 +214,7 @@ async def start(bot, cmd):
             return
         except:
             pass
-        return await message.reply('No such file exist.')
+        return await cmd.reply('No such file exist.')
     files = files_[0]
     title = files.file_name
     size=get_size(files.file_size)
@@ -216,8 +227,8 @@ async def start(bot, cmd):
             f_caption=f_caption
     if f_caption is None:
         f_caption = f"{files.file_name}"
-    await client.send_cached_media(
-        chat_id=message.from_user.id,
+    await bot.send_cached_media(
+        chat_id=cmd.from_user.id,
         file_id=file_id,
         caption=f_caption,
         )
