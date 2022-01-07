@@ -363,7 +363,7 @@ async def start(bot, cmd):
                 )
             )
             
-    file_id = cmd.command[1]
+    """file_id = cmd.command[1]
     if file_id.split("-", 1)[0] == "BATCH":
         sts = await cmd.reply("Please wait")
         file_id = file_id.split("-", 1)[1]
@@ -449,7 +449,7 @@ async def start(bot, cmd):
         chat_id=cmd.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        )
+        )"""
        
        
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
