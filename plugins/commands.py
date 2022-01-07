@@ -194,7 +194,7 @@ async def start(bot, cmd):
                 pass  
         return await sts.delete()
     files_ = await get_file_details(file_id)           
-    if not files_:
+    """if not files_:
         try:
             msg = await bott.send_cached_media(
                 chat_id=cmd.from_user.id,
@@ -231,7 +231,7 @@ async def start(bot, cmd):
         chat_id=cmd.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        )
+        )"""
        
        
        
