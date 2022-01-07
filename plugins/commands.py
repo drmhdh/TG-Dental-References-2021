@@ -117,7 +117,7 @@ async def start(bot, cmd):
             parse_mode="markdown"
             )
         return
-    if len(cmd.command) ==2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
+    """if len(cmd.command) ==2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [
             [
                  
@@ -145,7 +145,7 @@ async def start(bot, cmd):
             reply_markup=reply_markup,
             parse_mode='html'
         )
-        return
+        return"""
     file_id = cmd.command[1]
     if file_id.split("-", 1)[0] == "BATCH":
         sts = await cmd.reply("Please wait")
