@@ -25,7 +25,7 @@ async def gen_link_s(bot, message):
     nyva=BOT.get("username")
          
     if not nyva:
-        botusername=await client.get_me()
+        botusername=await bot.get_me()
         nyva=botusername.username
         BOT["username"]=nyva
     await message.reply(f"Here is your Link:\nhttps://telegram.dog/{nyva}?start=subinps_-_-_-_{file_id}")
