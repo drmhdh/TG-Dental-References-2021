@@ -12,7 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
+BOT = {}
 @Client.on_message(filters.command('link') & filters.user(ADMINS))
 async def gen_link_s(bot, message):
     replied = message.reply_to_message
