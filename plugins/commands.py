@@ -1,33 +1,32 @@
-import asyncio
+import re
 import os
 import json
-import base64
-import logging
 import random
+import base64
+import asyncio
+import logging
 from Script import script
+from asyncio import sleep
 from pyrogram import filters, Client 
-from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from info import START_MSG, CHANNELS, ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION, PICS, LOG_CHANNEL
-from utils import Media, get_file_details, get_size, humanbytes
+from database.users_chats_db import db
 from pyrogram.errors import UserNotParticipant
 from utils import get_size, is_subscribed, temp
-from asyncio import sleep
+from utils import Media, get_file_details, get_size, humanbytes
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
-from database.users_chats_db import db
-import re
+from info import START_MSG, CHANNELS, ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION, PICS, LOG_CHANNEL
+
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
 @Client.on_message(filters.command("start") & filters.incoming & ~filters.edited)
-async def start(bot, cmd):
-       
+async def start(bot, cmd):       
     if cmd.chat.type in ['group', 'supergroup']:
         await cmd.reply_photo(
             photo=random.choice(PICS),
             caption=script.START_MSG.format(cmd.from_user.mention if cmd.from_user else message.chat.title, temp.U_NAME, temp.B_NAME), 
-            parse_mode='html',  
-       
+            parse_mode='html',         
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -57,11 +56,9 @@ async def start(bot, cmd):
         await db.add_user(cmd.from_user.id, cmd.from_user.first_name)
         await bot.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(cmd.from_user.id, cmd.from_user.mention))
        
-    if len(cmd.command) != 2:
-           
+    if len(cmd.command) != 2:           
         buttons = [
-            [
-                 
+            [                 
                 InlineKeyboardButton("🔎 Search", switch_inline_query_current_chat='')
             ],[
                 InlineKeyboardButton("🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url="https://t.me/dental_case_study")
@@ -69,24 +66,12 @@ async def start(bot, cmd):
                 InlineKeyboardButton("🚀 Control Panel 🏰", callback_data="about")
             ],[
                 InlineKeyboardButton("➕Join 🦷Discussion Group➕", url="https://t.me/dent_tech_for_u")
-            ],[
-                        
-                   
-                InlineKeyboardButton("📺 𝔻𝕖𝕞𝕠𝕟𝕤𝕥𝕣𝕒𝕥𝕚𝕠𝕟 𝕍𝕚𝕕𝕖𝕠 🧭", url="https://t.me/grand_dental_library/378?comment=75870")
-                               
+            ],[                                           
+                InlineKeyboardButton("📺 𝔻𝕖𝕞𝕠𝕟𝕤𝕥𝕣𝕒𝕥𝕚𝕠𝕟 𝕍𝕚𝕕𝕖𝕠 🧭", url="https://t.me/grand_dental_library/378?comment=75870")                               
             ],[
                 InlineKeyboardButton("🎁 Donate & Support 🎁", url="https://t.me/dental_backup/180")
             ]
-        ]
-                
-             
-               
-               
-               
-               
-               
-               
-            
+        ]                                                                                                                                  
         reply_markup = InlineKeyboardMarkup(buttons)
         await cmd.reply_photo(
             photo=random.choice(PICS),
@@ -117,10 +102,9 @@ async def start(bot, cmd):
             parse_mode="markdown"
             )
         return
-    """if len(cmd.command) ==2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
+    if len(cmd.command) ==2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [
-            [
-                 
+            [                 
                 InlineKeyboardButton("🔎 Search", switch_inline_query_current_chat='')
             ],[
                 InlineKeyboardButton("🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎", url="https://t.me/dental_case_study")
@@ -128,16 +112,12 @@ async def start(bot, cmd):
                 InlineKeyboardButton("🚀 Control Panel 🏰", callback_data="about")
             ],[
                 InlineKeyboardButton("➕Join 🦷Discussion Group➕", url="https://t.me/dent_tech_for_u")
-            ],[
-                        
-                   
-                InlineKeyboardButton("📺 𝔻𝕖𝕞𝕠𝕟𝕤𝕥𝕣𝕒𝕥𝕚𝕠𝕟 𝕍𝕚𝕕𝕖𝕠 🧭", url="https://t.me/grand_dental_library/378?comment=75870")
-                               
+            ],[                                           
+                InlineKeyboardButton("📺 𝔻𝕖𝕞𝕠𝕟𝕤𝕥𝕣𝕒𝕥𝕚𝕠𝕟 𝕍𝕚𝕕𝕖𝕠 🧭", url="https://t.me/grand_dental_library/378?comment=75870")                               
             ],[
                 InlineKeyboardButton("🎁 Donate & Support 🎁", url="https://t.me/dental_backup/180")
             ]
         ]
-
         reply_markup = InlineKeyboardMarkup(buttons)
         await cmd.reply_photo(
             photo=random.choice(PICS),
@@ -145,7 +125,7 @@ async def start(bot, cmd):
             reply_markup=reply_markup,
             parse_mode='html'
         )
-        return"""
+        return
     file_id = cmd.command[1]
     if file_id.split("-", 1)[0] == "BATCH":
         sts = await cmd.reply("Please wait")
@@ -215,28 +195,7 @@ async def start(bot, cmd):
             return
         except:
             pass
-        """return await cmd.reply('No such file exist.')
-    files = files_[0]
-    title = files.file_name
-    size=get_size(files.file_size)
-    f_caption=files.caption
-    if CUSTOM_FILE_CAPTION:
-        try:
-            f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
-        except Exception as e:
-            logger.exception(e)
-            f_caption=f_caption
-    if f_caption is None:
-        f_caption = f"{files.file_name}"
-    await bot.send_cached_media(
-        chat_id=cmd.from_user.id,
-        file_id=file_id,
-        caption=f_caption,
-        )"""
-       
-       
-       
-       
+        
     usr_cmdall1 = cmd.text
     if usr_cmdall1.startswith("/start subinps"):
         if AUTH_CHANNEL:
@@ -363,96 +322,7 @@ async def start(bot, cmd):
                     ]
                 )
             )
-            
-    """file_id = cmd.command[1]
-    if file_id.split("-", 1)[0] == "BATCH":
-        sts = await cmd.reply("Please wait")
-        file_id = file_id.split("-", 1)[1]
-        msgs = BATCH_FILES.get(file_id)
-        if not msgs:
-            file = await client.download_media(file_id)
-            try: 
-                with open(file) as file_data:
-                    msgs=json.loads(file_data.read())
-            except:
-                await sts.edit("FAILED")
-                return await client.send_message(LOG_CHANNEL, "UNABLE TO OPEN FILE.")
-            os.remove(file)
-            BATCH_FILES[file_id] = msgs
-        for msg in msgs:
-            title = msg.get("title")
-            size=get_size(int(msg.get("size", 0)))
-            f_caption=msg.get("caption", "")
-            if CUSTOM_FILE_CAPTION:
-                try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
-                except Exception as e:
-                    logger.exception(e)
-                    f_caption=f_caption
-            if f_caption is None:
-                f_caption = f"{title}"
-            await client.send_cached_media(
-                chat_id=cmd.from_user.id,
-                file_id=msg.get("file_id"),
-                caption=f_caption,
-                )
-        await sts.delete()
-        return
-    elif file_id.split("-", 1)[0] == "DSTORE":
-        sts = await cmd.reply("Please wait")
-        b_string = file_id.split("-", 1)[1]
-        decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
-        f_msg_id, l_msg_id, f_chat_id = decoded.split("_", 2)
-        msgs_list = list(range(int(f_msg_id), int(l_msg_id)+1))
-        for msg in msgs_list:
-            try:
-                await client.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg)
-            except Exception as e:
-                logger.exception(e)
-                pass  
-        return await sts.delete()
-
-    files_ = await get_file_details(file_id)           
-    if not files_:
-        try:
-            msg = await client.send_cached_media(
-                chat_id=message.from_user.id,
-                file_id=file_id
-                )
-            filetype = msg.media
-            file = getattr(msg, filetype)
-            title = file.file_name
-            size=get_size(file.file_size)
-            f_caption = f"<code>{title}</code>"
-            if CUSTOM_FILE_CAPTION:
-                try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
-                except:
-                    return
-            await msg.edit_caption(f_caption)
-            return
-        except:
-            pass
-        return await cmd.reply('No such file exist.')
-    files = files_[0]
-    title = files.file_name
-    size=get_size(files.file_size)
-    f_caption=files.caption
-    if CUSTOM_FILE_CAPTION:
-        try:
-            f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
-        except Exception as e:
-            logger.exception(e)
-            f_caption=f_caption
-    if f_caption is None:
-        f_caption = f"{files.file_name}"
-    await client.send_cached_media(
-        chat_id=cmd.from_user.id,
-        file_id=file_id,
-        caption=f_caption,
-        )"""
-       
-       
+                             
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
     """Send basic information of channel"""
