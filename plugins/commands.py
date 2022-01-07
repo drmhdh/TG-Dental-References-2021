@@ -237,7 +237,7 @@ async def start(bot, cmd):
        
        
     usr_cmdall1 = cmd.text
-    if usr_cmdall1.startswith("/start subinps")(bot, cmd):
+    if usr_cmdall1.startswith("/start subinps"):
         if AUTH_CHANNEL:
             invite_link = await bot.create_chat_invite_link(int(AUTH_CHANNEL))
             try:
