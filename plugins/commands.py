@@ -147,9 +147,9 @@ async def start(bot, cmd):
         )
         return"""
     file_id = cmd.command[1]
-    if file_id.split("-", 1)[0] == "BATCH":
+    if file_id.split("_-_-_-_")[0] == "BATCH":
         sts = await cmd.reply("Please wait")
-        file_id = file_id.split("-", 1)[1]
+        file_id = file_id.split("_-_-_-_")[1]
         msgs = BATCH_FILES.get(file_id)
         if not msgs:
             file = await bot.download_media(file_id)
@@ -180,9 +180,10 @@ async def start(bot, cmd):
                 )
         await sts.delete()
         return
-    elif file_id.split("-", 1)[0] == "DSTORE":
+    elif file_id. 
+       split("_-_-_-_")[0] == "DSTORE":
         sts = await cmd.reply("Please wait")
-        b_string = file_id.split("-", 1)[1]
+        b_string = file_id.split("_-_-_-_")[1]
         decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
         f_msg_id, l_msg_id, f_chat_id = decoded.split("_", 2)
         msgs_list = list(range(int(f_msg_id), int(l_msg_id)+1))
@@ -214,7 +215,7 @@ async def start(bot, cmd):
             return
         except:
             pass
-        #return await cmd.reply('No such file exist.')
+        return await cmd.reply('No such file exist.')
     files = files_[0]
     title = files.file_name
     size=get_size(files.file_size)
