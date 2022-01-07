@@ -1,24 +1,24 @@
-import re
-import base64
-import logging
-from struct import pack
-from pyrogram.types import Message
-from typing import List
-from datetime import datetime
-from typing import Union
-from database.users_chats_db import db
-from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
-
-from pyrogram.file_id import FileId
-from pymongo.errors import DuplicateKeyError
-from umongo import Instance, Document, fields
-from motor.motor_asyncio import AsyncIOMotorClient
-from marshmallow.exceptions import ValidationError
 import os
 import PTN
-import requests
+import re
 import json
+import base64
+import logging
+import requests
+from struct import pack
+from typing import List
+from typing import Union
+from datetime import datetime
+from pyrogram.types import Message
+from pyrogram.file_id import FileId
+from database.users_chats_db import db
+from pymongo.errors import DuplicateKeyError
+from umongo import Instance, Document, fields
+from marshmallow.exceptions import ValidationError
+from motor.motor_asyncio import AsyncIOMotorClient
 from info import DATABASE_URI, DATABASE_NAME, COLLECTION_NAME, USE_CAPTION_FILTER, AUTH_CHANNEL, API_KEY
+from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
+
 DATABASE_URI_2=os.environ.get('DATABASE_URI_2', DATABASE_URI)
 DATABASE_NAME_2=os.environ.get('DATABASE_NAME_2', DATABASE_NAME)
 COLLECTION_NAME_2="Posters"
@@ -50,9 +50,6 @@ class temp(object):
     MELCOW = {}
     U_NAME = None
     B_NAME = None
-
-
-
 
 @instance.register
 class Media(Document):
@@ -132,13 +129,7 @@ def get_file_id(msg: Message):
             if obj:
                 setattr(obj, "message_type", message_type)
                 return obj
-
-        
-
-
-         
-            
-        
+                                   
 @imdb.register
 class Poster(Document):
     imdb_id = fields.StrField(attribute='_id')
@@ -231,9 +222,7 @@ async def get_search_results(query, file_type=None, max_results=10, offset=0):
     cursor.skip(offset).limit(max_results)
     # Get list of files
     files = await cursor.to_list(length=max_results)
-
     return files, next_offset
-
 
 async def get_filter_results(query):
     query = query.strip()
@@ -260,7 +249,6 @@ async def get_file_details(query):
     filedetails = await cursor.to_list(length=1)
     return filedetails
 
-
 async def is_subscribed(bot, query):
     try:
         user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
@@ -271,7 +259,6 @@ async def is_subscribed(bot, query):
     else:
         if not user.status == 'kicked':
             return True
-
     return False
 
 async def get_poster(movie):
@@ -341,10 +328,8 @@ def encode_file_id(s: bytes) -> str:
 
     return base64.urlsafe_b64encode(r).decode().rstrip("=")
 
-
 def encode_file_ref(file_ref: bytes) -> str:
     return base64.urlsafe_b64encode(file_ref).decode().rstrip("=")
-
 
 def unpack_new_file_id(new_file_id):
     """Return file_id, file_ref"""
@@ -361,7 +346,6 @@ def unpack_new_file_id(new_file_id):
     file_ref = encode_file_ref(decoded.file_reference)
     return file_id, file_ref
 
-
 def extract_user(cmd: Message) -> Union[int, str]:
     """extracts the user from a message"""
     # https://github.com/SpEcHiDe/PyroGramBot/blob/f30e2cca12002121bad1982f68cd0ff9814ce027/pyrobot/helper_functions/extract_user.py#L7
@@ -370,14 +354,12 @@ def extract_user(cmd: Message) -> Union[int, str]:
     if cmd.reply_to_message:
         user_id = cmd.reply_to_message.from_user.id
         user_first_name = cmd.reply_to_message.from_user.first_name
-
         
     elif len(cmd.command) > 1:
         if (
             len(cmd.entities) > 1 and
             cmd.entities[1].type == "text_mention"
-        ):
-           
+        ):           
             required_entity = cmd.entities[1]
             user_id = required_entity.user.id
             user_first_name = required_entity.user.first_name
@@ -421,8 +403,7 @@ def last_online(from_user):
     elif from_user.status == 'offline':
         time += datetime.fromtimestamp(from_user.last_online_date).strftime("%a, %d %b %Y, %H:%M:%S")
     return time
-
-    
+   
 def split_quotes(text: str) -> List:
     if not any(text.startswith(char) for char in START_CHAR):
         return text.split(None, 1)
