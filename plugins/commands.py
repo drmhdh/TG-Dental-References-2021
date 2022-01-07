@@ -180,8 +180,8 @@ async def start(bot, cmd):
                 )
         await sts.delete()
         return
-    elif file_id. 
-       split("_-_-_-_")[0] == "DSTORE":
+    elif file_id.split("_-_-_-_")[0] == "DSTORE":
+       
         sts = await cmd.reply("Please wait")
         b_string = file_id.split("_-_-_-_")[1]
         decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
