@@ -24,10 +24,10 @@ async def gen_link_s(bot, message):
     file_id, ref = unpack_new_file_id((getattr(replied, file_type)).file_id)
     nyva=BOT.get("username")
          
-        if not nyva:
-            botusername=await client.get_me()
-            nyva=botusername.username
-            BOT["username"]=nyva
+    if not nyva:
+        botusername=await client.get_me()
+        nyva=botusername.username
+        BOT["username"]=nyva
     await message.reply(f"Here is your Link:\nhttps://telegram.dog/{nyva}?start=subinps_-_-_-_{file_id}")
     #await message.reply(f"Here is your Link:\nhttps://t.me/{temp.U_NAME}?start={file_id}")
     
