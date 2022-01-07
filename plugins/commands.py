@@ -406,15 +406,6 @@ async def delete(bot, message):
         await msg.edit('File is successfully deleted from database')
     else:
         await msg.edit('File not found in database')
-"""@Client.on_message(filters.command('about'))
-async def bot_info(bot, message):
-    buttons = [
-        [
-            InlineKeyboardButton('🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study'),
-            InlineKeyboardButton('🦷 Discussion Group ➕', url='https://t.me/dent_tech_for_u')
-        ]
-        ]
-    await query.message.edit(text="<b>Developer : <a href='https://t.me/dent_tech_for_books'>📚🅳🆃 📖 🆁🅾🅾🅼📚</a>\nLanguage : <code>Python3</code>\nLibrary : <a href='https://t.me/dent_tech_library'>🔬𝔻𝕖𝕟𝕥 𝕋𝕖𝕔𝕙 𝕃𝕚𝕓𝕣𝕒𝕣𝕪📚</a>\nDiscussion Group: <a href='https://t.me/dent_tech_for_u'>Click Here</a>\n𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎: <a href='https://t.me/dental_case_study'>Click Here</a></b>", reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)"""
 
 @Client.on_message(filters.command('search'))
 async def search(bot, cmd):
@@ -431,7 +422,6 @@ async def search(bot, cmd):
                 ]
             )
         )
-
         
 @Client.on_message(filters.command('ping'))
 async def ping(bot, cmd):
@@ -445,11 +435,7 @@ async def ping(bot, cmd):
             q=await p.edit("<code>○○○</code>")
             await q.edit("<code>Iam Alive...👻</code>")
             await sleep(4)
-            await m.delete()
-            
-         
-               
-            #text=(f"</b>🏓Ping..!! \n🏓Pong..!! Iam Alive...👻</b>"),
+            await m.delete()                                    
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -457,8 +443,7 @@ async def ping(bot, cmd):
                     ]
                 ]
             )
-        #)
-       
+               
 @Client.on_message(filters.command('deleteall') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
     await message.reply_text(
