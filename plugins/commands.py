@@ -171,6 +171,7 @@ async def start(bot, cmd):
             except Exception as e:
                 logger.warning(e, exc_info=True)
                 continue
+            await asyncio.sleep(1)
         await sts.delete()
         return
     elif file_id.split("-", 1)[0] == "DSTORE":
@@ -190,6 +191,7 @@ async def start(bot, cmd):
             except Exception as e:                             
                 logger.exception(e)
                 continue  
+            await asyncio.sleep(1)                  
         return await sts.delete()
     files_ = await get_file_details(file_id)           
     if not files_:
