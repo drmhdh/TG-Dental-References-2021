@@ -154,7 +154,7 @@ async def start(bot, cmd):
                     f_caption=f_caption
             if f_caption is None:
                 f_caption = f"{title}"
-            buttons = [
+            """buttons = [
                 [
                     InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
                 ],[
@@ -162,7 +162,7 @@ async def start(bot, cmd):
                 ],[
                     InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                 ]
-                ]   
+            ]"""   
             try:
                 await client.send_cached_media(
                     chat_id=cmd.from_user.id,
