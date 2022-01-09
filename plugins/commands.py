@@ -154,7 +154,7 @@ async def start(bot, cmd):
                     f_caption=f_caption
             if f_caption is None:
                 f_caption = f"{title}"
-            """buttons = [
+            buttons = [
                 [
                     InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
                 ],[
@@ -162,9 +162,9 @@ async def start(bot, cmd):
                 ],[
                     InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                 ]
-            ]"""   
+            ]
             try:
-                await client.send_cached_media(
+                await bot.send_cached_media(
                     chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
@@ -172,7 +172,7 @@ async def start(bot, cmd):
             except FloodWait as e:
                 await asyncio.sleep(e.x)
                 logger.warning(f"Floodwait of {e.x} sec.")
-                await client.send_cached_media(
+                await bot.send_cached_media(
                     chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
