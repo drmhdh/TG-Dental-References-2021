@@ -198,7 +198,7 @@ async def start(bot, cmd):
             
             except FloodWait as e:
                 await asyncio.sleep(e.x)
-                await bot.copy_message(chat_id=message.chat.id, from_chat_id=int(f_chat_id), message_id=msg
+                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg
                           
             except Exception as e:                             
                 logger.exception(e)
