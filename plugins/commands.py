@@ -165,7 +165,7 @@ async def start(bot, cmd):
                 ]   
             try:
                 await client.send_cached_media(
-                    chat_id=message.from_user.id,
+                    chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     )
@@ -173,7 +173,7 @@ async def start(bot, cmd):
                 await asyncio.sleep(e.x)
                 logger.warning(f"Floodwait of {e.x} sec.")
                 await client.send_cached_media(
-                    chat_id=message.from_user.id,
+                    chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     )
@@ -198,7 +198,7 @@ async def start(bot, cmd):
             
             except FloodWait as e:
                 await asyncio.sleep(e.x)
-                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg
+                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg)
                           
             except Exception as e:                             
                 logger.exception(e)
