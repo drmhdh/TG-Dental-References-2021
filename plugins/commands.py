@@ -177,9 +177,9 @@ async def start(bot, cmd):
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     )
-            except Exception as e:
-                logger.warning(e, exc_info=True)
-                continue
+                except Exception as e:
+                    logger.warning(e, exc_info=True)
+                    continue
             await asyncio.sleep(1)
         await sts.delete()
         return
