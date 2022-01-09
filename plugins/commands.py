@@ -218,6 +218,15 @@ async def start(bot, cmd):
             title = file.file_name
             size=get_size(file.file_size)
             f_caption = f"<code>{title}</code>"
+            buttons = [
+                    [
+                        InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
+                    ],[
+                        InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
+                    ],[
+                        InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
+                    ]
+                ]
             if CUSTOM_FILE_CAPTION:
                 try:
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
