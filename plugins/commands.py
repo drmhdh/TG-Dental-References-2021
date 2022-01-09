@@ -169,6 +169,7 @@ async def start(bot, cmd):
                     chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
+                    reply_markup=InlineKeyboardMarkup(buttons)
                     )
             except FloodWait as e:
                 await asyncio.sleep(e.x)
@@ -177,6 +178,7 @@ async def start(bot, cmd):
                     chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
+                    reply_markup=InlineKeyboardMarkup(buttons)
                     )
             except Exception as e:
                   
@@ -218,6 +220,7 @@ async def start(bot, cmd):
             title = file.file_name
             size=get_size(file.file_size)
             f_caption = f"<code>{title}</code>"
+            reply_markup=InlineKeyboardMarkup(buttons)
             buttons = [
                     [
                         InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
