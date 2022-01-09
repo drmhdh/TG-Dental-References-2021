@@ -153,18 +153,18 @@ async def start(bot, cmd):
                     logger.exception(e)
                     f_caption=f_caption
             if f_caption is None:
-                try:
-                    f_caption = f"{title}"
-                    buttons = [
-                        [
-                            InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
-                        ],[
-                            InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
-                        ],[
-                            InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
-                        ]
+                
+                f_caption = f"{title}"
+            buttons = [
+                    [
+                        InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
+                    ],[
+                        InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
+                    ],[
+                        InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                     ]
-            
+                ]
+                try:
                     await bot.send_cached_media(
                         chat_id=cmd.from_user.id,
                         file_id=msg.get("file_id"),
