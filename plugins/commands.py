@@ -162,7 +162,7 @@ async def start(bot, cmd):
                 ],[
                     InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
                 ]
-            ]   
+                ]   
             try:
                 await client.send_cached_media(
                     chat_id=message.from_user.id,
@@ -177,9 +177,11 @@ async def start(bot, cmd):
                     file_id=msg.get("file_id"),
                     caption=f_caption,
                     )
-                except Exception as e:
-                    logger.warning(e, exc_info=True)
-                    continue
+            except Exception as e:
+                  
+                    
+                logger.warning(e, exc_info=True)
+                continue
             await asyncio.sleep(1)
         await sts.delete()
         return
