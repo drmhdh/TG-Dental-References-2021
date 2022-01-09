@@ -73,7 +73,7 @@ async def addconnection(client,message):
             await message.reply_text("Add me as an admin in group", quote=True)
     except Exception as e:
         logger.exception(e)
-        await message.reply_text('Some error occured! Try again later.', quote=True)
+        await message.reply_text('Some error occurred! Try again later.', quote=True)
         return
 
 @Client.on_message((filters.private | filters.group) & filters.command('disconnect'))
