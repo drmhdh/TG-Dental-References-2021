@@ -59,7 +59,7 @@ class script(object):
 <b>NOTE:</b>
 these are the extra features of Eva Maria
 <b>Commands and Usage:</b>
-• /id - <code>get id of a specifed user.</code>
+• /id - <code>get id of a specified user.</code>
 • /info  - <code>get information about a user.</code>"""
     ADMIN_TXT = """Help: <b>Admin mods</b>
 <b>NOTE:</b>
