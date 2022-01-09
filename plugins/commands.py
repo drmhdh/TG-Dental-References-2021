@@ -153,38 +153,39 @@ async def start(bot, cmd):
                     logger.exception(e)
                     f_caption=f_caption
             if f_caption is None:
-                f_caption = f"{title}"
-            buttons = [
-                [
-                    InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
-                ],[
-                    InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
-                ],[
-                    InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
-                ]
-            ]
-            try:
-                await bot.send_cached_media(
-                    chat_id=cmd.from_user.id,
-                    file_id=msg.get("file_id"),
-                    caption=f_caption,
-                    )
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
-                logger.warning(f"Floodwait of {e.x} sec.")
-                await bot.send_cached_media(
-                    chat_id=cmd.from_user.id,
-                    file_id=msg.get("file_id"),
-                    caption=f_caption,
-                    )
-            except Exception as e:
+                try:
+                    f_caption = f"{title}"
+                    buttons = [
+                        [
+                            InlineKeyboardButton('🔎 Search', switch_inline_query_current_chat='')
+                        ],[
+                            InlineKeyboardButton('📚🅳🆃 📖 🆁🅾🅾🅼📚', url='https://t.me/dent_tech_for_books')
+                        ],[
+                            InlineKeyboardButton('𝗝𝗼𝗶𝗻 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎', url='https://t.me/dental_case_study')
+                        ]
+                    ]
+            
+                    await bot.send_cached_media(
+                        chat_id=cmd.from_user.id,
+                        file_id=msg.get("file_id"),
+                        caption=f_caption,
+                        )
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    logger.warning(f"Floodwait of {e.x} sec.")
+                    await bot.send_cached_media(
+                        chat_id=cmd.from_user.id,
+                        file_id=msg.get("file_id"),
+                        caption=f_caption,
+                        )
+                except Exception as e:
                   
                     
-                logger.warning(e, exc_info=True)
-                continue
-            await asyncio.sleep(1)
-        await sts.delete()
-        return
+                    logger.warning(e, exc_info=True)
+                    continue
+                await asyncio.sleep(1)
+            await sts.delete()
+            return
     elif file_id.split("-", 1)[0] == "DSTORE":
        
         sts = await cmd.reply("Please wait")
