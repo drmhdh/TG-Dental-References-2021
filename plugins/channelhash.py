@@ -3,7 +3,7 @@ from pyrogram import filters, Client
 
 
 @Client.on_message(filters.incoming & ~filters.edited)
-async def #request(client, message):       
+async def newrequest(client, message):       
 
 
 
