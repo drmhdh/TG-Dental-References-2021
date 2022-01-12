@@ -899,7 +899,7 @@ async def hashrequests(client, message, text=False):
             else:
                 await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
                 #await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n \n🧿 User ID:</b> <code>{message.from_user.id}</code>\n \n<b>🧿 Chat: {message.chat.title}\n \n🧿 Chat ID:</b> <code>{message.chat.id}</code>")
-            
+                
                 await message.reply_text(
                     text="<b>✅ Your Request Successfully Submitted to Admins.\n⏳They will Add it When Available!\n🔔You can Check All Requested items Here👇<b>",
                     reply_markup=InlineKeyboardMarkup(
@@ -921,7 +921,8 @@ async def hashrequests(client, message, text=False):
             if requ == " ":      
                 await message.reply("What..?")
             else:
-                await clientt.copy_message(chat_id=int("-1001110994526"), from_chat_id=message.chat.id, message_id=message.message_id, caption=message.caption.replace("#request", " "))
+                title=message.caption
+                await clientt.copy_message(chat_id=int("-1001110994526"), from_chat_id=message.chat.id, message_id=message.message_id, caption=title.replace("#request", " "))
                 
    
                 await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
