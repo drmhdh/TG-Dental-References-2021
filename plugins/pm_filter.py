@@ -940,8 +940,8 @@ async def hashrequests(client, message, text=False):
                         ]
                     )
                 )
-      except Exception as e:
-          await message.reply(f"Error occurred!\n \n{e}")       
+        except Exception as e:
+            await message.reply(f"Error occurred!\n \n{e}")       
                    
   """if not message.text:
       title=message.caption            
