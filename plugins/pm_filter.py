@@ -900,7 +900,16 @@ async def hashrequests(client, message, text=False):
                 await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
                 #await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n \n🧿 User ID:</b> <code>{message.from_user.id}</code>\n \n<b>🧿 Chat: {message.chat.title}\n \n🧿 Chat ID:</b> <code>{message.chat.id}</code>")
             
-                await message.reply("<b>Your Request Successfully Submitted to Admins.✅\nThey will Add it When Available!<b>")
+                await message.reply_text(
+                    text="<b>✅ Your Request Successfully Submitted to Admins.\n⏳They will Add it When Available!\n🔔You can Check All Requested items Here👇<b>",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton("🖋️Logs", url="https://t.me/joinchat/AAAAAEI4bl5MQLOvsbRNqw")
+                            ]
+                        ]
+                    )
+                )
         except Exception as e:
             await message.reply(f"Error occurred!\n \n{e}")       
          
