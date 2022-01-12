@@ -890,7 +890,7 @@ async def manual_filters(client, message, text=False):
     else:
         return False
   #----------------------------------------#                        
-async def hashrequests(client, message):
+async def hashrequests(client, message, text=False):
 
    if message.text.startswith("#request"):
         try:
