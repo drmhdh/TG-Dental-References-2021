@@ -916,6 +916,7 @@ async def hashrequests(client, message, text=False):
   title=message.caption        
   if message.caption.startswith("#request"):
         try:
+            title=message.caption
             req=title.replace("#request", " ")
             if req == " ":      
                 await message.reply("What..?")
