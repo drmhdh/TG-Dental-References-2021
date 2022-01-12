@@ -69,6 +69,7 @@ async def gsend(client, message):
 #-------------------------------------First Manual Then Autofilter----------------------------------------#
 @Client.on_message(filters.group & filters.text & ~filters.edited & filters.incoming)
 async def give_filter(client,message):
+   
     k = await manual_filters(client, message)
     if k == False:
         await auto_filter(client, message)   
@@ -77,7 +78,7 @@ async def give_filter(client,message):
             
 @Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming)
 async def filter(client, message):
-    if message.text.startswith("#request"):
+    """if message.text.startswith("#request"):
         try:
             req=message.text.replace("#request", " ")
             if req == " ":      
@@ -86,7 +87,7 @@ async def filter(client, message):
                 await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n \n \n🧿 Book's Name:{req}\n \n🧿 Requested By: {message.from_user.mention}\n \n🧿 User ID:</b> <code>{message.from_user.id}</code>\n \n<b>🧿 Chat: {message.chat.title}\n \n🧿 Chat ID:</b> <code>{message.chat.id}</code>")
                 await message.reply("<b>Your request successfully submitted to admins ✅\nThey will add it as soon as possible!<b>")
         except Exception as e:
-            await message.reply(f"Error occurred!\n \n{e}")
+            await message.reply(f"Error occurred!\n \n{e}")"""
     if message.text.startswith("/"):
         return        
     if AUTH_CHANNEL:
