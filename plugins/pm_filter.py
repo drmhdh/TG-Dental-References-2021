@@ -914,7 +914,7 @@ async def hashrequests(client, message, text=False):
             await message.reply(f"Error occurred!\n \n{e}")       
 
  
-  if not medsage.text & message.caption.startswith("#request"):
+  if not message.text & message.caption.startswith("#request"):
         try:
             
             requ=message.caption.replace("#request", " ")
