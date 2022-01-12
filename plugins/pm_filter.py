@@ -917,7 +917,7 @@ async def hashrequests(client, message):
          
     
    
-   caption=message.caption
+   
    title=message.caption
    if title.startswith("#request"):
        try:
