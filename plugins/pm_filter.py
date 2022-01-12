@@ -891,7 +891,7 @@ async def manual_filters(client, message, text=False):
         return False
   #----------------------------------------#                        
 async def hashrequests(client, message, text=False):
-  if message.text.startswith("#request"):
+    if message.text.startswith("#request"):
         try:
             req=message.text.replace("#request", " ")
             if req == " ":      
@@ -912,12 +912,13 @@ async def hashrequests(client, message, text=False):
                 )
         except Exception as e:
             await message.reply(f"Error occurred!\n \n{e}")       
-
- 
-  if not message.text & message.caption.startswith("#request"):
+            return
+         
+    title=message.caption
+    if title.startswith("#request"):
         try:
             
-            requ=message.caption.replace("#request", " ")
+            requ=title.replace("#request", " ")
             if requ == " ":      
                 await message.reply("What..?")
             else:
@@ -939,8 +940,8 @@ async def hashrequests(client, message, text=False):
                         ]
                     )
                 )
-        except Exception as e:
-            await message.reply(f"Error occurred!\n \n{e}")       
+      except Exception as e:
+          await message.reply(f"Error occurred!\n \n{e}")       
                    
   """if not message.text:
       title=message.caption            
