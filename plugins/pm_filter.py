@@ -924,6 +924,7 @@ async def hashrequests(client, message, text=False):
                 
    
                 await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
+                await client.send_sticker(chat_id=int("-1001110994526"), sticker='CAACAgUAAxkBAAEDrGVh3xkyJmGzB6DyDMEJeOn-tXy92AACdQADd5u6Hxn5Ujh-0Qt1IwQ')
                 #await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n \n🧿 User ID:</b> <code>{message.from_user.id}</code>\n \n<b>🧿 Chat: {message.chat.title}\n \n🧿 Chat ID:</b> <code>{message.chat.id}</code>")
             
                 await message.reply_text(
