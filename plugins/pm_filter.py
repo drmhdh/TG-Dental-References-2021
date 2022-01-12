@@ -67,7 +67,7 @@ async def gsend(client, message):
          await message.reply_text("<b>That's not for you bruh 😅</b>")
 
 #-------------------------------------First Manual Then Autofilter----------------------------------------#
-@Client.on_message(filters.group & filters.text & ~filters.edited & filters.incoming)
+@Client.on_message(filters.group & ~filters.edited & filters.incoming) #filters.text
 async def give_filter(client,message):
    
     k = await manual_filters(client, message)
