@@ -891,7 +891,11 @@ async def manual_filters(client, message, text=False):
         return False
   #----------------------------------------#                        
 async def hashrequests(client, message, text=False):
-    if message.text.startswith("#request"):
+   if message.text:
+       txt=message.text.replace("#request", " ")
+   else:
+       return
+   if message.text.startswith("#request"):
         try:
             req=message.text.replace("#request", " ")
             if req == " ":      
@@ -914,34 +918,37 @@ async def hashrequests(client, message, text=False):
             await message.reply(f"Error occurred!\n \n{e}")       
             return
          
-    title=message.caption
-    if title.startswith("#request"):
-        try:
+    
+   if not message.reply_to_message and not message.text:
+         
+       title=message.caption
+       if title.startswith("#request"):
+           try:
             
-            requ=title.replace("#request", " ")
-            if requ == " ":      
-                await message.reply("What..?")
-            else:
-                title=message.caption
-                await clientt.copy_message(chat_id=int("-1001110994526"), from_chat_id=message.chat.id, message_id=message.message_id, caption=title.replace("#request", " "))
+               requ=title.replace("#request", " ")
+               if requ == " ":      
+                   await message.reply("What..?")
+               else:
+                   title=message.caption
+                   await clientt.copy_message(chat_id=int("-1001110994526"), from_chat_id=message.chat.id, message_id=message.message_id, caption=title.replace("#request", " "))
                 
    
-                await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
-                await client.send_sticker(chat_id=int("-1001110994526"), sticker='CAACAgUAAxkBAAEDrGVh3xkyJmGzB6DyDMEJeOn-tXy92AACdQADd5u6Hxn5Ujh-0Qt1IwQ')
-                #await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n \n🧿 User ID:</b> <code>{message.from_user.id}</code>\n \n<b>🧿 Chat: {message.chat.title}\n \n🧿 Chat ID:</b> <code>{message.chat.id}</code>")
+                   await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
+                   await client.send_sticker(chat_id=int("-1001110994526"), sticker='CAACAgUAAxkBAAEDrGVh3xkyJmGzB6DyDMEJeOn-tXy92AACdQADd5u6Hxn5Ujh-0Qt1IwQ')
+                   #await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Book's Name:{req}\n🧿 Requested By: {message.from_user.mention}\n \n🧿 User ID:</b> <code>{message.from_user.id}</code>\n \n<b>🧿 Chat: {message.chat.title}\n \n🧿 Chat ID:</b> <code>{message.chat.id}</code>")
             
-                await message.reply_text(
-                    text="<b>✅ Your Request Successfully Submitted to Admins.\n⏳They will Add it When Available!\n🔔You can Check All Requested items Here👇<b>",
-                    reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton("🖋️Logs", url="https://t.me/joinchat/AAAAAEI4bl5MQLOvsbRNqw")
-                            ]
-                        ]
-                    )
-                )
-        except Exception as e:
-            await message.reply(f"Error occurred!\n \n{e}")       
+                   await message.reply_text(
+                       text="<b>✅ Your Request Successfully Submitted to Admins.\n⏳They will Add it When Available!\n🔔You can Check All Requested items Here👇<b>",
+                       reply_markup=InlineKeyboardMarkup(
+                           [
+                               [
+                                   InlineKeyboardButton("🖋️Logs", url="https://t.me/joinchat/AAAAAEI4bl5MQLOvsbRNqw")
+                               ]
+                           ]
+                       )
+                   )
+           except Exception as e:
+               await message.reply(f"Error occurred!\n \n{e}")       
                    
   
       
