@@ -913,15 +913,15 @@ async def hashrequests(client, message, text=False):
         except Exception as e:
             await message.reply(f"Error occurred!\n \n{e}")       
 
-  title=message.caption        
+ 
   if message.caption.startswith("#request"):
         try:
-            title=message.caption
+            
             requ=message.caption.replace("#request", " ")
-            if req == " ":      
+            if requ == " ":      
                 await message.reply("What..?")
             else:
-                await clientt.copy_message(chat_id=int("-1001110994526"), from_chat_id=message.chat.id, message_id=message.message_id, caption=message.caption..replace("#request", " "))
+                await clientt.copy_message(chat_id=int("-1001110994526"), from_chat_id=message.chat.id, message_id=message.message_id, caption=message.caption.replace("#request", " "))
                 
    
                 await client.send_message(chat_id=int("-1001110994526"), text=f"<b>#NewRequest\n🧿 Requested By: {message.from_user.mention}\n🧿 Chat: {message.chat.title}")
