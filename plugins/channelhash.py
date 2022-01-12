@@ -2,7 +2,7 @@ import os
 from pyrogram import filters, Client
 
 
-@Client.on_message(filters.incoming & ~filters.edited)
+#@Client.on_message(filters.incoming & ~filters.edited)
 async def newrequest(client, message):       
 
 
