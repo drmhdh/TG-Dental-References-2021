@@ -891,7 +891,7 @@ async def manual_filters(client, message, text=False):
         return False
   #----------------------------------------#     
 
-async def hashrequests(client, message):
+async def hashrequests(client, message, text=False):
     title=message.caption
     if title.startswith("#request"):
         try:
