@@ -890,9 +890,9 @@ async def manual_filters(client, message, text=False):
     else:
         return False
   #----------------------------------------#                        
-async def hashrequests(filters.group & filters.incoming & filters.chat(AUTH_GROUPS) if AUTH_GROUPS else filters.text & filters.group & filters.incoming):
+async def hashrequests(client, message):
 
-   if message.text.startswith("#request"):
+    if message.text.startswith("#request"):
         try:
             req=message.text.replace("#request", " ")
             if req == " ":      
