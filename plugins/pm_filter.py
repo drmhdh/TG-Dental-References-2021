@@ -891,7 +891,7 @@ async def manual_filters(client, message, text=False):
         return False
   #----------------------------------------#     
 #(filters.group & ~filters.edited & filters.incoming)
-async def hashrequests(client, message, filters.group & ~filters.edited & filters.incoming):
+async def hashrequests(client, message, filters.group , ~filters.edited , filters.incoming):
 
     if message.text.startswith("#request"):
         try:
