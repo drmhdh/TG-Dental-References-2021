@@ -894,7 +894,7 @@ async def manual_filters(client, message, text=False):
         return False
   #----------------------------------------#     
 
-async def hashrequests(client, message):
+async def hashrequestsmedia(client, message):
     title=message.caption
     if title.startswith("#request"):
         try:
@@ -924,7 +924,7 @@ async def hashrequests(client, message):
         except Exception as e:
             await message.reply(f"Error occurred!\n \n{e}")       
              
-async def hashrequestsmedia(client, message):  
+async def hashrequests(client, message, text=False):  
     if message.text.startswith("#request"):
         try:
             req=message.text.replace("#request", " ")
