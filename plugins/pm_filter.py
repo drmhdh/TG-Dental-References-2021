@@ -842,7 +842,7 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
         await query.answer("It Will Not Work for You, as It was Not Requested by You 😒",show_alert=True)
                   
 #---------------------------------------#Manual  Filter–-----------------------------#   
-async def manual_filters(client, message):
+async def manual_filters(client, message, text=False):
     group_id = message.chat.id
     name = text or message.text
     reply_id = message.reply_to_message.message_id if message.reply_to_message else message.message_id
