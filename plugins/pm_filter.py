@@ -74,9 +74,12 @@ async def give_filter(client,message):
     if k == False:
         await auto_filter(client, message)   
         await hashrequests(client, message)
+        await hashrequestsmedia(client, message)
     else:                
         await auto_filter(client, message)   
         await hashrequests(client, message)
+        await hashrequestsmedia(client, message)
+      
 @Client.on_message(filters.text & filters.private & filters.incoming & filters.user(AUTH_USERS) if AUTH_USERS else filters.text & filters.private & filters.incoming)
 async def filter(client, message):
     """if message.text.startswith("#request"):
@@ -891,7 +894,7 @@ async def manual_filters(client, message, text=False):
         return False
   #----------------------------------------#     
 
-async def hashrequests(client, message, text=False):
+async def hashrequests(client, message):
     title=message.caption
     if title.startswith("#request"):
         try:
@@ -920,8 +923,8 @@ async def hashrequests(client, message, text=False):
                 )
         except Exception as e:
             await message.reply(f"Error occurred!\n \n{e}")       
-                   
-   
+             
+async def hashrequestsmedia(client, message):  
     if message.text.startswith("#request"):
         try:
             req=message.text.replace("#request", " ")
