@@ -36,14 +36,14 @@ async def echo(bot, message):
             return
         if message.reply_to_message and message.text:
             try:
-                await bot.send_message(chat_id=message.chat.id, text=txt, reply_to_message_id=message.reply_to_message.message_id)
+                await bot.send_message(chat_id=message.chat.id, text=txt, reply_to_message_id=message.reply_to_message.message_id, disable_web_page_preview=True)
             except:
                 await bot.copy_message(chat_id=message.chat.id, from_chat_id=message.chat.id, message_id=message.reply_to_message.message_id)          
         if message.reply_to_message and not message.text:
             title=message.caption 
             await bot.copy_message(chat_id=message.chat.id, from_chat_id=message.chat.id, message_id=message.message_id, reply_to_message_id=message.reply_to_message.message_id, caption=title.replace("/echo", " "))        
         if not message.reply_to_message and message.text:         
-            await bot.send_message(chat_id=message.chat.id, text=txt, reply_to_message_id=message.message_id)
+            await bot.send_message(chat_id=message.chat.id, text=txt, reply_to_message_id=message.message_id, disable_web_page_preview=True)
         if not message.reply_to_message and not message.text:
             title=message.caption            
             await bot.copy_message(chat_id=message.chat.id, from_chat_id=message.chat.id, message_id=message.message_id, reply_to_message_id=message.message_id, caption=title.replace("/echo", " ") )
