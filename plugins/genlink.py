@@ -114,7 +114,7 @@ async def gen_link_batch(bot, message):
             if file:
                 file = {
                     "file_id": file.file_id,
-                    "caption": msg.caption,
+                    "caption": caption,
                     "title": getattr(file, "file_name", ""),
                     "size": file.file_size,
                 }
