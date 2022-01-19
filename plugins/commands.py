@@ -552,7 +552,7 @@ async def settings(bot, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
+    st = await bot.get_chat_member(grp_id, userid)
     if (
             st.status != "administrator"
             and st.status != "creator"
