@@ -94,10 +94,7 @@ class Database:
 
     async def get_chat(self, chat):
         chat = await self.grp.find_one({'id':int(chat)})
-        if not chat:
-            return False
-        else:
-            return chat.get('chat_status')
+        return False if not chat else chat.get('chat_status')
     
 
     async def re_enable_chat(self, id):
@@ -113,11 +110,11 @@ class Database:
 
     async def get_settings(self, id):
         default = {
-            'button': SINGLE_BUTTON,
+            
             'botpm': P_TTI_SHOW_OFF,
             'file_secure': PROTECT_CONTENT,
             'imdb': IMDB,
-            'spell_check': SPELL_CHECK_REPLY,
+            
             'welcome': MELCOW_NEW_USERS,
             'template': IMDB_TEMPLATE
         }
