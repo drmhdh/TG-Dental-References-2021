@@ -8,6 +8,7 @@ import pyrogram
 from Script import script
 from pyrogram import Client, filters
 from database.users_chats_db import db
+from database.settings_db import sett_db
 from pyrogram.errors import UserNotParticipant
 from info import API_KEY, P_TTI_SHOW_OFF, IMDB, IMDB_TEMPLATE
 from database.ia_filterdb import Media, get_file_details, get_search_results
@@ -15,12 +16,18 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQ
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_filter_results, get_file_details, is_subscribed, get_poster ,temp, get_size
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
-from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, make_inactive
-from info import AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, BUTTON, START_MSG, CHANNELS, ADMINS, PICS, SINGLE_BUTTON
-from database.filters_mdb import(
-   del_all,
-   find_filter,
-   get_filters,
+#from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, make_inactive
+#from info import AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, BUTTON, START_MSG, CHANNELS, ADMINS, PICS, SINGLE_BUTTON
+
+from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, \
+    make_inactive
+from info import ADMINS, AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, P_TTI_SHOW_OFF, IMDB, \
+    SINGLE_BUTTON, SPELL_CHECK_REPLY, IMDB_TEMPLATE
+
+from database.filters_mdb import (
+    del_all,
+    find_filter,
+    get_filters,
 )
 
 BUTTONS = {}
@@ -68,7 +75,7 @@ async def gsend(client, message):
 
 #-------------------------------------First Manual Then Autofilter----------------------------------------#
 @Client.on_message(filters.group & ~filters.edited & filters.incoming) #filters.text
-async def give_filter(client,message):
+async def give_filter(client, message):
    
     k = await manual_filters(client, message)
     if k == False:
@@ -493,7 +500,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 f_caption=files.caption
                 if CUSTOM_FILE_CAPTION:
                     try:
-                        f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                        f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, 
+                                                             file_size='' if size is None else size, 
+                                                             file_caption='' if f_caption is None else f_caption)
 
                     except Exception as e:
                         print(e)
@@ -689,6 +698,62 @@ async def cb_handler(client: Client, query: CallbackQuery):
             alert = alerts[int(i)]
             alert = alert.replace("\\n", "\n").replace("\\t", "\t")
             await query.answer(alert,show_alert=True)   
+            
+            
+    elif query.data.startswith("setgs"):
+        ident, set_type, status, grp_id = query.data.split("#")
+        grpid = await active_connection(str(query.from_user.id))
+
+        if str(grp_id) != str(grpid):
+            await query.message.edit("Your Active Connection Has Been Changed. Go To /settings.")
+            return
+
+        if status == "True":
+            await sett_db.update_settings(grp_id, set_type, False)
+        else:
+            await sett_db.update_settings(grp_id, set_type, True)
+
+        settings = await sett_db.get_settings(str(grp_id))
+
+        if settings is not None:
+            buttons = [
+                [
+                    InlineKeyboardButton('Filter Button',
+                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('Single' if settings["button"] else 'Double',
+                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Bot PM', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["botpm"] else '❌ No',
+                                         callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('File Secure',
+                                         callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
+                                         callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('IMDB', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No',
+                                         callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Spell Check',
+                                         callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["spell_check"] else '❌ No',
+                                         callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
+                                         callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+                ]
+            ]
+            reply_markup = InlineKeyboardMarkup(buttons)
+            await query.message.edit_reply_markup(reply_markup)
+       
    
     if query.data.startswith("file"):
         ident, file_id = query.data.split("#")
@@ -703,7 +768,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             f_caption=files.caption
             if CUSTOM_FILE_CAPTION:
                 try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, 
+                                                         file_size='' if size is None else size, 
+                                                         file_caption='' if f_caption is None else f_caption)
                 except Exception as e:
                      print(e)
                      f_caption=f_caption
@@ -755,6 +822,7 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
         pass
     if (clicked == typed) or (clicked in AUTH_USERS) or (clicked in ADMINS):
         if not spoll:
+            settings = await sett_db.get_settings(str(message.chat.id))
             if message.text.startswith("/"): return # ignore commands
             if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
                 return
