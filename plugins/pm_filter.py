@@ -8,7 +8,7 @@ import pyrogram
 from Script import script
 from pyrogram import Client, filters
 from database.users_chats_db import db
-from database.settings_db import sett_db
+
 from pyrogram.errors import UserNotParticipant
 from info import API_KEY, IMDB
 from database.ia_filterdb import Media, get_file_details, get_search_results
