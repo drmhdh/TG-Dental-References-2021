@@ -2,12 +2,13 @@ import logging
 from info import ADMINS
 from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from database.settings_db import sett_db
 from database.connections_mdb import add_connection, all_connections, if_active, delete_connection
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 @Client.on_message((filters.private | filters.group) & filters.command('connect'))
-async def addconnection(client,message):
+async def addconnection(client, message):
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
@@ -31,9 +32,9 @@ async def addconnection(client,message):
     try:
         st = await client.get_chat_member(group_id, userid)
         if (
-            st.status != "administrator"
-            and st.status != "creator"
-            and str(userid) not in ADMINS
+                st.status != "administrator"
+                and st.status != "creator"
+                and str(userid) not in ADMINS
         ):
             await message.reply_text("You should be an admin in Given group!", quote=True)
             return
@@ -104,7 +105,7 @@ async def deleteconnection(client,message):
             await message.reply_text("This chat isn't connected to me!\nDo /connect to connect.", quote=True)
 
 @Client.on_message(filters.private & filters.command(["connections"]))
-async def connections(client,message):
+async def connections(client, message):
     userid = message.from_user.id
 
     groupids = await all_connections(str(userid))
