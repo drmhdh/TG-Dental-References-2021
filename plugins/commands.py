@@ -584,54 +584,54 @@ async def settings(client, message):
             parse_mode="html",
             reply_to_message_id=message.message_id,
             reply_markup=InlineKeyboardMarkup(buttons)
-                buttons = [
-                    [
+            buttons = [
+                [
                         
                     
                     
-                        InlineKeyboardButton(
-                            'Bot PM',
-                            callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
-                        ),
-                        InlineKeyboardButton(
-                            '✅ Yes' if settings["botpm"] else '❌ No',
-                            callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            'File Secure',
-                            callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
-                        ),
-                        InlineKeyboardButton(
-                            '✅ Yes' if settings["file_secure"] else '❌ No',
-                            callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            'IMDB',
-                            callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
-                        ),
-                        InlineKeyboardButton(
-                            '✅ Yes' if settings["imdb"] else '❌ No',
-                            callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
-                        ),
-                    ],
+                    InlineKeyboardButton(
+                        'Bot PM',
+                        callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["botpm"] else '❌ No',
+                        callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'File Secure',
+                        callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["file_secure"] else '❌ No',
+                        callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'IMDB',
+                        callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["imdb"] else '❌ No',
+                        callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
+                    ),
+                ],
                     
                         
                     
-                    [
-                         InlineKeyboardButton(
-                            'Welcome',
-                            callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
-                        ),
-                        InlineKeyboardButton(
-                            '✅ Yes' if settings["welcome"] else '❌ No',
-                            callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
-                        ),
-                    ],
-                ]
+                [
+                     InlineKeyboardButton(
+                        'Welcome',
+                        callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["welcome"] else '❌ No',
+                        callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                    ),
+                ],
+            ]
         )
             
             
