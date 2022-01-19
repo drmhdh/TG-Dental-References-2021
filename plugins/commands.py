@@ -536,11 +536,11 @@ async def delete_all_index_confirm(bot, message):
  
   
 @Client.on_message(filters.command('settings'))
-async def settings(client, cmd):
-    userid = cmd.from_user.id if cmd.from_user else None
+async def settings(client, message):
+    userid = message.from_user.id if message.from_user else None
     if not userid:
-        return await cmd.reply(f"You are anonymous admin. Use /connect {cmd.chat.id} in PM")
-    chat_type = cmd.chat.type
+        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
+    chat_type = message.chat.type
     
 
     if chat_type == "private":
@@ -551,15 +551,15 @@ async def settings(client, cmd):
                 chat = await client.get_chat(grpid)
                 title = chat.title
             except:
-                await cmd.reply_text("Make sure I'm present in your group!!", quote=True)
+                await message.reply_text("Make sure I'm present in your group!!", quote=True)
                 return
         else:
-            await cmd.reply_text("I'm not connected to any groups!", quote=True)
+            await message.reply_text("I'm not connected to any groups!", quote=True)
             return
 
     elif chat_type in ["group", "supergroup"]:
-        grp_id = cmd.chat.id
-        title = cmd.chat.title
+        grp_id = message.chat.id
+        title = message.chat.title
 
     else:
         return
@@ -625,13 +625,13 @@ async def settings(client, cmd):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        await cmd.reply_text(
+        await message.reply_text(
             
             text=f"<b>Change Your Settings for {title} As Your Wish ⚙</b>",
             reply_markup=reply_markup,
             disable_web_page_preview=True,
             parse_mode="html",
-            reply_to_message_id=cmd.message_id
+            reply_to_message_id=message.message_id
         )
         
         
