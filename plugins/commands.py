@@ -536,7 +536,7 @@ async def delete_all_index_confirm(bot, message):
  
   
 @Client.on_message(filters.command('settings'))
-async def settings(bot, cmd):
+async def settings(client, cmd):
     userid = cmd.from_user.id if cmd.from_user else None
     if not userid:
         return await cmd.reply(f"You are anonymous admin. Use /connect {cmd.chat.id} in PM")
@@ -548,7 +548,7 @@ async def settings(bot, cmd):
         if grpid is not None:
             grp_id = grpid
             try:
-                chat = await bot.get_chat(grpid)
+                chat = await client.get_chat(grpid)
                 title = chat.title
             except:
                 await cmd.reply_text("Make sure I'm present in your group!!", quote=True)
