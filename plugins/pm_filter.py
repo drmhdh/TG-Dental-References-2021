@@ -14,7 +14,7 @@ from info import API_KEY, P_TTI_SHOW_OFF, IMDB, IMDB_TEMPLATE
 from database.ia_filterdb import Media, get_file_details, get_search_results
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
-from utils import get_filter_results, get_file_details, is_subscribed, get_poster ,temp, get_size
+from utils import get_filter_results, get_file_details, is_subscribed, get_poster ,temp, get_size, get_settings, save_group_settings
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 #from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, make_inactive
 #from info import AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, BUTTON, START_MSG, CHANNELS, ADMINS, PICS, SINGLE_BUTTON
