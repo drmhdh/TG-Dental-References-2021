@@ -790,15 +790,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     chat_id=query.from_user.id,
                     file_id=file_id,
                     caption=f_caption,
+                    protect_content=True if ident == 'checksubp' else False,
                     reply_markup=InlineKeyboardMarkup(buttons)
                     )
             try:
                 if AUTH_CHANNEL and not await is_subscribed(client, query):
-                    #await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                    
                     await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
                     return
                 elif settings['botpm']:
-                await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
+                    await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
                 
                 return
                 else:
