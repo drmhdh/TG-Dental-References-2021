@@ -524,12 +524,12 @@ async def delete_all_index_confirm(bot, message):
     await message.message.edit('Succesfully Deleted All The Indexed Files.')   
   
 @Client.on_message(filters.command('settings') & filters.private)
-async def settings(bot, message):
-    userid = message.from_user.id if message.from_user else None
+async def settings(bot, cmd):
+    userid = cmd.from_user.id if cmd.from_user else None
     if not userid:
-        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
-    chat_type = message.chat.type
-    args = message.text.html.split(None, 1)
+        return await cmd.reply(f"You are anonymous admin. Use /connect {cmd.chat.id} in PM")
+    chat_type = cmd.chat.type
+    args = cmd.text.html.split(None, 1)
 
     if chat_type == "private":
         grpid = await active_connection(str(userid))
@@ -539,15 +539,15 @@ async def settings(bot, message):
                 chat = await bot.get_chat(grpid)
                 title = chat.title
             except:
-                await message.reply_text("Make sure I'm present in your group!!", quote=True)
+                await cmd.reply_text("Make sure I'm present in your group!!", quote=True)
                 return
         else:
-            await message.reply_text("I'm not connected to any groups!", quote=True)
+            await cmd.reply_text("I'm not connected to any groups!", quote=True)
             return
 
     elif chat_type in ["group", "supergroup"]:
-        grp_id = message.chat.id
-        title = message.chat.title
+        grp_id = cmd.chat.id
+        title = cmd.chat.title
 
     else:
         return
@@ -602,7 +602,7 @@ async def settings(bot, message):
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
-        await message.reply_text(
+        await cmd.reply_text(
             text="<b>Change Your Filter Settings As Your Wish ⚙</b>",
             reply_markup=reply_markup,
             disable_web_page_preview=True,
