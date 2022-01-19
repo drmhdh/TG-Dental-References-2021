@@ -11,6 +11,8 @@ from pyrogram import filters, Client
 from database.users_chats_db import db
 from pyrogram.errors import UserNotParticipant
 from utils import get_size, is_subscribed, temp
+from database.settings_db import sett_db
+from database.connections_mdb import active_connection
 from utils import Media, get_file_details, get_size, humanbytes
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import ChatAdminRequired, FloodWait
@@ -128,6 +130,8 @@ async def start(bot, cmd):
         )
         return
     file_id = cmd.command[1]
+    grpid = await active_connection(str(cmd.from_user.id))
+    settings = await sett_db.get_settings(str(grpid))
     if file_id.split("-", 1)[0] == "BATCH":
         sts = await cmd.reply("Please wait")
         file_id = file_id.split("-", 1)[1]
@@ -169,6 +173,7 @@ async def start(bot, cmd):
                     chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
+                    protect_content=settings["file_secure"],
                     reply_markup=InlineKeyboardMarkup(buttons)
                     )
             except FloodWait as e:
@@ -178,6 +183,7 @@ async def start(bot, cmd):
                     chat_id=cmd.from_user.id,
                     file_id=msg.get("file_id"),
                     caption=f_caption,
+                    protect_content=settings["file_secure"],
                     reply_markup=InlineKeyboardMarkup(buttons)
                     )
             except Exception as e:
@@ -197,12 +203,12 @@ async def start(bot, cmd):
         msgs_list = list(range(int(f_msg_id), int(l_msg_id)+1))
         for msg in msgs_list:
             try:
-                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg)
-            
+                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg, protect_content=settings["file_secure"])
+                #await msg.copy(cmd.chat.id, caption=f_caption, protect_content=settings["file_secure"])
             except FloodWait as e:
                 await asyncio.sleep(e.x)
-                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg)
-                          
+                await bot.copy_message(chat_id=cmd.chat.id, from_chat_id=int(f_chat_id), cmd_id=msg, protect_content=settings["file_secure"])
+                #await msg.copy(message.chat.id, caption=f_caption, protect_content=settings["file_secure"])  
             except Exception as e:                             
                 logger.exception(e)
                 continue  
@@ -213,7 +219,8 @@ async def start(bot, cmd):
         try:
             msg = await bot.send_cached_media(
                 chat_id=cmd.from_user.id,
-                file_id=file_id
+                file_id=file_id,
+                protect_content=settings["file_secure"],
                 )
             filetype = msg.media
             file = getattr(msg, filetype)
@@ -309,6 +316,7 @@ async def start(bot, cmd):
                     chat_id=cmd.from_user.id,
                     file_id=file_id,
                     caption=f_caption,
+                    protect_content=settings["file_secure"],
                     reply_markup=InlineKeyboardMarkup(buttons)
                     )
         except Exception as err:
@@ -514,4 +522,90 @@ async def delete_all_index_confirm(bot, message):
     await Media.collection.drop()
     await message.answer()
     await message.message.edit('Succesfully Deleted All The Indexed Files.')   
-    
+  
+@Client.on_message(filters.command('settings') & filters.private)
+async def settings(client, message):
+    userid = message.from_user.id if message.from_user else None
+    if not userid:
+        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
+    chat_type = message.chat.type
+    args = message.text.html.split(None, 1)
+
+    if chat_type == "private":
+        grpid = await active_connection(str(userid))
+        if grpid is not None:
+            grp_id = grpid
+            try:
+                chat = await client.get_chat(grpid)
+                title = chat.title
+            except:
+                await message.reply_text("Make sure I'm present in your group!!", quote=True)
+                return
+        else:
+            await message.reply_text("I'm not connected to any groups!", quote=True)
+            return
+
+    elif chat_type in ["group", "supergroup"]:
+        grp_id = message.chat.id
+        title = message.chat.title
+
+    else:
+        return
+
+    st = await client.get_chat_member(grp_id, userid)
+    if (
+            st.status != "administrator"
+            and st.status != "creator"
+            and str(userid) not in ADMINS
+    ):
+        return
+
+    if not await sett_db.is_settings_exist(str(grp_id)):
+        await sett_db.add_settings(str(grp_id), True)
+
+    settings = await sett_db.get_settings(str(grp_id))
+
+    if settings is not None:
+        buttons = [
+            [
+                InlineKeyboardButton('Filter Button', callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
+                InlineKeyboardButton('Single' if settings["button"] else 'Double',
+                                     callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
+            ],
+            [
+                InlineKeyboardButton('Bot PM', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
+                InlineKeyboardButton('✅ Yes' if settings["botpm"] else '❌ No',
+                                     callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
+            ],
+            [
+                InlineKeyboardButton('File Secure',
+                                     callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
+                InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
+                                     callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
+            ],
+            [
+                InlineKeyboardButton('IMDB', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
+                InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No',
+                                     callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+            ],
+            [
+                InlineKeyboardButton('Spell Check',
+                                     callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
+                InlineKeyboardButton('✅ Yes' if settings["spell_check"] else '❌ No',
+                                     callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
+            ],
+            [
+                InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
+                InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
+                                     callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+            ]
+        ]
+        reply_markup = InlineKeyboardMarkup(buttons)
+
+        await message.reply_text(
+            text="<b>Change Your Filter Settings As Your Wish ⚙</b>",
+            reply_markup=reply_markup,
+            disable_web_page_preview=True,
+            parse_mode="html",
+            reply_to_message_id=message.message_id
+        )
