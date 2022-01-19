@@ -2,7 +2,7 @@ import logging
 from info import ADMINS
 from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from database.settings_db import sett_db
+
 from database.connections_mdb import add_connection, all_connections, if_active, delete_connection
 
 logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ async def addconnection(client, message):
         if (
                 st.status != "administrator"
                 and st.status != "creator"
-                and str(userid) not in ADMINS
+                
         ):
             await message.reply_text("You should be an admin in Given group!", quote=True)
             return
