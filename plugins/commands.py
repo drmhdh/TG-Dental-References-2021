@@ -10,8 +10,8 @@ from asyncio import sleep
 from pyrogram import filters, Client 
 from database.users_chats_db import db
 from pyrogram.errors import UserNotParticipant
-from utils import get_size, is_subscribed, temp
-from database.settings_db import sett_db
+
+from utils import get_settings, get_size, is_subscribed, temp
 from database.connections_mdb import active_connection
 from utils import Media, get_file_details, get_size, humanbytes
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -96,7 +96,10 @@ async def start(bot, cmd):
             ]
         ]
         if cmd.command[1] != "subscribe":
-            btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{cmd.command[1]}")])
+            #btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"checksub#{cmd.command[1]}")])
+            kk, file_id = cmd.command[1].split("_", 1)
+            pre = 'checksubp' if kk == 'filep' else 'checksub' 
+            btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"{pre}#{cmd.command[1]}")])
         await bot.send_message(
             chat_id=cmd.from_user.id,
             text="**🔊 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗠𝗮𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🤭** \n \n Are You Looking for References ?! \n Then First Join Our 🦷𝔻𝕖𝕟𝕥𝕒𝕝 ℂ𝕒𝕤𝕖 𝕊𝕥𝕦𝕕𝕪🔎 Channel...😁 Then Try Again... Press /start 😁 and You will Get Your Requests Here...! \n \n 🪐Powered by: \n 🔬 @dent_tech_for_u 📚",
@@ -105,7 +108,7 @@ async def start(bot, cmd):
             parse_mode="markdown"
             )
         return
-    if len(cmd.command) ==2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
+    if len(cmd.command) == 2 and cmd.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [
             [                 
                 InlineKeyboardButton("🔎 Search", switch_inline_query_current_chat='')
@@ -129,12 +132,14 @@ async def start(bot, cmd):
             parse_mode='html'
         )
         return
-    file_id = cmd.command[1]
-    grpid = await active_connection(str(cmd.from_user.id))
-    settings = await sett_db.get_settings(str(grpid))
-    if file_id.split("-", 1)[0] == "BATCH":
+    
+    data = message.command[1]
+    pre, file_id = data.split('_', 1)
+    
+    if data.split("-", 1)[0] == "BATCH":
         sts = await cmd.reply("Please wait")
-        file_id = file_id.split("-", 1)[1]
+        
+        file_id = data.split("-", 1)[1]
         msgs = BATCH_FILES.get(file_id)
         if not msgs:
             file = await bot.download_media(file_id)
@@ -194,10 +199,12 @@ async def start(bot, cmd):
             await asyncio.sleep(1)
         await sts.delete()
         return
-    elif file_id.split("-", 1)[0] == "DSTORE":
+    #elif file_id.split("-", 1)[0] == "DSTORE":
+    elif data.split("-", 1)[0] == "DSTORE": 
        
         sts = await cmd.reply("Please wait")
-        b_string = file_id.split("-", 1)[1]
+        #b_string = file_id.split("-", 1)[1]
+        b_string = data.split("-", 1)[1]
         decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
         f_msg_id, l_msg_id, f_chat_id = decoded.split("_", 2)
         msgs_list = list(range(int(f_msg_id), int(l_msg_id)+1))
@@ -220,7 +227,8 @@ async def start(bot, cmd):
             msg = await bot.send_cached_media(
                 chat_id=cmd.from_user.id,
                 file_id=file_id,
-                protect_content=settings["file_secure"],
+                #protect_content=settings["file_secure"],
+                protect_content=True if pre == 'filep' else False,
                 )
             filetype = msg.media
             file = getattr(msg, filetype)
@@ -316,7 +324,8 @@ async def start(bot, cmd):
                     chat_id=cmd.from_user.id,
                     file_id=file_id,
                     caption=f_caption,
-                    protect_content=settings["file_secure"],
+                    #protect_content=settings["file_secure"],
+                    protect_content=True if pre == 'filep' else False,
                     reply_markup=InlineKeyboardMarkup(buttons)
                     )
         except Exception as err:
@@ -523,13 +532,13 @@ async def delete_all_index_confirm(bot, message):
     await message.answer()
     await message.message.edit('Succesfully Deleted All The Indexed Files.')   
   
-@Client.on_message(filters.command('settings') & filters.private)
+@Client.on_message(filters.command('settings')
 async def settings(bot, cmd):
     userid = cmd.from_user.id if cmd.from_user else None
     if not userid:
         return await cmd.reply(f"You are anonymous admin. Use /connect {cmd.chat.id} in PM")
     chat_type = cmd.chat.type
-    args = cmd.text.html.split(None, 1)
+    
 
     if chat_type == "private":
         grpid = await active_connection(str(userid))
@@ -560,45 +569,69 @@ async def settings(bot, cmd):
     ):
         return
 
-    if not await sett_db.is_settings_exist(str(grp_id)):
-        await sett_db.add_settings(str(grp_id), True)
 
-    settings = await sett_db.get_settings(str(grp_id))
+    settings = await get_settings(grp_id)
 
     if settings is not None:
         buttons = [
             [
-                InlineKeyboardButton('Filter Button', callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-                InlineKeyboardButton('Single' if settings["button"] else 'Double',
-                                     callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
+                InlineKeyboardButton(
+                    'Filter Button',
+                    callback_data=f'setgs#button#{settings["button"]}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    'Single' if settings["button"] else 'Double',
+                    callback_data=f'setgs#button#{settings["button"]}#{grp_id}',
+                ),
+            ],   
+            [
+                InlineKeyboardButton(
+                    'Bot PM',
+                    callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    '✅ Yes' if settings["botpm"] else '❌ No',
+                    callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
+                ),
             ],
             [
-                InlineKeyboardButton('Bot PM', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ Yes' if settings["botpm"] else '❌ No',
-                                     callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
+                InlineKeyboardButton(
+                    'File Secure',
+                    callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    '✅ Yes' if settings["file_secure"] else '❌ No',
+                    callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
+                ),
             ],
             [
-                InlineKeyboardButton('File Secure',
-                                     callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
-                                     callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
-            ],
-            [
-                InlineKeyboardButton('IMDB', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No',
-                                     callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+                InlineKeyboardButton(
+                    'IMDB',
+                    callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    '✅ Yes' if settings["imdb"] else '❌ No',
+                    callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
+                ),
             ],
             
             [
-                InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
-                                     callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
-            ]
+                InlineKeyboardButton(
+                    'Welcome',
+                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    '✅ Yes' if settings["welcome"] else '❌ No',
+                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                ),
+            ],
+            
         ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
         await cmd.reply_text(
-            text="<b>Change Your Filter Settings As Your Wish ⚙</b>",
+            #text="<b>Change Your Filter Settings As Your Wish ⚙</b>",
+            text=f"<b>Change Your Settings for {title} As Your Wish ⚙</b>",
             reply_markup=reply_markup,
             disable_web_page_preview=True,
             parse_mode="html",
