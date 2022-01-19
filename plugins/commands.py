@@ -631,7 +631,7 @@ async def settings(client, cmd):
             reply_markup=reply_markup,
             disable_web_page_preview=True,
             parse_mode="html",
-            reply_to_message_id=message.message_id
+            reply_to_message_id=cmd.message_id
         )
         
         
