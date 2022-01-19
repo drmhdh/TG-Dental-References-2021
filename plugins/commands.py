@@ -623,7 +623,7 @@ async def settings(bot, cmd):
         reply_markup = InlineKeyboardMarkup(buttons)
 
         await cmd.reply_text(
-            #text="<b>Change Your Filter Settings As Your Wish ⚙</b>",
+            
             text=f"<b>Change Your Settings for {title} As Your Wish ⚙</b>",
             reply_markup=reply_markup,
             disable_web_page_preview=True,
