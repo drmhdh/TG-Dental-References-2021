@@ -40,8 +40,7 @@ class Settings:
             await self.sett.update_one({'chat_id': chat_id}, {'$set': {'file_secure': lock}})
         elif sett_type == "imdb":
             await self.sett.update_one({'chat_id': chat_id}, {'$set': {'imdb': lock}})
-        elif sett_type == "spell_check":
-            await self.sett.update_one({'chat_id': chat_id}, {'$set': {'spell_check': lock}})
+        
         elif sett_type == "welcome":
             await self.sett.update_one({'chat_id': chat_id}, {'$set': {'welcome': lock}})
 
