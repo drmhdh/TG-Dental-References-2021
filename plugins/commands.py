@@ -527,6 +527,11 @@ async def delete_all_index(bot, message):
     )
 
 
+@Client.on_callback_query(filters.regex(r'^autofilter_delete'))
+async def delete_all_index_confirm(bot, message):
+    await Media.collection.drop()
+    await message.answer()
+    await message.message.edit('Succesfully Deleted All The Indexed Files.')
 
  
   
@@ -628,3 +633,47 @@ async def settings(bot, cmd):
             parse_mode="html",
             reply_to_message_id=message.message_id
         )
+        
+        
+        
+@Client.on_message(filters.command('set_template'))
+async def save_template(client, message):
+    sts = await message.reply("Checking template")
+    userid = message.from_user.id if message.from_user else None
+    if not userid:
+        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
+    chat_type = message.chat.type
+
+    if chat_type == "private":
+        grpid = await active_connection(str(userid))
+        if grpid is not None:
+            grp_id = grpid
+            try:
+                chat = await client.get_chat(grpid)
+                title = chat.title
+            except:
+                await message.reply_text("Make sure I'm present in your group!!", quote=True)
+                return
+        else:
+            await message.reply_text("I'm not connected to any groups!", quote=True)
+            return
+
+    elif chat_type in ["group", "supergroup"]:
+        grp_id = message.chat.id
+        title = message.chat.title
+
+    else:
+        return
+
+    st = await client.get_chat_member(grp_id, userid)
+    if (
+            st.status != "administrator"
+            and st.status != "creator"
+            and str(userid) not in ADMINS
+    ):
+        return
+    if len(message.command) < 2:
+        return await sts.edit("No Input!!")
+    template = message.text.split(" ", 1)[1]
+    await save_group_settings(grp_id, 'template', template)
+    await sts.edit(f"Successfully changed template for {title} to\n\n{template}")
