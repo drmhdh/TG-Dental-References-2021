@@ -583,8 +583,8 @@ async def settings(client, message):
             disable_web_page_preview=True,
             parse_mode="html",
             reply_to_message_id=message.message_id,
-            reply_markup=InlineKeyboardMarkup(buttons)
-            buttons = [
+            reply_markup = InlineKeyboardMarkup(
+            
                 [
                         
                     
@@ -631,7 +631,7 @@ async def settings(client, message):
                         callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
                     ),
                 ],
-            ]
+            )
         )
             
             
