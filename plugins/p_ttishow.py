@@ -1,5 +1,5 @@
 from Script import script
-from database.settings_db import sett_db
+
 from utils import get_size, temp
 from pyrogram import Client, filters
 from database.users_chats_db import db
