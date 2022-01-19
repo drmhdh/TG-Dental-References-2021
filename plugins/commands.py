@@ -588,12 +588,7 @@ async def settings(bot, cmd):
                 InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No',
                                      callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
             ],
-            [
-                InlineKeyboardButton('Spell Check',
-                                     callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ Yes' if settings["spell_check"] else '❌ No',
-                                     callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
-            ],
+            
             [
                 InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
                 InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
