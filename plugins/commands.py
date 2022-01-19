@@ -524,7 +524,7 @@ async def delete_all_index_confirm(bot, message):
     await message.message.edit('Succesfully Deleted All The Indexed Files.')   
   
 @Client.on_message(filters.command('settings') & filters.private)
-async def settings(client, message):
+async def settings(bot, message):
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
@@ -536,7 +536,7 @@ async def settings(client, message):
         if grpid is not None:
             grp_id = grpid
             try:
-                chat = await client.get_chat(grpid)
+                chat = await bot.get_chat(grpid)
                 title = chat.title
             except:
                 await message.reply_text("Make sure I'm present in your group!!", quote=True)
