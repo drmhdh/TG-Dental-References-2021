@@ -888,7 +888,7 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                 else:
                     await message.reply_text(f"<b>{message.from_user.mention}, ☕️ 𝗛𝗲𝗿𝗲 𝗶𝘀 𝗪𝗵𝗮𝘁 𝗜 𝗙𝗼𝘂𝗻𝗱 𝗳𝗼𝗿 𝗬𝗼𝘂𝗿 𝗤𝘂𝗲𝗿𝘆 ❝{search}❞ ‌‌‌‌‎ ­  ­  ­  ­  ­  </b> \n\n🅒 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆 🅒  \n🔎🦷✨ @dental_case_study \n🔐 𝗝𝗢𝗜𝗡 ⤴️ 𝘁𝗼 𝗨𝗻𝗹𝗼𝗰𝗸 🚀", reply_markup=InlineKeyboardMarkup(buttons))
 
-                imdb = await get_poster(search, file=(files[0]).file_name) if IMDB else None
+                imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
                 if imdb:
                     cap = IMDB_TEMPLATE.format(
                         query = search,
