@@ -10,7 +10,7 @@ from pyrogram import Client, filters
 from database.users_chats_db import db
 from database.settings_db import sett_db
 from pyrogram.errors import UserNotParticipant
-from info import API_KEY, P_TTI_SHOW_OFF, IMDB, IMDB_TEMPLATE
+from info import API_KEY, IMDB
 from database.ia_filterdb import Media, get_file_details, get_search_results
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
@@ -485,6 +485,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 chat_id=query.from_user.id,
                 file_id=file_id,
                 caption=f_caption,
+                protect_content=True if ident == 'checksubp' else False
                 reply_markup=InlineKeyboardMarkup(buttons)
                 )              
     
@@ -524,6 +525,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     chat_id=query.from_user.id,
                     file_id=file_id,
                     caption=f_caption,
+                    protect_content=True if ident == 'checksubp' else False
                     reply_markup=InlineKeyboardMarkup(buttons)
                     )
             else:
@@ -709,21 +711,18 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
 
         if status == "True":
-            await sett_db.update_settings(grp_id, set_type, False)
+            await save_group_settings(grpid, set_type, False)
         else:
-            await sett_db.update_settings(grp_id, set_type, True)
+            await save_group_settings(grpid, set_type, True)
 
-        settings = await sett_db.get_settings(str(grp_id))
+        settings = await get_settings(grpid)
 
         if settings is not None:
             buttons = [
                 [
-                    InlineKeyboardButton('Filter Button',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Single' if settings["button"] else 'Double',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
-                ],
-                [
+                    
+                
+                
                     InlineKeyboardButton('Bot PM', callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["botpm"] else '❌ No',
                                          callback_data=f'setgs#botpm#{settings["botpm"]}#{str(grp_id)}')
@@ -766,6 +765,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             title = files.file_name
             size=get_size(files.file_size)
             f_caption=files.caption
+            settings = await get_settings(query.message.chat.id)
             if CUSTOM_FILE_CAPTION:
                 try:
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, 
@@ -794,24 +794,29 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     )
             try:
                 if AUTH_CHANNEL and not await is_subscribed(client, query):
-                    await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                    #await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                    await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
                     return
-                elif P_TTI_SHOW_OFF:
-                    await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
-                    return
+                elif settings['botpm']:
+                await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
+                
+                return
                 else:
                     await client.send_cached_media(
                         chat_id=query.from_user.id,
                         file_id=file_id,
-                        caption=f_caption
+                        caption=f_caption,
+                        protect_content=True if ident == "filep" else False 
                         )
                     await query.answer('Check PM, I have sent files in pm',show_alert = True)
             except UserIsBlocked:
                 await query.answer('Unblock the bot mahn !',show_alert = True)
             except PeerIdInvalid:
-                await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                #await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
             except Exception as e:
-                await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                #await query.answer(url=f"https://t.me/{temp.U_NAME}?start={file_id}")
+                await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
                   
 async def auto_filter(client, message, spoll=False): #async def auto_filter(client, msg, spoll=False):
     clicked = message.from_user.id
@@ -821,8 +826,9 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
         typed = message.from_user.id
         pass
     if (clicked == typed) or (clicked in AUTH_USERS) or (clicked in ADMINS):
+        settings = await get_settings(msg.chat.id)
         if not spoll:
-            settings = await sett_db.get_settings(str(message.chat.id))
+            
             if message.text.startswith("/"): return # ignore commands
             if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
                 return
@@ -889,8 +895,9 @@ async def auto_filter(client, message, spoll=False): #async def auto_filter(clie
                     await message.reply_text(f"<b>{message.from_user.mention}, ☕️ 𝗛𝗲𝗿𝗲 𝗶𝘀 𝗪𝗵𝗮𝘁 𝗜 𝗙𝗼𝘂𝗻𝗱 𝗳𝗼𝗿 𝗬𝗼𝘂𝗿 𝗤𝘂𝗲𝗿𝘆 ❝{search}❞ ‌‌‌‌‎ ­  ­  ­  ­  ­  </b> \n\n🅒 𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆 🅒  \n🔎🦷✨ @dental_case_study \n🔐 𝗝𝗢𝗜𝗡 ⤴️ 𝘁𝗼 𝗨𝗻𝗹𝗼𝗰𝗸 🚀", reply_markup=InlineKeyboardMarkup(buttons))
 
                 imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
+                TEMPLATE = settings['template']
                 if imdb:
-                    cap = IMDB_TEMPLATE.format(
+                    cap = TEMPLATE.format(
                         query = search,
                     )
                 else:
