@@ -1,20 +1,19 @@
 import os
-
+import asyncio
 import re
-import json
-import base64
+
+
 import logging
 import requests
-from struct import pack
 from typing import List
 from typing import Union
 from datetime import datetime
 from pyrogram.types import Message
 from pyrogram.file_id import FileId
 from database.users_chats_db import db
-from pymongo.errors import DuplicateKeyError
-from umongo import Instance, Document, fields
-from marshmallow.exceptions import ValidationError
+from datetime import datetime
+
+
 from bs4 import BeautifulSoup
 from info import DATABASE_URI, DATABASE_NAME, COLLECTION_NAME, USE_CAPTION_FILTER, AUTH_CHANNEL, API_KEY
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
