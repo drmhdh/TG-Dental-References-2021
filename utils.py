@@ -1,5 +1,5 @@
 import os
-import PTN
+
 import re
 import json
 import base64
@@ -15,7 +15,7 @@ from database.users_chats_db import db
 from pymongo.errors import DuplicateKeyError
 from umongo import Instance, Document, fields
 from marshmallow.exceptions import ValidationError
-from motor.motor_asyncio import AsyncIOMotorClient
+from bs4 import BeautifulSoup
 from info import DATABASE_URI, DATABASE_NAME, COLLECTION_NAME, USE_CAPTION_FILTER, AUTH_CHANNEL, API_KEY
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 
