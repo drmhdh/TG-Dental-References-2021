@@ -565,12 +565,12 @@ async def settings(client, message):
         return
 
     st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != "administrator"
-            and st.status != "creator"
-            and str(userid) not in ADMINS
-    ):
+    if (st.status != "administrator" and st.status != "creator" and str(userid) not in ADMINS):
         return
+            
+            
+    
+        
 
 
     settings = await get_settings(grp_id)
