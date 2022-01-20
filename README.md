@@ -37,7 +37,8 @@ env\Scripts\activate.bat # For Windows
 source env/bin/activate # For Linux or MacOS
 
 # Install Packages
-pip3 install -r requirements.txt
+
+pip3 install -U -r requirements.txt
 
 # Edit info.py with variables as given below then run bot
 python3 bot.py
