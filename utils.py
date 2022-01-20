@@ -1,8 +1,6 @@
 import os
 import asyncio
 import re
-
-
 import logging
 import requests
 from typing import List
@@ -12,8 +10,6 @@ from pyrogram.types import Message
 from pyrogram.file_id import FileId
 from database.users_chats_db import db
 from datetime import datetime
-
-
 from bs4 import BeautifulSoup
 from info import DATABASE_URI, DATABASE_NAME, COLLECTION_NAME, USE_CAPTION_FILTER, AUTH_CHANNEL, API_KEY
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
@@ -27,14 +23,11 @@ logger.setLevel(logging.INFO)
 BTN_URL_REGEX = re.compile(
     r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))"
 )
-#imdb = IMDb()
+
 BANNED = {}
 SMART_OPEN = '“'
 SMART_CLOSE = '”'
 START_CHAR = ('\'', '"', SMART_OPEN)
-
-
-
 
 # temp db for banned 
 class temp(object):
@@ -47,10 +40,6 @@ class temp(object):
     U_NAME = None
     B_NAME = None
     SETTINGS = {}
-
-
-
-
     
 # https://github.com/odysseusmax/animated-lamp/blob/2ef4730eb2b5f0596ed6d03e7b05243d93e3415b/bot/utils/broadcast.py#L37        
 async def broadcast_messages(user_id, message):
@@ -131,10 +120,7 @@ def get_file_id(msg: Message):
             if obj:
                 setattr(obj, "message_type", message_type)
                 return obj
-                                   
-
-    
-
+                                     
 async def save_poster(imdb_id, title, year, url):
     try:
         data = Poster(
