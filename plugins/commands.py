@@ -1,27 +1,23 @@
-import re
 import os
-import json
-import random
-import base64
-import asyncio
 import logging
+import random
+import asyncio
 from Script import script
-from asyncio import sleep
-from pyrogram import filters, Client 
-from database.users_chats_db import db
-from pyrogram.errors import UserNotParticipant
-from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
-
-from database.connections_mdb import active_connection
-
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters
 from pyrogram.errors import ChatAdminRequired, FloodWait
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
-from info import START_MSG, CHANNELS, ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION, PICS, LOG_CHANNEL
-
+from database.users_chats_db import db
+from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
+from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
+from database.connections_mdb import active_connection
+import re
+import json
+import base64
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
+
 @Client.on_message(filters.command("start") & filters.incoming & ~filters.edited)
 async def start(bot, cmd):       
     if cmd.chat.type in ['group', 'supergroup']:
@@ -541,9 +537,7 @@ async def settings(client, message):
         userid = message.from_user.id if message.from_user else None
         if not userid:
             await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
-        chat_type = message.chat.type
-    
-
+        chat_type = message.chat.type   
         if chat_type == "private":
             grpid = await active_connection(str(userid))
             if grpid is not None:
@@ -564,34 +558,19 @@ async def settings(client, message):
 
         else:
             return
-
         st = await client.get_chat_member(grp_id, userid)
         if (st.status != "administrator" and st.status != "creator" and str(userid) not in ADMINS):
             return
-            
-            
-    
-        
-
 
         settings = await get_settings(grp_id)
-
         if settings is not None:
-            await message.reply_text(
-            
-                text=f"<b>Change Your Settings for {title} As Your Wish ⚙</b>",
-            
-            
-            
+            await message.reply_text(            
+                text=f"<b>Change Your Settings for {title} As Your Wish ⚙</b>",                                  
                 reply_to_message_id=message.message_id,
                 disable_web_page_preview=True,
                 parse_mode="html",
-                    reply_markup = InlineKeyboardMarkup(
-            
-                        [
-                        
-                    
-                    
+                    reply_markup = InlineKeyboardMarkup(           
+                        [                                                            
                             InlineKeyboardButton(
                                 'Bot PM',
                                 callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
@@ -620,10 +599,7 @@ async def settings(client, message):
                                 '✅ Yes' if settings["imdb"] else '❌ No',
                                 callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
                             ),
-                        ],
-                    
-                        
-                    
+                        ],         
                         [
                              InlineKeyboardButton(
                                  'Welcome',
@@ -636,16 +612,10 @@ async def settings(client, message):
                         ],
                     )
                 )
-            
-            
+                        
     except Exception as e:
         print(e)
-        
-            
-        
-        
-        
-        
+                                                    
 @Client.on_message(filters.command('set_template'))
 async def save_template(client, message):
     sts = await message.reply("Checking template")
@@ -653,7 +623,6 @@ async def save_template(client, message):
     if not userid:
         return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
     chat_type = message.chat.type
-
     if chat_type == "private":
         grpid = await active_connection(str(userid))
         if grpid is not None:
