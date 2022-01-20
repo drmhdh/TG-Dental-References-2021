@@ -2,7 +2,7 @@ import logging
 import pyromod.listen
 import logging.config
 from utils import temp
-from utils import Media
+
 from pyrogram.raw.all import layer
 from pyrogram import Client, __version__
 from database.users_chats_db import db
