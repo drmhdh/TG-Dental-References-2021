@@ -48,19 +48,10 @@ class temp(object):
     B_NAME = None
     SETTINGS = {}
 
-@instance.register
-class Media(Document):
-    file_id = fields.StrField(attribute='_id')
-    file_ref = fields.StrField(allow_none=True)
-    file_name = fields.StrField(required=True)
-    file_size = fields.IntField(required=True)
-    file_type = fields.StrField(allow_none=True)
-    mime_type = fields.StrField(allow_none=True)
-    caption = fields.StrField(allow_none=True)
 
-    class Meta:
-        collection_name = COLLECTION_NAME
 
+
+    
 # https://github.com/odysseusmax/animated-lamp/blob/2ef4730eb2b5f0596ed6d03e7b05243d93e3415b/bot/utils/broadcast.py#L37        
 async def broadcast_messages(user_id, message):
     try:
