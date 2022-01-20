@@ -13,7 +13,7 @@ from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInv
 @Client.on_message(filters.new_chat_members & filters.group)
 async def save_group(bot, message):
     r_j_check = [u.id for u in message.new_chat_members]
-    settings = await sett_db.get_settings(str(message.chat.id))
+    
     if temp.ME in r_j_check:
         if not await db.get_chat(message.chat.id):
             total=await bot.get_chat_members_count(message.chat.id)
