@@ -6,7 +6,7 @@ from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_US
 
 class Database:
     
-    def __init__(self, uri, database_name):
+    def __init__(self, uri, database_name, users, groups):
         self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self._client[database_name]
         self.col = self.db.users
