@@ -27,18 +27,15 @@ logger.setLevel(logging.INFO)
 BTN_URL_REGEX = re.compile(
     r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))"
 )
+imdb = IMDb()
 BANNED = {}
 SMART_OPEN = '“'
 SMART_CLOSE = '”'
 START_CHAR = ('\'', '"', SMART_OPEN)
 
-client = AsyncIOMotorClient(DATABASE_URI)
-db = client[DATABASE_NAME]
-instance = Instance.from_db(db)
 
-IClient = AsyncIOMotorClient(DATABASE_URI_2)
-imdbdb=client[DATABASE_NAME_2]
-imdb=Instance.from_db(imdbdb)
+
+
 # temp db for banned 
 class temp(object):
     BANNED_USERS = []
