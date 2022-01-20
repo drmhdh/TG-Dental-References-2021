@@ -6,7 +6,7 @@ from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_US
 
 class Database:
     
-    def __init__(self, uri, database_name, users, groups):
+    def __init__(self, uri, database_name):
         self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self._client[database_name]
         self.col = self.db.users
@@ -144,4 +144,4 @@ class Database:
         return (await self.db.command("dbstats"))['dataSize']
 
 
-db = Database(DATABASE_URI, DATABASE_NAME, DATABASE_GROUPS, DATABASE_USERS)
+db = Database(DATABASE_URI, DATABASE_NAME)
