@@ -1,5 +1,5 @@
 requests
-git+https://github.com/subinps/pyrogram@inline-m
+https://github.com/Mahesh0253/pyrogram/archive/inline.zip
 bs4
 tgcrypto
 pymongo[srv]==3.12.3
